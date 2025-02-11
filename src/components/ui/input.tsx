@@ -40,15 +40,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div className="h-12">
-        <div className="flex flex-row w-full h-10 items-center gap-1">
-          <div className="h-9 flex items-center gap-2 border rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
+      <div>
+        <div className="flex flex-row w-full items-center gap-1">
+          <div className=" flex items-center gap-2 border rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
             <div> {iconName && getIcon()}</div>
             <div className="w-full">
               <input
                 type={type}
                 className={cn(
-                  "flex w-full h-full  outline-none text-foreground ",
+                  "flex w-full h-10  outline-none text-foreground ",
                   className
                 )}
                 ref={ref}
@@ -62,11 +62,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ) : null}
           </div>
         </div>
-        {
-          <div className="text-destructive ml-2 text-[12px]">
-            {errorMessage}
-          </div>
-        }
+
+        <div className="h-4 text-destructive ml-2 text-[12px]">
+          {errorMessage}
+        </div>
       </div>
     );
   }

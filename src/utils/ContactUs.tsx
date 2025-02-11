@@ -2,14 +2,31 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useSendEmail } from "@/hooks/emailHooks";
 import { useForm } from "react-hook-form";
+import { FaAsterisk } from "react-icons/fa";
 
 function ContactUs() {
-  const { register, formState, handleSubmit } = useForm();
+  const { register, formState, handleSubmit,reset } = useForm();
   const { errors } = formState;
+  const { isPending, sendEmail } = useSendEmail();
 
-  function onSubmit(data: any) {
-    console.log(data);
+  function onSubmit(e: any) {
+    sendEmail(
+      {
+        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
+        subject: "New Message from SkilloFin chat",
+        title: "New Message from SkilloFin",
+        toEmail: "afridayan01@gmail.com",
+      },
+      {
+        onSuccess(data) {
+          if (data === "SUCCESS") {
+            reset();
+          }
+        },
+      }
+    );
   }
 
   return (
@@ -32,44 +49,62 @@ function ContactUs() {
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-[100vw] lg:w-[20vw] max-w-sm flex flex-col gap-3 p-8"
+            className="w-[100vw] lg:w-[40vw] max-w-sm flex flex-col gap-3 p-8"
           >
             <Input
+              mandatory
+              className="h-14"
               iconName="firstName"
               placeholder="Full Name"
               {...register("fullNameFotter", {
+                minLength: 3,
                 required: "Please enter your full name",
               })}
               errorMessage={errors?.fullNameFotter?.message}
             />
             <Input
+              mandatory
+              className="h-14"
               placeholder="Phone"
               iconName="phoneNumber"
               {...register("phoneFotter", {
+                pattern: /^\+?[1-9]\d{6,14}$/,
+
                 required: "Please enter your phone number",
               })}
               errorMessage={errors?.phoneFotter?.message}
             />
             <Input
+              mandatory
+              className="h-14"
               placeholder="Email Address"
               iconName="emailId"
               {...register("emailIdFotter", {
+                pattern: /^\S+@\S+\.\S+$/,
+
                 required: "Please enter your email",
               })}
               errorMessage={errors?.emailIdFotter?.message}
             />
             <div className="flex flex-col gap-1 h-24">
-              <Textarea
-                placeholder="Message"
-                {...register("messageFotter", {
-                  required: "Please enter your message",
-                })}
-              />
+              <div className="flex items-center gap-1">
+                <Textarea
+                  placeholder="Message"
+                  {...register("messageFotter", {
+                    required: "Please enter your message",
+                  })}
+                />
+                <div className="h-2 w-2">
+                  <FaAsterisk className="text-destructive h-2 w-2" />
+                </div>
+              </div>
               <div className="text-destructive pl-2 text-[12px]">
                 {errors?.messageFotter?.message as any}
               </div>
             </div>
-            <Button type="submit">Contact Us</Button>
+            <Button type="submit" className="py-6" isPending={isPending}>
+              Contact Us
+            </Button>
           </form>
         </div>
       </div>

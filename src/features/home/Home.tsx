@@ -2,18 +2,41 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useSendEmail } from "@/hooks/emailHooks";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { FaStar } from "react-icons/fa";
+import { FaAsterisk, FaStar } from "react-icons/fa";
 
 function Home() {
-  const { formState, handleSubmit, register } = useForm();
+  const { formState, handleSubmit, register, reset } = useForm();
   const { errors } = formState;
 
+  const whomRef = useRef(null);
+  const { isPending, sendEmail } = useSendEmail();
+
   function handleContactUs(e: any) {
-    console.log(e);
+    sendEmail(
+      {
+        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
+        subject: "New Message from SkilloFin chat",
+        title: "New Message from SkilloFin",
+        toEmail: "afridayan01@gmail.com",
+      },
+      {
+        onSuccess(data) {
+          if (data === "SUCCESS") {
+            reset();
+          }
+        },
+      }
+    );
+  }
+
+  function handleReadMoreClick() {
+    (whomRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
@@ -22,15 +45,15 @@ function Home() {
         <img
           alt="banner-image"
           src="home-banner.jpg"
-          className="object-cover w-full h-[110vh] lg:h-[100vh]"
+          className="object-cover w-full h-[140vh] lg:h-[100vh]"
         />
-        <div className="absolute inset-0 bg-black opacity-80 w-full h-[110vh] lg:h-[100vh]"></div>
+        <div className="absolute inset-0 bg-black opacity-50 w-full h-[110vh] lg:h-[100vh]"></div>
       </div>
 
       <div className="z-[400] absolute inset-0 items-center w-full flex flex-col ">
         <HomeNavBar />
 
-        <div className="text-background flex flex-col w-full px-4 md:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
+        <div className="text-background items-center flex flex-col w-full px-4 md:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
           <div className="flex flex-col gap-10">
             <div className="mt-8">
               <h1 className="font-bold text-[50px] md:text-[30px] lg:text-[70px] font-serif">
@@ -40,54 +63,83 @@ function Home() {
               <div className="h-2 mt-[2vw] bg-primary w-[15vw]"></div>
             </div>
             <div>
-              <p className="text-4xl lg:pt-5 md:text-2xl lg:text-4xl">
+              <p className="text-4xl lg:pt-2 md:text-2xl lg:text-4xl">
                 Projects - Hiring - Funds - Networking
               </p>
             </div>
-            <Button className="w-fit py-6 px-10 text-lg">Read More</Button>
+
+            <div className="text-lg">
+              <span className="font-semibold text-2xl mr-1">Join now :</span>{" "}
+              Zero commission fees for first 100 freelancers in any category for
+              one year !
+            </div>
+            <div className="w-fit">
+              <Button
+                onClick={handleReadMoreClick}
+                className="w-fit py-6 px-10 "
+              >
+                Read More
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-col bg-background rounded-lg mt-10 lg:mt-0">
             <form
-              className=" lg:w-[20vw] max-w-sm flex flex-col gap-3 p-8"
+              className=" lg:w-[30vw] w-[90vw] flex flex-col gap-3 p-8"
               onSubmit={handleSubmit(handleContactUs)}
             >
               <Input
+                mandatory={true}
+                className="h-12"
                 iconName="firstName"
                 placeholder="Full Name"
                 {...register("fullName", {
+                  minLength: 3,
                   required: "Please enter your full name",
                 })}
                 errorMessage={errors?.fullName?.message}
               />
               <Input
+                mandatory={true}
+                className="h-12"
                 placeholder="Phone"
                 iconName="phoneNumber"
                 {...register("phone", {
+                  pattern: /^\+?[1-9]\d{6,14}$/,
                   required: "Please enter your phone number",
                 })}
                 errorMessage={errors?.phone?.message}
               />
               <Input
+                mandatory={true}
+                className="h-12"
                 placeholder="Email Address"
                 iconName="emailId"
                 {...register("emailId", {
+                  pattern: /^\S+@\S+\.\S+$/,
                   required: "Please enter your email",
                 })}
                 errorMessage={errors?.emailId?.message}
               />
               <div className="flex flex-col gap-1 h-24">
-                <Textarea
-                  placeholder="Message"
-                  {...register("message", {
-                    required: "Please enter your message",
-                  })}
-                />
+                <div className="flex items-center gap-1">
+                  <Textarea
+                    placeholder="Message"
+                    {...register("message", {
+                      required: "Please enter your message",
+                    })}
+                  />
+                  <div className="h-2 w-2">
+                    <FaAsterisk className="text-destructive h-2 w-2" />
+                  </div>
+                </div>
                 <div className="text-destructive pl-2 text-[12px]">
                   {errors?.message?.message as any}
                 </div>
               </div>
-              <Button>Contact Us</Button>
+              <Button className="py-6" isPending={isPending}>
+                Contact Us
+              </Button>
             </form>
           </div>
         </div>
@@ -117,7 +169,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="mt-[6vh]">
+        <div className="mt-[6vh]" ref={whomRef}>
           <div className="mt-[10vh] flex flex-col items-center">
             <h2 className="font-bold text-4xl text-center font-serif">
               FOR WHOM, WHY AND HOW ?
@@ -132,11 +184,11 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
                   Jobs / Work / Projects{" "}
                 </h6>
-                <p>
+                <p className="text-lg ml-2">
                   Network for jobs, bid on projects, contracts and get paid
                   safely, securely with guarantee from verified companies. It
                   will create better atmosphere to get hired easily in your
@@ -151,11 +203,11 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
                   Hiring (Freelancer or Full time)
                 </h6>
-                <p>
+                <p className="text-lg ml-2">
                   Small businesses or MNC recruiters can hire with confidence
                   with verified profiles having prof of work and result driven
                   candidates. No more guesswork.
@@ -168,9 +220,9 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">Funding Made Easy</h6>
-                <p>
+                <p className="text-lg ml-2">
                   For individuals and companies: Funding options come to your
                   inbox as you display proof of revenue generation with your
                   hand work. Banks, lenders, investors will get proof of revenue
@@ -196,7 +248,7 @@ function Home() {
               </h4>
               <div className="bg-primary h-1 w-[20vw] lg:w-[8vw]"></div>
             </div>
-            <p className="text-lg">
+            <p className="text-lg ml-2">
               For workers and for companies : Showcase your traction in real,
               get funds to grow more !
             </p>
