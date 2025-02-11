@@ -18,56 +18,56 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, iconName, mandatory,errorMessage, ...props }, ref) => {
+  ({ className, type, iconName, mandatory, errorMessage, ...props }, ref) => {
     function getIcon(): any {
       if (iconName === "emailId") {
-        return <MdOutlineEmail className="w-4 h-4" />;
+        return <MdOutlineEmail className="w-4 h-4 text-foreground" />;
       } else if (iconName === "password") {
-        return <IoKeyOutline className="w-4 h-4" />;
-      }
-      else if (iconName === "firstName") {
-        return <LiaUserSolid className="w-4 h-4" /> 
-      }
-      else if (iconName === "lastName") {
-        return <RiUserAddLine className="w-4 h-4" /> 
-      }
-      else if (iconName === "phoneNumber") {
-        return <MdOutlinePhoneInTalk className="w-4 h-4" /> 
-      }
-      else if (iconName === "reEnterPassword") {
-        return <RiLockPasswordLine className="w-4 h-4"/> 
-      }
-      else if (iconName === "enterOTP") {
-        return <TbPassword className="w-4 h-4"/>
-      }
-      else if(iconName === "INR") {
-        return  <PiCurrencyInrBold className="w-4 h-4"/>
+        return <IoKeyOutline className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "firstName") {
+        return <LiaUserSolid className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "lastName") {
+        return <RiUserAddLine className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "phoneNumber") {
+        return <MdOutlinePhoneInTalk className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "reEnterPassword") {
+        return <RiLockPasswordLine className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "enterOTP") {
+        return <TbPassword className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "INR") {
+        return <PiCurrencyInrBold className="w-4 h-4 text-foreground" />;
       }
     }
 
     return (
-    <div>
+      <div className="h-12">
         <div className="flex flex-row w-full h-10 items-center gap-1">
-        <div className="h-9 flex items-center gap-2 border rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
-          <div> {iconName && getIcon()}</div>
-          <div  className="w-full">
-            <input
-              type={type}
-              className={cn("flex w-full h-full  outline-none ", className)}
-              ref={ref}
-              {...props}
-            />
+          <div className="h-9 flex items-center gap-2 border rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
+            <div> {iconName && getIcon()}</div>
+            <div className="w-full">
+              <input
+                type={type}
+                className={cn(
+                  "flex w-full h-full  outline-none text-foreground ",
+                  className
+                )}
+                ref={ref}
+                {...props}
+              />
+            </div>
+          </div>
+          <div className="h-2 w-2">
+            {mandatory ? (
+              <FaAsterisk className="text-destructive h-2 w-2" />
+            ) : null}
           </div>
         </div>
-        <div className="h-2 w-2">{mandatory ? <FaAsterisk className="text-destructive h-2 w-2" /> : null}</div>
-        
+        {
+          <div className="text-destructive ml-2 text-[12px]">
+            {errorMessage}
+          </div>
+        }
       </div>
-      {
-        errorMessage && <div className="text-destructive ml-2 text-[12px]">{
-          errorMessage}</div>
-      }
-    </div>
-     
     );
   }
 );

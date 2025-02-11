@@ -3,11 +3,11 @@ import Signup from "./features/auth/Signup";
 import Login from "./features/auth/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
-import { Home } from "lucide-react";
+import Home from "./features/home/Home";
 const queryClient = new QueryClient();
 function App() {
   return (
-    <div>
+    <div className="w-[100vw] h-[100vh] flex ">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
