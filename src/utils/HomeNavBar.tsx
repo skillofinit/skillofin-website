@@ -8,7 +8,7 @@ function HomeNavBar() {
         <img
           src="Skillofin-Logo.png"
           alt="skillofin logo"
-          className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs"
+          className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
         />
         <div className="items-center gap-5 lg:flex hidden">
           <IoIosSend className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10" />

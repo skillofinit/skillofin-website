@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import ContactUs from "@/utils/ContactUs";
+import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
@@ -28,26 +30,26 @@ function Home() {
       <div className="z-[400] absolute inset-0 items-center w-full flex flex-col ">
         <HomeNavBar />
 
-        <div className="text-background flex flex-col w-full px-4 lg:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
+        <div className="text-background flex flex-col w-full px-4 md:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
           <div className="flex flex-col gap-10">
             <div className="mt-8">
-              <h1 className="font-bold text-[50px] lg:text-[70px] font-serif">
+              <h1 className="font-bold text-[50px] md:text-[30px] lg:text-[70px] font-serif">
                 SkilloFin
               </h1>
 
               <div className="h-2 mt-[2vw] bg-primary w-[15vw]"></div>
             </div>
             <div>
-              <p className="text-4xl lg:pt-5">
+              <p className="text-4xl lg:pt-5 md:text-2xl lg:text-4xl">
                 Projects - Hiring - Funds - Networking
               </p>
             </div>
             <Button className="w-fit py-6 px-10 text-lg">Read More</Button>
           </div>
 
-          <div className="flex flex-col bg-background rounded-lg pt-10 lg:pt-0">
+          <div className="flex flex-col bg-background rounded-lg mt-10 lg:mt-0">
             <form
-              className="w-[20vw] max-w-sm flex flex-col gap-3 p-8"
+              className=" lg:w-[20vw] max-w-sm flex flex-col gap-3 p-8"
               onSubmit={handleSubmit(handleContactUs)}
             >
               <Input
@@ -90,21 +92,22 @@ function Home() {
           </div>
         </div>
 
-        <div className="w-[80vw] flex flexrow h-[70vw] mt-[27vh]  ">
-          <div className=" flex h-[70vh] gap-6  ">
+        <div className=" lg:w-[80vw] flex lg:flex-row lg:h-[70vw] mt-[12vh] lg:mt-[27vh]  ">
+          <div className=" flex md:flex-row flex-col lg:h-[70vh] gap-6  ">
             <img
               src="about-us.webp"
               alt="about us"
-              className="w-[20vw] h-full object-cover"
+              className=" h-[60vh] lg:w-[20vw] lg:h-full object-cover"
             />
-            <div className="h-full bg-background w-[60vw] flex flex-col items-center justify-center p-10 gap-10">
-              <div className="flex flex-col items-center  gap-4 ">
-                <h3 className="text-4xl font-bold font-serif">
+
+            <div className="h-full bg-background lg:w-[60vw] flex flex-col items-center justify-center p-10  gap-4 lg:gap-10">
+              <div className="flex flex-col items-center gap-1  lg:gap-4 ">
+                <h3 className=" text-2xl lg:text-4xl font-bold font-serif">
                   About SkilloFin
                 </h3>
-                <div className="h-1 bg-primary w-[10vw]"></div>
+                <div className="h-1 bg-primary w-[20vw] lg:w-[10vw]"></div>
               </div>
-              <p className="text-xl px-20 text-center ">
+              <p className="text-xl lg:px-20 text-center ">
                 SkilloFin is dedicated to facilitating meaningful professional
                 realtionshis. Our platform connects individuals with projects to
                 earn, industry leaders to get hired,offering opportunities for
@@ -113,20 +116,21 @@ function Home() {
             </div>
           </div>
         </div>
+
         <div className="mt-[6vh]">
           <div className="mt-[10vh] flex flex-col items-center">
-            <h2 className="font-bold font-serif text-[40px]">
+            <h2 className="font-bold text-4xl text-center font-serif">
               FOR WHOM, WHY AND HOW ?
             </h2>
-            <div className="h-1 w-[6vw] bg-primary mt-[4vh]"></div>
+            <div className="h-1 w-[30vw] mt-2  lg:w-[6vw] bg-primary lg:mt-[4vh]"></div>
           </div>
 
-          <div className="flex flex-row gap-10 mt-[10vh]">
-            <div className=" bg-rounded-lg w-[25vw] flex flex-col">
+          <div className="flex lg:flex-row flex-col gap-10 mt-[10vh] px-2">
+            <div className=" bg-rounded-lg lg:w-[25vw] flex flex-col">
               <img
                 src="man-with-work.jpg"
                 alt="work "
-                className="rounded-t-lg  h-[25vh] object-cover"
+                className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
               <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
@@ -141,11 +145,11 @@ function Home() {
               </div>
             </div>
 
-            <div className=" bg-rounded-lg w-[25vw] flex flex-col">
+            <div className=" bg-rounded-lg lg:w-[25vw] flex flex-col">
               <img
                 src="women-with-phone.jpg"
                 alt="work "
-                className="rounded-t-lg  h-[25vh] object-cover"
+                className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
               <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
@@ -158,11 +162,11 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="gap- bg-rounded-lg w-[25vw] flex flex-col">
+            <div className="gap- bg-rounded-lg lg:w-[25vw] flex flex-col">
               <img
                 src="man-with-fund.jpg"
                 alt="work "
-                className="rounded-t-lg  h-[25vh] object-cover"
+                className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
               <div className="flex flex-col gap-3 h-[20vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">Funding Made Easy</h6>
@@ -185,12 +189,12 @@ function Home() {
               alt="money growth"
             />
           </div>
-          <div className="absolute inset-16 bg-background h-fit w-[30vw] p-9 flex flex-col gap-6">
+          <div className="absolute inset-10 lg:inset-16 bg-background h-fit w-[80vw] lg:w-[30vw] p-9 flex flex-col gap-6">
             <div className="flex flex-col  gap-6">
               <h4 className="font-bold text-4xl ">
                 Get funds easily to grow more !
               </h4>
-              <div className="bg-primary h-1 w-[8vw]"></div>
+              <div className="bg-primary h-1 w-[20vw] lg:w-[8vw]"></div>
             </div>
             <p className="text-lg">
               For workers and for companies : Showcase your traction in real,
@@ -203,7 +207,7 @@ function Home() {
           <div className=" mt-[5vh] flex flex-col ">
             <div className="flex flex-col items-center ">
               <h6 className="text-4xl font-bold font-serif"> TESTIMONIALS</h6>
-              <div className="h-1 w-[6vw] bg-primary mt-[2vh]"></div>
+              <div className="h-1 w-[20vw] lg:w-[6vw] bg-primary mt-[2vh]"></div>
             </div>
 
             <div className="flex flex-col mt-[10vh] items-center">
@@ -217,7 +221,7 @@ function Home() {
                   <p className="-mt-6">,,</p>
                 </div>
               </div>
-              <div className="text-xl mt-10 max-w-[50vw] text-center font-semibold">
+              <div className="text-xl mt-10 max-w-[80vw]  lg:max-w-[50vw] text-center font-semibold">
                 Thanks to SkiLLoFin, I have expand my professional Network and
                 and has my first job based on proof of work hiring as a AI
                 Marketer.
@@ -235,67 +239,9 @@ function Home() {
           </div>
         </div>
 
-        <div className="bg-background mt-[10vh]">
-          <div className="flex flex-col items-center mt-[10vh]">
-            <h6 className="text-4xl font-bold font-serif"> CONTACT US</h6>
-            <div className="h-1 w-[6vw] bg-primary mt-[2vh]"></div>
-          </div>
-          <div>
-            <form
-              className="w-[100vw]  gap-3 p-8 flex flex-col items-center"
-              onSubmit={handleSubmit(handleContactUs)}
-            >
-              <div className=" flex w-[100vw] justify-center items-center">
-                <div>
-                  <Input
-                    className="w-[25vw] "
-                    iconName="firstName"
-                    placeholder="Full Name"
-                    {...register("fullName", {
-                      required: "Please enter your full name",
-                    })}
-                    errorMessage={errors?.fullName?.message}
-                  />
-                </div>
-                <div>
-                  <Input
-                    className="w-[25vw] "
-                    placeholder="Phone"
-                    iconName="phoneNumber"
-                    {...register("phone", {
-                      required: "Please enter your phone number",
-                    })}
-                    errorMessage={errors?.phone?.message}
-                  />
-                </div>
-                <div>
-                  <Input
-                    className="w-[25vw] "
-                    placeholder="Email Address"
-                    iconName="emailId"
-                    {...register("emailId", {
-                      required: "Please enter your email",
-                    })}
-                    errorMessage={errors?.emailId?.message}
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-1 h-24">
-                <Textarea
-                  className="w-[50vw]"
-                  placeholder="Message"
-                  {...register("message", {
-                    required: "Please enter your message",
-                  })}
-                />
-                <div className="text-destructive pl-2 text-[12px]">
-                  {errors?.message?.message as any}
-                </div>
-              </div>
-              <Button className="py-6 px-10 text-lg">Contact Us</Button>
-            </form>
-          </div>
-        </div>
+        <ContactUs />
+
+        <HomeFooter />
       </div>
     </div>
   );
