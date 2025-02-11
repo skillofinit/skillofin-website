@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,11 +8,11 @@ import { useForm } from "react-hook-form";
 import { FaAsterisk } from "react-icons/fa";
 
 function ContactUs() {
-  const { register, formState, handleSubmit,reset } = useForm();
+  const { register, formState, handleSubmit, reset } = useForm();
   const { errors } = formState;
   const { isPending, sendEmail } = useSendEmail();
 
-  function onSubmit(e: any) {
+  async function onSubmit(e: any) {
     sendEmail(
       {
         body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
@@ -27,6 +28,12 @@ function ContactUs() {
         },
       }
     );
+    await contactUsAPI({
+      emailId: e.emailId,
+      fullName: e.fullName,
+      message: e.message,
+      phone: e.phone,
+    });
   }
 
   return (

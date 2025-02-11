@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,7 +18,7 @@ function Home() {
   const whomRef = useRef(null);
   const { isPending, sendEmail } = useSendEmail();
 
-  function handleContactUs(e: any) {
+  async function handleContactUs(e: any) {
     sendEmail(
       {
         body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
@@ -33,6 +34,12 @@ function Home() {
         },
       }
     );
+    await contactUsAPI({
+      emailId: e.emailId,
+      fullName: e.fullName,
+      message: e.message,
+      phone: e.phone,
+    });
   }
 
   function handleReadMoreClick() {
