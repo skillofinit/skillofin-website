@@ -16,7 +16,6 @@ export function useSendEmail() {
       title: string;
       subject: string;
     }) => {
-
       return sendEmailAPI(values);
     },
     onSuccess(data) {
@@ -24,7 +23,7 @@ export function useSendEmail() {
         toast({
           duration: 2000,
           variant: "constructive",
-          title: "Success",
+          title: "Contacted successfully",
           description:
             "We will get back to you soon as possible,Thaks for contacting us",
         });
@@ -32,7 +31,7 @@ export function useSendEmail() {
         toast({
           duration: 2000,
           variant: "destructive",
-          title: "Error",
+          title: "Please try again",
           description: "Something Went Wrong,Please try again after sometime",
         });
       }
@@ -41,7 +40,7 @@ export function useSendEmail() {
       toast({
         duration: 2000,
         variant: "destructive",
-        title: "Error",
+        title: "Please try again",
         description: "Something Went Wrong,Please try again after sometime",
       });
     },

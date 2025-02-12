@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useAppContext } from "@/utiles/AppContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSignup } from "@/hooks/authHooks";
 
 interface CreateAccountInterface {
   handleGoBackClick: () => void;
@@ -16,16 +17,34 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
   const [step, setStep] = useState(0);
 
   const { temp } = useAppContext();
+  const { isPending, signup } = useSignup();
 
   function handleSignUp(e: any) {
-    console.log(e);
-    setStep(1)
+    signup(
+      {
+        emailId: e.emailId,
+        firstName: e.firstName,
+        password: e.password,
+        role:"freelancer",
+        lastName: e.lastName,
+        otp:e?.otp ?? null,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "OTP_SUCCESS") {
+            setStep(1);
+          }
+        },
+      }
+    );
   }
 
   return (
     <div className="flex flex-col items-center justify-center lg:mt-10 p-4 lg:p-0">
       <div>
-        <h3 className=" text-4xl font-serif text-center">Sign up to find work you love</h3>
+        <h3 className=" text-4xl font-serif text-center">
+          Sign up to find work you love
+        </h3>
       </div>
       <div className="w-fit">
         <form
@@ -101,7 +120,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
             </div>
           )}
           <div className="lg:w-[60%] lg:mt-5">
-            <Button className="py-6">
+            <Button isPending={isPending} className="py-6">
               {step === 0 ? "Create my account" : "Sign Up"}
             </Button>
           </div>

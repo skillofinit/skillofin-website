@@ -1,4 +1,14 @@
+// export const BASE_URL = "http://localhost:3000/api";
 export const BASE_URL = "https://skillofinapi.vercel.app/api";
+
+
+
+
+
+
+
+
+
 export const COMPANY_EMAIL = "contact@Skillofin.com";
 export const COMPANY_FACEBOOK =
   "https://www.facebook.com/profile.php?id=61571965832291";
