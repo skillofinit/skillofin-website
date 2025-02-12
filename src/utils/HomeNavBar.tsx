@@ -40,7 +40,7 @@ function HomeNavBar() {
   }
 
   return (
-    <div className="w-full flex h-fit px-4 lg:px-8 py-2 text-background">
+    <div className="w-full flex h-fit px-4 lg:px-8 py-2 ">
       <div className="flex items-center w-full justify-end">
         {/* <img
           src="Skillofin-Logo.png"
@@ -52,39 +52,39 @@ function HomeNavBar() {
             onClick={() => {
               handleOpenLinks("mail");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
           <FaFacebook title="Facebook"
             onClick={() => {
               handleOpenLinks("facebook");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
            <FaInstagram title="Instagram"
             onClick={() => {
               handleOpenLinks("instagram");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
           <FaXTwitter title="X"
             onClick={() => {
               handleOpenLinks("x");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
 
           <FaLinkedin title="LinkedIn"
             onClick={() => {
               handleOpenLinks("linkedin");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
           
           <FaPinterest title="Pinterest"
             onClick={() => {
               handleOpenLinks("pinterest");
             }}
-            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+            className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
           
           

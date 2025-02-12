@@ -56,8 +56,10 @@ function Home() {
         <div className="absolute inset-0 bg-black opacity-40 w-full h-[110vh] lg:h-[100vh]"></div>
       </div>
 
-      <div className="z-[400] absolute h-full inset-0 items-center w-full flex flex-col ">
-        <HomeNavBar />
+      <div className="z-[400]  absolute h-full inset-0 items-center w-full flex flex-col ">
+        <div className=" w-full text-background">
+          <HomeNavBar />
+        </div>
 
         <div className="text-background items-center flex flex-col w-full px-4 md:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
           <div className="flex flex-col gap-10">
@@ -287,8 +289,11 @@ function Home() {
         </div>
 
         <ContactUs />
-
+        <div className="pt-[10vh] w-full pb-10 bg-background ">
         <HomeFooter />
+                
+        </div>
+
       </div>
     </div>
   );

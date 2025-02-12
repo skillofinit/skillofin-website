@@ -1,13 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Signup from "./features/auth/Signup";
-import Login from "./features/auth/Login";
+import Signup from "./features/signup/Signup";
+import Login from "./features/login/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import Home from "./features/home/Home";
 const queryClient = new QueryClient();
 function App() {
   return (
-    <div className="w-[100vw] h-[100vh] flex ">
+    <div className="w-[100vw] h-[100vh] flex bg-background ">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>

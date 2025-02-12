@@ -40,9 +40,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div>
+      <div className="w-full"> 
         <div className="flex flex-row w-full items-center gap-1">
-          <div className=" flex items-center gap-2 border rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
+          <div className=" flex items-center gap-2 border border-foreground/60 rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
             <div> {iconName && getIcon()}</div>
             <div className="w-full">
               <input
