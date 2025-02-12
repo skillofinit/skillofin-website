@@ -2,14 +2,13 @@
 import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useSendEmail } from "@/hooks/emailHooks";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { FaAsterisk, FaStar } from "react-icons/fa";
+import {  FaStar } from "react-icons/fa";
 
 function Home() {
   const { formState, handleSubmit, register, reset } = useForm();
@@ -21,7 +20,7 @@ function Home() {
   async function handleContactUs(e: any) {
     sendEmail(
       {
-        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
+        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone}`,
         subject: "New Message from SkilloFin chat",
         title: "New Message from SkilloFin",
         toEmail: "afridayan01@gmail.com",
@@ -37,7 +36,6 @@ function Home() {
     await contactUsAPI({
       emailId: e.emailId,
       fullName: e.fullName,
-      message: e.message,
       phone: e.phone,
     });
   }
@@ -128,22 +126,6 @@ function Home() {
                 })}
                 errorMessage={errors?.emailId?.message}
               />
-              <div className="flex flex-col gap-1 h-24">
-                <div className="flex items-center gap-1">
-                  <Textarea
-                    placeholder="Message"
-                    {...register("message", {
-                      required: "Please enter your message",
-                    })}
-                  />
-                  <div className="h-2 w-2">
-                    <FaAsterisk className="text-destructive h-2 w-2" />
-                  </div>
-                </div>
-                <div className="text-destructive pl-2 text-[12px]">
-                  {errors?.message?.message as any}
-                </div>
-              </div>
               <Button className="py-6" isPending={isPending}>
                 Contact Us
               </Button>
@@ -166,11 +148,11 @@ function Home() {
                 </h3>
                 <div className="h-1 bg-primary w-[20vw] lg:w-[10vw]"></div>
               </div>
-              <p className="text-xl lg:px-20 text-center ">
+              <p className="text-xl lg:p  x-20 text-center ">
                 SkilloFin is dedicated to facilitating meaningful professional
-                realtionshis. Our platform connects individuals with projects to
-                earn, industry leaders to get hired,offering opportunities for
-                career growth,funding and collaborating to grow more{" "}
+                relationships. Our platform connects individuals with projects
+                to earn, industry leaders to hire, offering opportunities for
+                career growth, funding and collaborating to grow more !
               </p>
             </div>
           </div>
@@ -191,9 +173,9 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
-                  Jobs / Work / Projects{" "}
+                  Freelancers/ Professionals/ Workers
                 </h6>
                 <p className="text-lg ml-2">
                   Network for jobs, bid on projects, contracts and get paid
@@ -210,13 +192,13 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
-                  Hiring (Freelancer or Full time)
+                  Businesses/ HR professionals/ MNC’s
                 </h6>
                 <p className="text-lg ml-2">
                   Small businesses or MNC recruiters can hire with confidence
-                  with verified profiles having prof of work and result driven
+                  with verified profiles having proof of work and result driven
                   candidates. No more guesswork.
                 </p>
               </div>
@@ -227,13 +209,15 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[35vh] bg-background p-4 ">
-                <h6 className="text-2xl font-semibold ">Funding Made Easy</h6>
+              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
+                <h6 className="text-2xl font-semibold ">
+                  Banks/ Credit Unions/ Funding{" "}
+                </h6>
                 <p className="text-lg ml-2">
                   For individuals and companies: Funding options come to your
                   inbox as you display proof of revenue generation with your
-                  hand work. Banks, lenders, investors will get proof of revenue
-                  which will helps in smooth application procesing.
+                  hard work. Banks, lenders, investors will get proof of revenue
+                  which will help in smooth application processing.
                 </p>
               </div>
             </div>

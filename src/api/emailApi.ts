@@ -23,7 +23,6 @@ export async function contactUsAPI(body: {
   emailId: string;
   phone: string;
   fullName: string;
-  message: string;
 }) {
   await fetch(BASE_URL + "/contact-us", {
     method: "post",

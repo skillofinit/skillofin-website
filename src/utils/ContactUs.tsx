@@ -2,10 +2,8 @@
 import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useSendEmail } from "@/hooks/emailHooks";
 import { useForm } from "react-hook-form";
-import { FaAsterisk } from "react-icons/fa";
 
 function ContactUs() {
   const { register, formState, handleSubmit, reset } = useForm();
@@ -15,7 +13,7 @@ function ContactUs() {
   async function onSubmit(e: any) {
     sendEmail(
       {
-        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone} with message -  ${e.message}`,
+        body: `New message recived from  ${e.fullNameFotter} with email - ${e.emailIdFotter} and phone - ${e.phoneFotter} `,
         subject: "New Message from SkilloFin chat",
         title: "New Message from SkilloFin",
         toEmail: "afridayan01@gmail.com",
@@ -29,10 +27,9 @@ function ContactUs() {
       }
     );
     await contactUsAPI({
-      emailId: e.emailId,
-      fullName: e.fullName,
-      message: e.message,
-      phone: e.phone,
+      emailId: e.emailIdFotter,
+      fullName: e.fullNameFotter,
+      phone: e.phoneFotter,
     });
   }
 
@@ -93,22 +90,7 @@ function ContactUs() {
               })}
               errorMessage={errors?.emailIdFotter?.message}
             />
-            <div className="flex flex-col gap-1 h-24">
-              <div className="flex items-center gap-1">
-                <Textarea
-                  placeholder="Message"
-                  {...register("messageFotter", {
-                    required: "Please enter your message",
-                  })}
-                />
-                <div className="h-2 w-2">
-                  <FaAsterisk className="text-destructive h-2 w-2" />
-                </div>
-              </div>
-              <div className="text-destructive pl-2 text-[12px]">
-                {errors?.messageFotter?.message as any}
-              </div>
-            </div>
+
             <Button type="submit" className="py-6" isPending={isPending}>
               Contact Us
             </Button>
