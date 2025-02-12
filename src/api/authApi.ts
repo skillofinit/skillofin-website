@@ -11,17 +11,15 @@ export async function signupApi(values: userSignUpPayloadType) {
   return serverData;
 }
 
-
-
-
-export async function loginApi(values: any) {
-  const response = await fetch(
-    "https://spendtrackerbackend.vercel.app/api/login",
-    {
-      method: "post",
-      body: JSON.stringify(values),
-    }
-  );
+export async function loginApi(values: {
+  emailId: string;
+  password: string;
+  otp?: string;
+}) {
+  const response = await fetch(BASE_URL + "/login", {
+    method: "post",
+    body: JSON.stringify(values),
+  });
   const serverData = await response.json();
   return serverData;
 }

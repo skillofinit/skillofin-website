@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useLogin } from "@/hooks/authHooks";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useState } from "react";
@@ -10,10 +11,24 @@ function Login() {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
   const [step, setStep] = useState<number>(0);
+  const { isPending, login } = useLogin();
 
   function handleLoginClick(e: any) {
-    console.timeLog(e);
-    setStep(1);
+    login(
+      {
+        emailId: e.emailId,
+        password: e.password,
+        otp: e?.otp ?? null,
+      },
+      {
+        onSuccess(data) {
+          console.log(data)
+          if (data?.message === "OTP_SUCCESS") {
+            setStep(1);
+          }
+        },
+      }
+    );
   }
 
   return (
@@ -23,7 +38,9 @@ function Login() {
 
         <div className="w-full h-full flex items-center justify-center p-4 lg:p-0 ">
           <div className="lg:border rounded-xl border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">
-            <h3 className="text-4xl px-10 lg:px-0  text-center">Log in to SkilloFin</h3>
+            <h3 className="text-4xl px-10 lg:px-0  text-center">
+              Log in to SkilloFin
+            </h3>
             <form
               onSubmit={handleSubmit(handleLoginClick)}
               className="flex flex-col gap-3  lg:w-[25vw] items-center mt-6"
@@ -45,7 +62,7 @@ function Login() {
                     placeholder="Password"
                     mandatory
                     errorMessage={errors?.emailId?.message}
-                    {...register("emailId", {
+                    {...register("password", {
                       required: "Plese enter your Password",
                     })}
                   />
@@ -61,7 +78,10 @@ function Login() {
                   })}
                 />
               )}
-              <Button className="py-6 px-10 lg:px-0 lg:w-[10vw]  ">
+              <Button
+                className="py-6 px-10 lg:px-0 lg:w-[10vw]"
+                isPending={isPending}
+              >
                 Log In
               </Button>
               <div className="flex flex-col items-center gap-3  mt-10 ">
