@@ -25,7 +25,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
   return (
     <div className="flex flex-col items-center justify-center lg:mt-10 p-4 lg:p-0">
       <div>
-        <h3 className=" text-4xl font-serif">Sign up to find work you love</h3>
+        <h3 className=" text-4xl font-serif text-center">Sign up to find work you love</h3>
       </div>
       <div className="w-fit">
         <form

@@ -13,9 +13,9 @@ function SelectAccountType({
 }: SelectAccountTypeInterface) {
   return (
     <div className="flex flex-col items-center  mt-10 p-4 lg:p-0">
-      <h3 className="text-4xl font-medium font-serif">
+      <h3 className="text-4xl font-medium  font-serif">
         Join as a client,freelancer or bank
-      </h3>
+      </h3> 
       <div className="flex lg:flex-row flex-col items-center gap-5 lg:gap-10 mt-10">
         <JoinCard
           desc="I’m a client, hiring for a project"

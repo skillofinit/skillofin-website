@@ -15,7 +15,13 @@ import {
 } from "@/utiles/appUtils";
 import { FaFacebook } from "react-icons/fa";
 
-function HomeNavBar() {
+interface HomeNavBarInterface{
+
+  displayLogo?:boolean
+}
+
+
+function HomeNavBar({displayLogo = false}:HomeNavBarInterface) {
   function handleOpenLinks(type: string) {
     switch (type) {
       case "mail":
@@ -41,12 +47,14 @@ function HomeNavBar() {
 
   return (
     <div className="w-full flex h-fit px-4 lg:px-8 py-2 ">
-      <div className="flex items-center w-full justify-end">
-        {/* <img
-          src="Skillofin-Logo.png"
-          alt="skillofin logo"
-          className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
-        /> */}
+      <div className={`flex items-center w-full ${displayLogo ?"justify-between":"justify-end"} `}>
+      {
+        displayLogo &&   <img
+        src="Skillofin-Logo.png"
+        alt="skillofin logo"
+        className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
+      />
+      }
         <div className="items-center gap-5 lg:flex hidden">
           <IoMdMail title="Email" 
             onClick={() => {
