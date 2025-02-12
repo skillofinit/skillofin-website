@@ -6,6 +6,7 @@ import { useAppContext } from "@/utiles/AppContext";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignup } from "@/hooks/authHooks";
+import { useNavigate } from "react-router-dom";
 
 interface CreateAccountInterface {
   handleGoBackClick: () => void;
@@ -18,6 +19,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
 
   const { temp } = useAppContext();
   const { isPending, signup } = useSignup();
+  const navigate = useNavigate()
 
   function handleSignUp(e: any) {
     signup(
@@ -126,7 +128,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
           </div>
           <div className="flex items-center ml-4">
             <p className="text">Already have an account?</p>
-            <Button type="button" className="-ml-1" variant={"link"}>
+            <Button onClick={()=>{navigate("/login")}} type="button" className="-ml-1" variant={"link"}>
               Log In
             </Button>
           </div>

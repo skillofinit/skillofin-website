@@ -9,6 +9,7 @@ import { LiaUserSolid } from "react-icons/lia";
 import { RiLockPasswordLine, RiUserAddLine } from "react-icons/ri";
 import { TbPassword } from "react-icons/tb";
 import { PiCurrencyInrBold } from "react-icons/pi";
+import { CiSearch } from "react-icons/ci";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -36,11 +37,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return <TbPassword className="w-4 h-4 text-foreground" />;
       } else if (iconName === "INR") {
         return <PiCurrencyInrBold className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "search") {
+        return <CiSearch className="w-4 h-4 text-foreground" />;
       }
     }
 
     return (
-      <div className="w-full"> 
+      <div className="w-full">
         <div className="flex flex-row w-full items-center gap-1">
           <div className=" flex items-center gap-2 border border-foreground/60 rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
             <div> {iconName && getIcon()}</div>

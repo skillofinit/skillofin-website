@@ -6,12 +6,14 @@ import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
   const [step, setStep] = useState<number>(0);
   const { isPending, login } = useLogin();
+  const navigate = useNavigate()
 
   function handleLoginClick(e: any) {
     login(
@@ -22,7 +24,7 @@ function Login() {
       },
       {
         onSuccess(data) {
-          console.log(data)
+          console.log(data);
           if (data?.message === "OTP_SUCCESS") {
             setStep(1);
           }
@@ -36,14 +38,18 @@ function Login() {
       <div className="flex flex-col h-full gap-5 items-center">
         <HomeNavBar displayLogo={true} />
 
-        <div className="w-full h-full flex items-center justify-center p-4 lg:p-0 ">
-          <div className="lg:border rounded-xl border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">
-            <h3 className="text-4xl px-10 lg:px-0  text-center">
+        <div className="w-full h-full flex  lg:flex-row flex-col items-center justify-center lg:gap-10 p-4 lg:p-0 ">
+          <div>
+            <img alt="login" src="login.jpg" className="lg:h-[40vh]  lg:flex" />
+          </div>
+          <div className="bg-foreground w-[1px] h-[70%] hidden lg:flex"></div>
+          <div className=" rounded-xl border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">
+            <h3 className="text-4xl px-10 lg:px-0  text-center font-serif ">
               Log in to SkilloFin
             </h3>
             <form
               onSubmit={handleSubmit(handleLoginClick)}
-              className="flex flex-col gap-3  lg:w-[25vw] items-center mt-6"
+              className="flex flex-col gap-3  lg:w-[25vw] items-center lg:mt-6"
             >
               {step === 0 ? (
                 <div className="flex flex-col w-full">
@@ -84,13 +90,13 @@ function Login() {
               >
                 Log In
               </Button>
-              <div className="flex flex-col items-center gap-3  mt-10 ">
+              <div className="flex flex-col items-center gap-3  lg:mt-10 ">
                 <div className="text flex gap-3 items-center">
                   <div className="h-[1px] bg-foreground w-3 lg:w-10"></div>
-                  <p className="lg:text-lg ">Don't have an SkilloFin account</p>
+                  <p>Don't have an SkilloFin account</p>
                   <div className="h-[1px] bg-foreground w-3 lg:w-10"></div>
                 </div>
-                <Button type="button" className="px-10 " variant={"outline"}>
+                <Button onClick={()=>{navigate("/signup")}} type="button" className="px-10 " variant={"outline"}>
                   Sign Up
                 </Button>
               </div>
