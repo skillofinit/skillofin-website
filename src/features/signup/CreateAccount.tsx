@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CountryDropdown } from "@/components/country-dropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +11,7 @@ interface CreateAccountInterface {
 }
 
 function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
-  const { register, handleSubmit, formState, reset } = useForm();
+  const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
   const [step, setStep] = useState(0);
 
@@ -18,6 +19,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
 
   function handleSignUp(e: any) {
     console.log(e);
+    setStep(1)
   }
 
   return (

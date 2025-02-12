@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import HomeFooter from "@/utils/HomeFooter";
@@ -8,7 +9,12 @@ import { useForm } from "react-hook-form";
 function Login() {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
-  const [step,setStep] = useState<number>(0)
+  const [step, setStep] = useState<number>(0);
+
+  function handleLoginClick(e: any) {
+    console.timeLog(e);
+    setStep(1);
+  }
 
   return (
     <div className="w-full h-full   flex flex-col justify-between">
@@ -18,7 +24,10 @@ function Login() {
         <div className="w-full h-full flex items-center justify-center p-4 lg:p-0 ">
           <div className="lg:border rounded-md border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">
             <h3 className="text-4xl text-center">Log in to SkilloFin</h3>
-            <form className="flex flex-col gap-3  lg:w-[25vw] items-center mt-6">
+            <form
+              onSubmit={handleSubmit(handleLoginClick)}
+              className="flex flex-col gap-3  lg:w-[25vw] items-center mt-6"
+            >
               {step === 0 ? (
                 <div className="flex flex-col w-full">
                   <Input
