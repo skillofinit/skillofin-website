@@ -3,12 +3,13 @@ import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSendEmail } from "@/hooks/emailHooks";
+import { COMPANY_EMAIL } from "@/utiles/appUtils";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import {  FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
 
 function Home() {
   const { formState, handleSubmit, register, reset } = useForm();
@@ -23,7 +24,7 @@ function Home() {
         body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone}`,
         subject: "New Message from SkilloFin chat",
         title: "New Message from SkilloFin",
-        toEmail: "afridayan01@gmail.com",
+        toEmail: COMPANY_EMAIL,
       },
       {
         onSuccess(data) {
