@@ -3,7 +3,7 @@ import {
   FaLinkedin,
   FaXTwitter,
   FaInstagram,
-  
+  FaPinterest
 } from "react-icons/fa6";
 import {
   COMPANY_EMAIL,
@@ -41,12 +41,12 @@ function HomeNavBar() {
 
   return (
     <div className="w-full flex h-fit px-4 lg:px-8 py-2 text-background">
-      <div className="flex items-center w-full justify-between">
-        <img
+      <div className="flex items-center w-full justify-end">
+        {/* <img
           src="Skillofin-Logo.png"
           alt="skillofin logo"
           className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
-        />
+        /> */}
         <div className="items-center gap-5 lg:flex hidden">
           <IoMdMail title="Email" 
             onClick={() => {
@@ -60,10 +60,9 @@ function HomeNavBar() {
             }}
             className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
           />
-
-          <FaLinkedin title="LinkedIn"
+           <FaInstagram title="Instagram"
             onClick={() => {
-              handleOpenLinks("linkedin");
+              handleOpenLinks("instagram");
             }}
             className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
           />
@@ -73,12 +72,23 @@ function HomeNavBar() {
             }}
             className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
           />
-          <FaInstagram title="Instagram"
+
+          <FaLinkedin title="LinkedIn"
             onClick={() => {
-              handleOpenLinks("instagram");
+              handleOpenLinks("linkedin");
             }}
             className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
           />
+          
+          <FaPinterest title="Pinterest"
+            onClick={() => {
+              handleOpenLinks("pinterest");
+            }}
+            className="p-2 cursor-pointer hover:scale-110 hover:bg-gray-800 rounded-full w-10 h-10"
+          />
+          
+          
+         
         </div>
       </div>
     </div>

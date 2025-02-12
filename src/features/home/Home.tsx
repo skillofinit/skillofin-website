@@ -50,7 +50,7 @@ function Home() {
       <div className="relative w-full h-[100vh]">
         <img
           alt="banner-image"
-          src="home-banner.jpg"
+          src="2.jpg"
           className="object-cover w-full h-[140vh] lg:h-[100vh]"
         />
         <div className="absolute inset-0 bg-black opacity-50 w-full h-[110vh] lg:h-[100vh]"></div>
@@ -78,6 +78,9 @@ function Home() {
               <span className="font-semibold text-2xl mr-1">Join now :</span>{" "}
               Zero commission fees for first 100 freelancers in any category for
               one year !
+            </div>
+            <div className=" flex justify-end -mt-8">
+              <img alt="Arraow" src="arraow.png" className="w-[20vw]" />
             </div>
             <div className="w-fit">
               <Button
@@ -174,7 +177,7 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[39vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
                   Freelancers/ Professionals/ Workers
                 </h6>
@@ -193,7 +196,7 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[39vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
                   Businesses/ HR professionals/ MNC’s
                 </h6>
@@ -210,7 +213,7 @@ function Home() {
                 alt="work "
                 className="rounded-t-lg  h-[25vh] md:h-[40vh] lg:h-[25vh] object-cover"
               />
-              <div className="flex flex-col gap-3 h-[37vh] bg-background p-4 ">
+              <div className="flex flex-col gap-3 h-[39vh] bg-background p-4 ">
                 <h6 className="text-2xl font-semibold ">
                   Banks/ Credit Unions/ Funding{" "}
                 </h6>
