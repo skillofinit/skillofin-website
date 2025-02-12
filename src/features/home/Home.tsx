@@ -51,12 +51,12 @@ function Home() {
         <img
           alt="banner-image"
           src="2.jpg"
-          className="object-cover w-full h-[140vh] lg:h-[100vh]"
+          className="object-cover w-full h-[120vh] lg:h-[100vh]"
         />
         <div className="absolute inset-0 bg-black opacity-50 w-full h-[110vh] lg:h-[100vh]"></div>
       </div>
 
-      <div className="z-[400] absolute inset-0 items-center w-full flex flex-col ">
+      <div className="z-[400] absolute h-full inset-0 items-center w-full flex flex-col ">
         <HomeNavBar />
 
         <div className="text-background items-center flex flex-col w-full px-4 md:flex-row justify-between lg:w-[90vw] pt-[10vw]   ">
@@ -79,7 +79,7 @@ function Home() {
               Zero commission fees for first 100 freelancers in any category for
               one year !
             </div>
-            <div className=" flex justify-end -mt-8">
+            <div className=" hidden lg:flex justify-end -mt-8">
               <img alt="Arraow" src="arraow.png" className="w-[20vw]" />
             </div>
             <div className="w-fit">
