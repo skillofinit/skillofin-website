@@ -77,6 +77,7 @@ export function useLogin() {
           description: "We Sent a OTP for given Email Id",
         });
       } else if (data?.message === "SUCCESS") {
+        localStorage.setItem("authToken", data?.authToken);
         navigate("/login");
       } else if (data?.message === "USER_NOT_FOUND") {
         toast({
@@ -85,16 +86,14 @@ export function useLogin() {
           title: "User Not Found",
           description: "User not found,Please sign up to use skillofin",
         });
-      } 
-      else if (data?.message === "INVALID_OTP") {
+      } else if (data?.message === "INVALID_OTP") {
         toast({
           duration: 3000,
           variant: "destructive",
           title: "Wrong Otp",
           description: "You entered invalid Otp!",
         });
-      }
-      else if (data?.message === "INVALID_PASSWORD") {
+      } else if (data?.message === "INVALID_PASSWORD") {
         toast({
           duration: 3000,
           variant: "destructive",
