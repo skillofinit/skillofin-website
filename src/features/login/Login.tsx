@@ -2,9 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/authHooks";
+import AppSpiner from "@/utiles/AppSpiner";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +15,13 @@ function Login() {
   const [step, setStep] = useState<number>(0);
   const { isPending, login } = useLogin();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+  }, []);
 
   function handleLoginClick(e: any) {
     login(
@@ -37,10 +45,15 @@ function Login() {
     <div className="w-full h-full   flex flex-col justify-between">
       <div className="flex flex-col h-full gap-5 items-center">
         <HomeNavBar displayLogo={true} />
+        {isLoading && <AppSpiner />}
 
         <div className="w-full h-full flex  lg:flex-row flex-col items-center justify-center lg:gap-10 p-4 lg:p-0 ">
           <div className="lg:h-[40vh] lg:w-[30vw]">
-            <img alt="login" src="login.jpg" className="lg:h-[40vh] lg:w-[30vw]  lg:flex" />
+            <img
+              alt="login"
+              src="login.jpg"
+              className="lg:h-[40vh] lg:w-[30vw]  lg:flex"
+            />
           </div>
           <div className="bg-foreground w-[1px] h-[70%] hidden lg:flex"></div>
           <div className=" rounded-xl border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">

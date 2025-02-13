@@ -1,21 +1,24 @@
 import { Button } from "@/components/ui/button";
 import JoinCard from "./JoinCard";
+import { useNavigate } from "react-router-dom";
 
 interface SelectAccountTypeInterface {
   selectedJoinType: "Client" | "Freelancer" | "Bank" | "";
   handleChangeJoinType: (value: "" | "Client" | "Freelancer" | "Bank") => void;
-  triggerCreateAccountClick:()=>void
+  triggerCreateAccountClick: () => void;
 }
 function SelectAccountType({
   selectedJoinType,
   handleChangeJoinType,
-  triggerCreateAccountClick
+  triggerCreateAccountClick,
 }: SelectAccountTypeInterface) {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center  mt-10 p-4 lg:p-0">
       <h3 className="text-4xl font-medium  font-serif">
         Join as a client,freelancer or bank
-      </h3> 
+      </h3>
       <div className="flex lg:flex-row flex-col items-center gap-5 lg:gap-10 mt-10">
         <JoinCard
           desc="I’m a client, hiring for a project"
@@ -41,7 +44,11 @@ function SelectAccountType({
       </div>
 
       <div className="mt-10 ">
-        <Button onClick={triggerCreateAccountClick} className="py-6 px-10" disabled={!selectedJoinType}>
+        <Button
+          onClick={triggerCreateAccountClick}
+          className="py-6 px-10"
+          disabled={!selectedJoinType}
+        >
           {selectedJoinType
             ? `Join as a ${selectedJoinType}`
             : "Create Account"}
@@ -49,7 +56,13 @@ function SelectAccountType({
       </div>
       <div className="flex items-center ml-4">
         <p className="text">Already have an account?</p>
-        <Button className="-ml-1" variant={"link"}>
+        <Button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="-ml-1"
+          variant={"link"}
+        >
           Log In
         </Button>
       </div>
