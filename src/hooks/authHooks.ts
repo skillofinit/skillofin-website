@@ -78,6 +78,7 @@ export function useLogin() {
         });
       } else if (data?.message === "SUCCESS") {
         localStorage.setItem("authToken", data?.authToken);
+
         navigate("/dashboard  ");
       } else if (data?.message === "USER_NOT_FOUND") {
         toast({

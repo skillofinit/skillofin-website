@@ -77,6 +77,7 @@ function Login() {
                   />
 
                   <Input
+                  type="password"
                     iconName="password"
                     placeholder="Password"
                     mandatory

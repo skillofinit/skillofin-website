@@ -17,13 +17,17 @@ import { FaAngleDown } from "react-icons/fa6";
 import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "@/utiles/AppContext";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
+  const { userData } = useAppContext();
+
+  console.log();
   return (
     <div className="w-full justify-between flex items-center px-4 py-2 ">
       <div className="flex items-center gap-8">
-        <img
+        <img onClick={()=>{navigate("/dashboard")}}
           src="Skillofin-Logo.png"
           alt="skillofin logo"
           className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
@@ -90,8 +94,10 @@ function DashboardNavBar() {
               <div className=" cursor-pointer rounded-full h-10 w-10 flex items-center justify-center  border">
                 <img
                   alt="profile"
-                  src="profile.jpg"
-                  className="rounded-full h-10 w-10 object-cover"
+                  src={`${
+                    userData?.userData?.profile ? "profile.jpg" : "no-user.png"
+                  }`}
+                  className="rounded-full h-10 w-10"
                 />
               </div>
             </PopoverTrigger>
@@ -100,12 +106,23 @@ function DashboardNavBar() {
                 <div className="flex p-2 lg:hover:bg-foreground/5  items-center gap-4  cursor-pointer mt-3">
                   <img
                     alt="profile"
-                    src="profile.jpg"
-                    className="rounded-full h-10 w-10 object-cover"
+                    src={`${
+                      userData?.userData?.profile
+                        ? "profile.jpg"
+                        : "no-user.png"
+                    }`}
+                    className="rounded-full h-10 w-10"
                   />
                   <div className="flex flex-col ">
-                    <h5 className="text-lg">Shaik Afrid</h5>
-                    <p className="text-foreground/70 -mt-1">Freelancer</p>
+                    <h5 className="text-lg">
+                      {userData?.userData?.firstName +
+                        " " +
+                        userData?.userData?.lastName}
+                    </h5>
+                    <p className="text-foreground/70 -mt-1">
+                      {userData?.userData?.role?.charAt(0).toUpperCase() +
+                        userData?.userData?.role?.slice(1).toLowerCase()}
+                    </p>
                   </div>
                 </div>
 
