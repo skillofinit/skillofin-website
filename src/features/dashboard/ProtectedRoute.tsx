@@ -1,23 +1,13 @@
-import { ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
-interface ProtectedRouteInterface {
-  children: ReactNode;
-}
-function ProtectedRoute({ children }: ProtectedRouteInterface) {
-  const navigate = useNavigate();
+function ProtectedLayout() {
+  const authToken = localStorage.getItem("authToken");
 
-  const encodedEmailId = localStorage.getItem("authToken");
+  if (!authToken) {
+    return <Navigate to="/login" replace />;
+  }
 
-  useEffect(() => {
-    if (encodedEmailId) {
-      navigate("/dashboard");
-    } else {
-      navigate("/login");
-    }
-  }, []);
-
-  return <div className="h-full w-full">{children}</div>;
+  return <Outlet />;
 }
 
-export default ProtectedRoute;
+export default ProtectedLayout;

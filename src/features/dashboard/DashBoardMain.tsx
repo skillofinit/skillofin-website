@@ -1,5 +1,5 @@
 import DashBoardHighlightCard from "./utils/DashBoardHighlightCard";
-import DashboardNavBar from "./utils/DashboardNavBar";
+import DashboardNavBar from "../../utils/DashboardNavBar";
 
 function DashBoardMain() {
   return (

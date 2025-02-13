@@ -13,7 +13,7 @@ function Login() {
   const { errors } = formState;
   const [step, setStep] = useState<number>(0);
   const { isPending, login } = useLogin();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleLoginClick(e: any) {
     login(
@@ -39,8 +39,8 @@ function Login() {
         <HomeNavBar displayLogo={true} />
 
         <div className="w-full h-full flex  lg:flex-row flex-col items-center justify-center lg:gap-10 p-4 lg:p-0 ">
-          <div>
-            <img alt="login" src="login.jpg" className="lg:h-[40vh]  lg:flex" />
+          <div className="lg:h-[40vh] lg:w-[30vw]">
+            <img alt="login" src="login.jpg" className="lg:h-[40vh] lg:w-[30vw]  lg:flex" />
           </div>
           <div className="bg-foreground w-[1px] h-[70%] hidden lg:flex"></div>
           <div className=" rounded-xl border-foreground/10 lg:px-10 lg:py-7 px-0 py-0 flex flex-col items-center gap-8">
@@ -96,7 +96,14 @@ function Login() {
                   <p>Don't have an SkilloFin account</p>
                   <div className="h-[1px] bg-foreground w-3 lg:w-10"></div>
                 </div>
-                <Button onClick={()=>{navigate("/signup")}} type="button" className="px-10 " variant={"outline"}>
+                <Button
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                  type="button"
+                  className="px-10 "
+                  variant={"outline"}
+                >
                   Sign Up
                 </Button>
               </div>

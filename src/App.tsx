@@ -4,8 +4,9 @@ import Login from "./features/login/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import Home from "./features/home/Home";
-import ProtectedRoute from "./features/dashboard/ProtectedRoute";
 import DashBoardMain from "./features/dashboard/DashBoardMain";
+import MyProfileMain from "./features/myprofile/MyProfileMain";
+import ProtectedLayout from "./features/dashboard/ProtectedRoute";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -16,14 +17,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashBoardMain />
-                </ProtectedRoute>
-              }
-            />
+
+            <Route element={<ProtectedLayout />}>
+              <Route path="/dashboard" element={<DashBoardMain />} />
+              <Route path="/myprofile" element={<MyProfileMain />} />
+            </Route>
           </Routes>
         </BrowserRouter>
         <Toaster />

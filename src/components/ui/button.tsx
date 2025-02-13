@@ -18,8 +18,9 @@ const buttonVariants = cva(
           "border border-primary bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground bg-accent/20 lg:hover:scale-110",
+        link: "text-primary underline-offset-4 hover:scale-105 underline",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -48,7 +49,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <div className="flex">
         <Comp
-        disabled={isPending}
+          disabled={isPending}
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
           {...props}

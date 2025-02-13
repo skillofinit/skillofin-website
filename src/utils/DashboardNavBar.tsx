@@ -50,6 +50,7 @@ function DashboardNavBar() {
             </Popover>
           </div>
           <div className="text-[15px]  cursor-pointer">Messages</div>
+          <div className="text-[15px]  cursor-pointer">Jobs</div>
         </div>
       </div>
 
