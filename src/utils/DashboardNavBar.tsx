@@ -16,8 +16,10 @@ import { PiUserListLight } from "react-icons/pi";
 import { FaAngleDown } from "react-icons/fa6";
 import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 function DashboardNavBar() {
+  const navigate = useNavigate();
   return (
     <div className="w-full justify-between flex items-center px-4 py-2 ">
       <div className="flex items-center gap-8">
@@ -115,7 +117,12 @@ function DashboardNavBar() {
                 </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
+                <div
+                  onClick={() => {
+                    navigate("/myprofile");
+                  }}
+                  className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                >
                   <FaRegUserCircle className="w-5 h-5 ml-1" />
                   <p>Your profile</p>
                 </div>
