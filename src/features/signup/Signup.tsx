@@ -11,7 +11,7 @@ function SignUp() {
   >("Client");
   const { dispatch, temp } = useAppContext();
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (temp) {
