@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
-import { MdOutlineEmail, MdOutlinePhoneInTalk ,MdFormatColorText} from "react-icons/md";
-import { IoKeyOutline } from "react-icons/io5";
+import {
+  MdOutlineEmail,
+  MdOutlinePhoneInTalk,
+  MdFormatColorText,
+} from "react-icons/md";
+import { IoKeyOutline, IoSchoolSharp } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
 import { RiLockPasswordLine, RiUserAddLine } from "react-icons/ri";
 import { TbPassword } from "react-icons/tb";
-import { CiSearch } from "react-icons/ci";
-import { FaDollarSign, FaAsterisk } from "react-icons/fa";
+import { CiSearch, CiCalendarDate } from "react-icons/ci";
+import { FaDollarSign, FaAsterisk, FaRegBuilding } from "react-icons/fa";
 import { BiMinusBack } from "react-icons/bi";
+import { SiPolymerproject } from "react-icons/si";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -37,18 +41,21 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return <TbPassword className="w-4 h-4 text-foreground" />;
       } else if (iconName === "dlr") {
         return <FaDollarSign className="w-4 h-4 text-foreground" />;
-      } 
-      else if (iconName === "search") {
+      } else if (iconName === "search") {
         return <CiSearch className="w-4 h-4 text-foreground" />;
-      }
-      else if (iconName === "text") {
+      } else if (iconName === "text") {
         return <MdFormatColorText className="w-4 h-4 text-foreground" />;
-      }
-      
-      else if (iconName === "skill") {
+      } else if (iconName === "skill") {
         return <BiMinusBack className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "date") {
+        return <CiCalendarDate className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "company") {
+        return <FaRegBuilding className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "education") {
+        return <IoSchoolSharp className="w-4 h-4 text-foreground" />;
+      } else if (iconName === "project") {
+        return <SiPolymerproject className="w-4 h-4 text-foreground" />;
       }
-
     }
 
     return (

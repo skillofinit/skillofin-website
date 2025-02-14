@@ -15,7 +15,7 @@ import {
 import { FaAsterisk } from "react-icons/fa";
 import { Textarea } from "@/components/ui/textarea";
 import { FiPlus } from "react-icons/fi";
-import {  useState } from "react";
+import { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 
 interface ConfigureDialoginterface {
@@ -43,10 +43,19 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
         return `Edit Cost per hour`;
 
       case "title":
-        return `Edit headling and summary`;
+        return `Edit headling and summary details`;
 
       case "skills":
         return `${method === "edit" ? "Edit" : "Add"} Skills`;
+
+      case "project":
+        return `${method === "edit" ? "Edit" : "Add"} Project details`;
+
+      case "employment":
+        return `${method === "edit" ? "Edit" : "Add"} Employment details`;
+
+      case "education":
+        return `${method === "edit" ? "Edit" : "Add"} Education details`;
 
       case "languages":
         return `${method == "add" ? "Add" : "Edit"} languages `;
@@ -87,6 +96,173 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
               </Button>
             </div>
           )}
+
+          {comp === "project" && (
+            <div className="flex  flex-col items-center gap-4">
+              <div className=" w-full flex">
+                <Input
+                  placeholder="Title"
+                  iconName="project"
+                  {...register("title", {
+                    required: "Please enter Title",
+                  })}
+                  mandatory
+                  errorMessage={errors?.title?.message}
+                />
+              </div>
+              <div className="flex flex-col w-full">
+                <div className="flex items-center gap-2">
+                  <Textarea
+                    className="h-[20vh]"
+                    placeholder="Description"
+                    {...register("description", {
+                      required: "Please enter Description",
+                    })}
+                  />
+                  <div className="h-2 w-2">
+                    <FaAsterisk className="text-destructive h-2 w-2" />
+                  </div>
+                </div>
+                <div className="h-4 text-destructive ml-2 text-[12px]">
+                  {errors?.description?.message as string}
+                </div>
+              </div>
+              <Button className="h-11 px-5   ">
+                <div className="flex  gap-3 items-center">
+                  {" "}
+                  <h4>Save</h4>
+                  <IoCloudDoneOutline />
+                </div>
+              </Button>
+            </div>
+          )}
+
+          {comp === "employment" && (
+            <div className="flex  flex-col items-center gap-4">
+              <div className=" w-full flex">
+                <Input
+                  placeholder="Company name"
+                  iconName="company"
+                  {...register("name", {
+                    required: "Please enter Company name",
+                  })}
+                  mandatory
+                  errorMessage={errors?.name?.message}
+                />
+              </div>
+
+              <div className=" w-full flex gap-4">
+                <Input
+                  placeholder="From date"
+                  iconName="date"
+                  {...register("fromDate", {
+                    required: "Please enter From date",
+                  })}
+                  mandatory
+                  errorMessage={errors?.fromDate?.message}
+                />
+
+                <Input
+                  placeholder="Company name"
+                  iconName="date"
+                  {...register("toDate", {
+                    required: "Please enter To date",
+                  })}
+                  mandatory
+                  errorMessage={errors?.toDate?.message}
+                />
+              </div>
+
+              <div className="flex flex-col w-full">
+                <div className="flex items-center gap-2">
+                  <Textarea
+                    className="h-[20vh]"
+                    placeholder="Description"
+                    {...register("description", {
+                      required: "Please enter Description",
+                    })}
+                  />
+                  <div className="h-2 w-2">
+                    <FaAsterisk className="text-destructive h-2 w-2" />
+                  </div>
+                </div>
+                <div className="h-4 text-destructive ml-2 text-[12px]">
+                  {errors?.description?.message as string}
+                </div>
+              </div>
+              <Button className="h-11 px-5   ">
+                <div className="flex  gap-3 items-center">
+                  {" "}
+                  <h4>Save</h4>
+                  <IoCloudDoneOutline />
+                </div>
+              </Button>
+            </div>
+          )}
+
+          {comp === "education" && (
+            <div className="flex  flex-col items-center gap-4">
+              <div className=" w-full flex">
+                <Input
+                  placeholder="University name"
+                  iconName="education"
+                  {...register("name", {
+                    required: "Please enter University name",
+                  })}
+                  mandatory
+                  errorMessage={errors?.name?.message}
+                />
+              </div>
+
+              <div className=" w-full flex gap-4">
+                <Input
+                  placeholder="From date"
+                  iconName="date"
+                  {...register("fromDate", {
+                    required: "Please enter From date",
+                  })}
+                  mandatory
+                  errorMessage={errors?.fromDate?.message}
+                />
+
+                <Input
+                  placeholder="Company name"
+                  iconName="date"
+                  {...register("toDate", {
+                    required: "Please enter To date",
+                  })}
+                  mandatory
+                  errorMessage={errors?.toDate?.message}
+                />
+              </div>
+
+              <div className="flex flex-col w-full">
+                <div className="flex items-center gap-2">
+                  <Textarea
+                    className="h-[20vh]"
+                    placeholder="Description"
+                    {...register("description", {
+                      required: "Please enter Description",
+                    })}
+                  />
+                  <div className="h-2 w-2">
+                    <FaAsterisk className="text-destructive h-2 w-2" />
+                  </div>
+                </div>
+                <div className="h-4 text-destructive ml-2 text-[12px]">
+                  {errors?.description?.message as string}
+                </div>
+              </div>
+              <Button className="h-11 px-5   ">
+                <div className="flex  gap-3 items-center">
+                  {" "}
+                  <h4>Save</h4>
+                  <IoCloudDoneOutline />
+                </div>
+              </Button>
+            </div>
+          )}
+
           {comp === "skills" && (
             <div className="flex  flex-col items-center gap-4">
               <div className="flex gap-10 items-center">

@@ -217,8 +217,18 @@ function Profile() {
             <div className="flex items-center justify-between">
               <h3 className="font-medium text-3xl">Projects</h3>
               <div className="flex gap-4">
-                <FiPlus className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
-                <MdEditNote className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
+                <FiPlus
+                  onClick={() => {
+                    handleConfigureClick("add", "project");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
+                <MdEditNote
+                  onClick={() => {
+                    handleConfigureClick("edit", "project");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-5">
@@ -254,8 +264,18 @@ function Profile() {
             <div className="flex items-center justify-between">
               <h3 className="font-medium text-3xl">Employment History</h3>
               <div className="flex gap-4">
-                <FiPlus className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
-                <MdEditNote className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
+                <FiPlus
+                  onClick={() => {
+                    handleConfigureClick("add", "employment");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
+                <MdEditNote
+                  onClick={() => {
+                    handleConfigureClick("edit", "employment");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-3">
@@ -299,8 +319,18 @@ function Profile() {
             <div className="flex items-center justify-between">
               <h3 className="font-medium text-3xl">Education</h3>
               <div className="flex gap-4">
-                <FiPlus className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
-                <MdEditNote className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background" />
+                <FiPlus
+                  onClick={() => {
+                    handleConfigureClick("add", "education");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
+                <MdEditNote
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                  onClick={() => {
+                    handleConfigureClick("edit", "education");
+                  }}
+                />
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 ">
