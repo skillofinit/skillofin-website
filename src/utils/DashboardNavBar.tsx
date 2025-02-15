@@ -15,7 +15,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
-import { useUpdateProfile } from "@/hooks/userHooks";
+import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
@@ -27,6 +27,7 @@ function DashboardNavBar() {
   // For mobile menu toggling
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFinanceOpen, setMobileFinanceOpen] = useState(false);
+  const { isPending: isLoading, logout } = useLogout();
 
   function onOnlineChange(value: boolean) {
     updateProfile({
@@ -34,10 +35,13 @@ function DashboardNavBar() {
       data: { value },
     });
   }
+  function handleLogoutClick() {
+    logout();
+  }
 
   return (
     <div className="w-full relative">
-      {isPending && <AppSpiner bgColor="bg-foreground/40" />}
+      {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/40" />}
 
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
@@ -114,7 +118,7 @@ function DashboardNavBar() {
                     alt="profile"
                     src={
                       userData?.userData?.profile
-                        ? "profile.jpg"
+                        ? userData?.userData?.profile
                         : "no-user.png"
                     }
                     className="rounded-full h-10 w-10"
@@ -131,7 +135,7 @@ function DashboardNavBar() {
                       alt="profile"
                       src={
                         userData?.userData?.profile
-                          ? "profile.jpg"
+                          ? userData?.userData?.profile
                           : "no-user.png"
                       }
                       className="rounded-full h-10 w-10"
@@ -172,7 +176,7 @@ function DashboardNavBar() {
                   <div
                     className="text-destructive mb-1 px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                     onClick={() => {
-                      /* handle logout */
+                      handleLogoutClick();
                     }}
                   >
                     <RiLogoutCircleLine className="w-5 h-5 ml-1" />
@@ -199,7 +203,11 @@ function DashboardNavBar() {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="text-xl"
           >
-            {mobileMenuOpen ? <IoIosCloseCircleOutline className="w-7 h-7" /> : <FiMenu />}
+            {mobileMenuOpen ? (
+              <IoIosCloseCircleOutline className="w-7 h-7" />
+            ) : (
+              <FiMenu />
+            )}
           </button>
         </div>
         {mobileMenuOpen && (
@@ -288,7 +296,7 @@ function DashboardNavBar() {
                     alt="profile"
                     src={
                       userData?.userData?.profile
-                        ? "profile.jpg"
+                        ? userData?.userData?.profile
                         : "no-user.png"
                     }
                     className="rounded-full h-10 w-10"
@@ -330,8 +338,7 @@ function DashboardNavBar() {
 
                 <div
                   onClick={() => {
-                    /* handle logout */
-                    setMobileMenuOpen(false);
+                    handleLogoutClick();
                   }}
                   className="flex items-center gap-2 text-[15px] text-destructive cursor-pointer"
                 >

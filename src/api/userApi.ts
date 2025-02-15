@@ -28,8 +28,33 @@ export async function sendMessageAPI(data: any) {
   const response = await fetch(BASE_URL + "/chat", {
     method: "post",
     body: JSON.stringify({
-      message:data?.message,
-      receiver:data?.receiver,
+      message: data?.message,
+      receiver: data?.receiver,
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
+export async function uplaodProfieImageAPI(data: any) {
+  const response = await fetch(BASE_URL + "/updateprofile", {
+    method: "post",
+    body: JSON.stringify({
+      method: "profileImage",
+      data: {
+        image: data?.image,
+      },
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
+
+export async function logoutAPI() {
+  const response = await fetch(BASE_URL + "/logout", {
+    method: "post",
+    body: JSON.stringify({
       authToken: localStorage.getItem("authToken"),
     }),
   });

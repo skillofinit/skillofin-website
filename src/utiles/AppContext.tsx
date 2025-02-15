@@ -36,7 +36,7 @@ function reducer(state: contextType, action: dispatchDataType) {
         ...state,
         loggedIn: action?.payload?.loggedIn,
         userRole: action?.payload?.data?.userData?.role ?? undefined,
-        userData: action.payload.data,
+        userData: action.payload?.data ?? undefined,
       };
 
     default:

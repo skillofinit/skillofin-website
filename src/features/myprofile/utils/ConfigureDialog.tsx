@@ -71,7 +71,12 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
     updateProfile(
       {
         method: comp,
-        data: e,
+        data:
+          comp === "skills"
+            ? {
+                skills: skills,
+              }
+            : e,
       },
       {
         onSuccess(data) {
@@ -300,7 +305,9 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                       },
                     })}
                     mandatory
-                    errorMessage={errors?.skills?.message}
+                    errorMessage={
+                      skills?.length > 0 ? "" : errors?.skills?.message
+                    }
                   />
                 </div>
                 {watch("skills") && (
@@ -340,7 +347,22 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
               <Button
                 isPending={isPending}
                 disabled={skills?.length === 0}
-                className="h-11 px-5   "
+                className="h-11 px-5"
+                onClick={() => {
+                  if (skills?.length > 0) {
+                    clearErrors("skills");
+                    if (watch("skills")?.length > 0)
+                      setSkills([
+                        ...skills,
+                        {
+                          name: watch("skills"),
+                        },
+                      ]);
+                    if (watch("skills").length === 0) {
+                      onSubmit(undefined);
+                    }
+                  }
+                }}
               >
                 <div className="flex  gap-3 items-center">
                   {" "}

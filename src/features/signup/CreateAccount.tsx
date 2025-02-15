@@ -16,10 +16,15 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
   const { register, handleSubmit, formState } = useForm();
   const { errors } = formState;
   const [step, setStep] = useState(0);
+  const [country, setCountry] = useState({
+    ioc: "USA",
+    currencies: "",
+    name: "",
+  });
 
   const { temp } = useAppContext();
   const { isPending, signup } = useSignup();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   function handleSignUp(e: any) {
     signup(
@@ -30,6 +35,9 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
         role: temp === "Client" ? "client" : "freelancer",
         lastName: e.lastName,
         otp: e?.otp ?? null,
+        ioc: country?.ioc,
+        corrency: country?.currencies[0],
+        countryName: country?.name,
       },
       {
         onSuccess(data) {
@@ -102,8 +110,11 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
               />
               <div className="w-[98%]">
                 <CountryDropdown
+                  onChange={(e:any) => {
+                    setCountry(e);
+                  }}
                   placeholder="Select country"
-                  defaultValue="USA"
+                  defaultValue={country?.ioc}
                 />
               </div>{" "}
             </div>

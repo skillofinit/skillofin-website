@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { getMeAPI, sendMessageAPI, updateProfileAPI } from "@/api/userApi";
+import {
+  getMeAPI,
+  logoutAPI,
+  sendMessageAPI,
+  updateProfileAPI,
+  uplaodProfieImageAPI,
+} from "@/api/userApi";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppContext } from "@/utiles/AppContext";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 export function useGetMe() {
   const { dispatch } = useAppContext();
@@ -103,4 +110,63 @@ export function useSendMessage() {
     },
   });
   return { isPending, sendMessage };
+}
+export function useUplaodProfileImage() {
+  const { dispatch } = useAppContext();
+  const { toast } = useToast();
+
+  const { mutate: uplaodProfileImage, isPending } = useMutation({
+    mutationFn: (data: { image: string }) => uplaodProfieImageAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        dispatch({
+          type: "setUser",
+          payload: {
+            loggedIn: true,
+            data: data?.data,
+          },
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, uplaodProfileImage };
+}
+export function useLogout() {
+  const { dispatch } = useAppContext();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const { mutate: logout, isPending } = useMutation({
+    mutationFn: () => logoutAPI(),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        localStorage.removeItem("authToken");
+        dispatch({
+          type: "setUser",
+          payload: {
+            loggedIn: false,
+            data: undefined,
+          },
+        });
+        navigate("/");
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, logout };
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { MdEditNote, MdOutlineLocationOn } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
@@ -5,13 +6,18 @@ import { FiPlus } from "react-icons/fi";
 import { useAppContext } from "@/utiles/AppContext";
 import { useState } from "react";
 import ConfigureDialog from "./ConfigureDialog";
+import { useToast } from "@/components/ui/use-toast";
+import { useUplaodProfileImage } from "@/hooks/userHooks";
+import AppSpiner from "@/utiles/AppSpiner";
 
 function Profile() {
   const { userData, userRole } = useAppContext();
   const [openDialog, setOpendilog] = useState<boolean>(false);
   const [method, setMethod] = useState<"add" | "edit" | undefined>(undefined);
   const [comp, setComp] = useState<string | undefined>(undefined);
-  console.log(userRole);
+  const { toast } = useToast();
+  const { isPending, uplaodProfileImage } = useUplaodProfileImage();
+  const [uplaoding, setUploading] = useState<boolean>(false);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -24,20 +30,64 @@ function Profile() {
     setMethod(undefined);
   }
 
+  async function uploadImage(img: any) {
+    setUploading(true);
+    const data = new FormData();
+    data.set("key", "2d02bdbd0d5aba83f256929d809f7752");
+    data.append("image", img);
+
+    const a = await fetch("https://api.imgbb.com/1/upload", {
+      method: "post",
+      body: data,
+    });
+    const url = await (a.json() as any);
+
+    if (url?.data?.url) {
+      uplaodProfileImage({
+        image: url.data.url,
+      });
+      setUploading(false);
+    } else {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+      setUploading(false);
+    }
+  }
+
   return (
     <div className="border mb-10 overflow-auto lg:w-[80vw] rounded-lg lg:min-h-fit">
+      {(isPending || uplaoding) && <AppSpiner bgColor="bg-foreground/50" />}
       <div className="p-6 flex justify-between items-center lg:flex-row flex-col gap-4">
         <div className="flex gap-5">
           <div className="relative ">
             <img
               alt="profile"
               src={`${
-                userData?.userData?.profile ? "profile.jpg" : "no-user.png"
+                userData?.userData?.profile
+                  ? userData?.userData?.profile
+                  : "no-user.png"
               }`}
               className="h-20 w-20 lg:w-28 lg:h-28 rounded-full"
             />
             <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
-              <TbPhotoEdit className="w-4 h-4" />
+              <input
+                type="file"
+                className="hidden"
+                id="fileClick"
+                onChange={(e: any) => {
+                  if (e?.target?.files[0]) uploadImage(e?.target?.files[0]);
+                }}
+              />
+              <TbPhotoEdit
+                className="w-4 h-4"
+                onClick={() => {
+                  document.getElementById("fileClick")?.click();
+                }}
+              />
             </div>
           </div>
           <div className="flex flex-col justify-center gap-1">
@@ -55,9 +105,6 @@ function Profile() {
               <p className="text-lg">Hyderabad, India – 3:01 am local time</p>
             </div>
           </div>
-        </div>
-        <div>
-          <Button className="py-6 px-10">Account Settings</Button>
         </div>
       </div>
 
@@ -172,11 +219,9 @@ function Profile() {
           <div className="px-7 py-5">
             <div className="flex items-center justify-between">
               <h3 className="font-medium text-3xl">
-                {(userRole === "CLIENT"
-                  ? userData?.userAccountData?.companyName
-                  : userData?.userAccountData?.title) ?? userRole === "CLIENT"
-                  ? "Add company name"
-                  : "Add a headline"}
+                {userRole === "CLIENT"
+                  ? userData?.userAccountData?.companyName ?? "Add company name"
+                  : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
               <MdEditNote
                 onClick={() => {
@@ -186,7 +231,9 @@ function Profile() {
               />
             </div>
             <p className="text-lg pr-5 mt-3">
-              {userData?.userAccountData?.description ?? userRole === "CLIENT"
+              {userData?.userAccountData?.description
+                ? userData?.userAccountData?.description
+                : userRole === "CLIENT"
                 ? "Add summary about company."
                 : "Add summary about yourself."}
             </p>
@@ -210,12 +257,12 @@ function Profile() {
                   />
                 </div>
               </div>
-              <div className="grid  lg:grid-cols-6 gap-2 mt-3">
+              <div className="grid  lg:grid-cols-5 gap-2 mt-3">
                 {userData?.userAccountData?.skills?.map(
                   (skill: { name: string }, index: number) => (
                     <div
                       key={index}
-                      className="px-5 py-1 rounded-full  border bg-background shadow-sm text-lg w-fit"
+                      className="px-5 py-1 rounded-full  border bg-background shadow-sm text-lg h-fit max-h-20 w-[9vw] text-wrap break-words"
                     >
                       {skill?.name}
                     </div>
