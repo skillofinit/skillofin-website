@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FiSearch } from "react-icons/fi";
-import { BsBell } from "react-icons/bs";
+import { FiSearch, FiMenu } from "react-icons/fi";
 import {
   Popover,
   PopoverContent,
@@ -9,10 +9,7 @@ import {
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { FaRegUserCircle } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { SiCircle } from "react-icons/si";
-import { PiUserListLight } from "react-icons/pi";
 import { FaAngleDown } from "react-icons/fa6";
 import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
@@ -20,173 +17,331 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
 import { useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
   const { userData } = useAppContext();
   const { isPending, updateProfile } = useUpdateProfile();
 
+  // For mobile menu toggling
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileFinanceOpen, setMobileFinanceOpen] = useState(false);
+
   function onOnlineChange(value: boolean) {
     updateProfile({
       method: "online",
-      data: {
-        value,
-      },
+      data: { value },
     });
   }
 
   return (
-    <div className="w-full justify-between flex items-center px-4 py-2 ">
+    <div className="w-full relative">
       {isPending && <AppSpiner bgColor="bg-foreground/40" />}
-      <div className="flex items-center gap-8">
-        <img
-          onClick={() => {
-            navigate("/dashboard");
-          }}
-          src="Skillofin-Logo.png"
-          alt="skillofin logo"
-          className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
-        />
-        <div className="flex items-center gap-5">
+
+      {/* Desktop Navbar – visible on md and larger screens */}
+      <div className="hidden md:flex justify-between items-center px-4 py-2">
+        <div className="flex items-center gap-8">
+          <img
+            onClick={() => navigate("/dashboard")}
+            src="Skillofin-Logo.png"
+            alt="skillofin logo"
+            className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
+          />
+          <div className="flex items-center gap-5">
+            <div>
+              <Popover>
+                <PopoverTrigger>
+                  <div className="flex items-center gap-1">
+                    <div className="text-[15px]">Manage finances</div>
+                    <FaAngleDown className="w-3 h-3 mt-1" />
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 mt-3">
+                  <div className="my-2">
+                    <div
+                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      onClick={() => navigate("/reports")}
+                    >
+                      <TbReportSearch className="w-5 h-5 ml-1" />
+                      <p>Your reports</p>
+                    </div>
+                    <div
+                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      onClick={() => navigate("/withdraw")}
+                    >
+                      <GiReceiveMoney className="w-5 h-5 ml-1" />
+                      <p>Withdraw earnings</p>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div
+              onClick={() => navigate("/messages")}
+              className="text-[15px] cursor-pointer"
+            >
+              Messages
+            </div>
+            <div
+              onClick={() => navigate("/jobs")}
+              className="text-[15px] cursor-pointer"
+            >
+              Jobs
+            </div>
+          </div>
+        </div>
+
+        <div className="h-full flex gap-4 justify-center items-center">
+          <div className="flex items-center">
+            <div className="mt-4">
+              <Input
+                iconName="search"
+                placeholder="Search Jobs"
+                className="h-8 w-[20vw]"
+              />
+            </div>
+            <Button className="px-2 h-8">
+              <FiSearch />
+            </Button>
+          </div>
+
           <div>
             <Popover>
               <PopoverTrigger>
-                <div className="flex items-center gap-1">
-                  <div className="text-[15px]">Manage finances</div>
-                  <FaAngleDown className="w-3 h-3 mt-1" />
+                <div className="cursor-pointer rounded-full h-10 w-10 flex items-center justify-center border">
+                  <img
+                    alt="profile"
+                    src={
+                      userData?.userData?.profile
+                        ? "profile.jpg"
+                        : "no-user.png"
+                    }
+                    className="rounded-full h-10 w-10"
+                  />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="p-0 mt-3">
-                <div className="my-2">
-                  <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                    <TbReportSearch className="w-5 h-5 ml-1" />
-                    <p>Your reports</p>
+              <PopoverContent className="mr-4 p-0">
+                <div className="flex flex-col gap-1">
+                  <div
+                    className="flex p-2 lg:hover:bg-foreground/5 items-center gap-4 cursor-pointer mt-3"
+                    onClick={() => navigate("/myprofile")}
+                  >
+                    <img
+                      alt="profile"
+                      src={
+                        userData?.userData?.profile
+                          ? "profile.jpg"
+                          : "no-user.png"
+                      }
+                      className="rounded-full h-10 w-10"
+                    />
+                    <div className="flex flex-col">
+                      <h5 className="text-lg">
+                        {userData?.userData?.firstName +
+                          " " +
+                          userData?.userData?.lastName}
+                      </h5>
+                      <p className="text-foreground/70 -mt-1">
+                        {userData?.userData?.role?.charAt(0).toUpperCase() +
+                          userData?.userData?.role?.slice(1).toLowerCase()}
+                      </p>
+                    </div>
                   </div>
-                  <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                    <GiReceiveMoney className="w-5 h-5 ml-1" />
-                    <p>Withdraw earnings</p>
+
+                  <div className="flex items-center justify-between px-3">
+                    <p>Online for messages</p>
+                    <div>
+                      <Switch
+                        value={userData?.userData?.online}
+                        onCheckedChange={onOnlineChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
+
+                  <div
+                    onClick={() => navigate("/myprofile")}
+                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                  >
+                    <FaRegUserCircle className="w-5 h-5 ml-1" />
+                    <p>Your profile</p>
+                  </div>
+
+                  <div className="w-full bg-foreground/10 h-[1px]"></div>
+                  <div
+                    className="text-destructive mb-1 px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                    onClick={() => {
+                      /* handle logout */
+                    }}
+                  >
+                    <RiLogoutCircleLine className="w-5 h-5 ml-1" />
+                    <p>Logout</p>
                   </div>
                 </div>
               </PopoverContent>
             </Popover>
           </div>
-          <div onClick={()=>{navigate("/messages")}} className="text-[15px]  cursor-pointer">Messages</div>
-          <div className="text-[15px]  cursor-pointer">Jobs</div>
         </div>
       </div>
 
-      <div className="h-full flex gap-4 jutify-center items-center">
-        <div className="flex items-center">
-          <div className="mt-4">
-            <Input
-              iconName="search"
-              placeholder="Search Jobs"
-              className="h-8 w-[20vw]"
-            />
-          </div>
-          <Button className="px-2 h-8">
-            <FiSearch />
-          </Button>
+      {/* Mobile Navbar – visible on small screens */}
+      <div className="flex md:hidden flex-col">
+        {/* Top bar */}
+        <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
+          <img
+            onClick={() => navigate("/dashboard")}
+            src="Skillofin-Logo.png"
+            alt="Skillofin logo"
+            className="cursor-pointer w-32"
+          />
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-xl"
+          >
+            {mobileMenuOpen ? <IoIosCloseCircleOutline className="w-7 h-7" /> : <FiMenu />}
+          </button>
         </div>
-        <div>
-          <Popover>
-            <PopoverTrigger>
-              <div className=" cursor-pointer rounded-full h-10 w-10 flex items-center justify-center  text-foreground relative">
-                <div className="absolute top-1 right-1 clear-start text-[8px] text-background bg-destructive rounded-full w-4 h-4  flex items-center justify-center">
-                  10
+        {mobileMenuOpen && (
+          <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit">
+            {/* Search Bar */}
+            <div className="flex items-center gap-2">
+              <Input
+                placeholder="Search Jobs"
+                iconName="search"
+                className="h-8 flex-1"
+              />
+              <Button className="px-2 h-8 -mt-4">
+                <FiSearch />
+              </Button>
+            </div>
+            {/* Navigation Links */}
+            <div className="flex flex-col space-y-3">
+              {/* Manage Finances with submenu */}
+              <div>
+                <div
+                  className="flex items-center justify-between cursor-pointer text-[15px]"
+                  onClick={() => setMobileFinanceOpen(!mobileFinanceOpen)}
+                >
+                  <span>Manage Finances</span>
+                  <FaAngleDown
+                    className={`w-3 h-3 mt-1 transform transition-transform duration-200 ${
+                      mobileFinanceOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </div>
-                <BsBell className="w-5 h-5" />
+                {mobileFinanceOpen && (
+                  <div className="mt-2 pl-4 space-y-2">
+                    <div
+                      onClick={() => {
+                        navigate("/reports");
+                        setMobileMenuOpen(false);
+                      }}
+                      className="flex items-center gap-2 text-[15px] cursor-pointer"
+                    >
+                      <TbReportSearch className="w-5 h-5" />
+                      <span>Your Reports</span>
+                    </div>
+                    <div
+                      onClick={() => {
+                        navigate("/withdraw");
+                        setMobileMenuOpen(false);
+                      }}
+                      className="flex items-center gap-2 text-[15px] cursor-pointer"
+                    >
+                      <GiReceiveMoney className="w-5 h-5" />
+                      <span>Withdraw Earnings</span>
+                    </div>
+                  </div>
+                )}
               </div>
-            </PopoverTrigger>
-            <PopoverContent className="mr-4">
-              <div>See all notifications</div>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div>
-          <Popover>
-            <PopoverTrigger>
-              <div className=" cursor-pointer rounded-full h-10 w-10 flex items-center justify-center  border">
-                <img
-                  alt="profile"
-                  src={`${
-                    userData?.userData?.profile ? "profile.jpg" : "no-user.png"
-                  }`}
-                  className="rounded-full h-10 w-10"
-                />
+              <div
+                onClick={() => {
+                  navigate("/messages");
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[15px] cursor-pointer"
+              >
+                Messages
               </div>
-            </PopoverTrigger>
-            <PopoverContent className="mr-4 p-0">
-              <div className="flex flex-col  gap-1">
-                <div className="flex p-2 lg:hover:bg-foreground/5  items-center gap-4  cursor-pointer mt-3">
+              <div
+                onClick={() => {
+                  navigate("/jobs");
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[15px] cursor-pointer"
+              >
+                Jobs
+              </div>
+            </div>
+            {/* Notifications and Profile Section */}
+            <div className="border-t pt-4">
+              <div className="mt-4 space-y-3">
+                <div
+                  className="flex items-center gap-4 cursor-pointer"
+                  onClick={() => {
+                    navigate("/myprofile");
+                    setMobileMenuOpen(false);
+                  }}
+                >
                   <img
                     alt="profile"
-                    src={`${
+                    src={
                       userData?.userData?.profile
                         ? "profile.jpg"
                         : "no-user.png"
-                    }`}
+                    }
                     className="rounded-full h-10 w-10"
                   />
-                  <div className="flex flex-col ">
+                  <div className="flex flex-col">
                     <h5 className="text-lg">
                       {userData?.userData?.firstName +
                         " " +
                         userData?.userData?.lastName}
                     </h5>
-                    <p className="text-foreground/70 -mt-1">
+                    <p className="text-foreground/70 text-[15px]">
                       {userData?.userData?.role?.charAt(0).toUpperCase() +
                         userData?.userData?.role?.slice(1).toLowerCase()}
                     </p>
                   </div>
                 </div>
+                <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                <div className="flex items-center justify-between px-3">
-                  <p>Online for messages</p>
-                  <div>
-                    <Switch
-                      value={userData?.userData?.online}
-                      onCheckedChange={onOnlineChange}
-                    />
-                  </div>{" "}
+                <div className="flex items-center justify-between px-2">
+                  <span className="text-[15px]">Online for messages</span>
+                  <Switch
+                    value={userData?.userData?.online}
+                    onCheckedChange={onOnlineChange}
+                  />
                 </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                 <div
                   onClick={() => {
                     navigate("/myprofile");
+                    setMobileMenuOpen(false);
                   }}
-                  className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
                 >
-                  <FaRegUserCircle className="w-5 h-5 ml-1" />
-                  <p>Your profile</p>
+                  <FaRegUserCircle className="w-5 h-5" />
+                  <span>Your Profile</span>
                 </div>
+                <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                  <SiCircle className="w-5 h-5 ml-1" />
-                  <p>Connects</p>
-                </div>
-                <div className="w-full bg-foreground/10 h-[1px]"></div>
-
-                <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                  <IoSettingsOutline className="w-5 h-5 ml-1" />
-                  <p>Account settings</p>
-                </div>
-
-                <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                  <PiUserListLight className="w-5 h-5 ml-1" />
-                  <p>Membership plans</p>
-                </div>
-
-                <div className="w-full bg-foreground/10 h-[1px]"></div>
-                <div className="text-destructive mb-1 px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                  <RiLogoutCircleLine className="w-5 h-5 ml-1" />
-                  <p>Logout</p>
+                <div
+                  onClick={() => {
+                    /* handle logout */
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 text-[15px] text-destructive cursor-pointer"
+                >
+                  <RiLogoutCircleLine className="w-5 h-5" />
+                  <span>Logout</span>
                 </div>
               </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
