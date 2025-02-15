@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/select";
 import { FaAsterisk } from "react-icons/fa";
 import { Textarea } from "@/components/ui/textarea";
-import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
+import { useUpdateProfile } from "@/hooks/userHooks";
 
 interface ConfigureDialoginterface {
   method: "add" | "edit";
@@ -35,7 +35,9 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
     setError,
   } = useForm();
   const { errors } = formState;
-  const [skills, setSkills] = useState<string[]>([]);
+  const [skills, setSkills] = useState<{ name: string }[]>([]);
+
+  const { isPending, updateProfile } = useUpdateProfile();
 
   function getTitle(): string {
     switch (comp) {
@@ -66,7 +68,19 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
   }
 
   function onSubmit(e: any) {
-    console.log(e);
+    updateProfile(
+      {
+        method: comp,
+        data: e,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            onClose();
+          }
+        },
+      }
+    );
   }
 
   return (
@@ -87,7 +101,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   errorMessage={errors?.costPerHour?.message}
                 />
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>
@@ -127,7 +141,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   {errors?.description?.message as string}
                 </div>
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>
@@ -163,7 +177,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                 />
 
                 <Input
-                  placeholder="Company name"
+                  placeholder="To date"
                   iconName="date"
                   {...register("toDate", {
                     required: "Please enter To date",
@@ -190,7 +204,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   {errors?.description?.message as string}
                 </div>
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>
@@ -226,7 +240,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                 />
 
                 <Input
-                  placeholder="Company name"
+                  placeholder="To date"
                   iconName="date"
                   {...register("toDate", {
                     required: "Please enter To date",
@@ -253,7 +267,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   {errors?.description?.message as string}
                 </div>
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>
@@ -266,7 +280,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
           {comp === "skills" && (
             <div className="flex  flex-col items-center gap-4">
               <div className="flex gap-10 items-center">
-                <div className=" w-[15vw] flex">
+                <div className=" lg:w-[15vw] flex">
                   <Input
                     value={watch("skills") ?? ""}
                     id="skills"
@@ -292,35 +306,42 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                 {watch("skills") && (
                   <IoMdCheckmark
                     onClick={() => {
-                      setSkills([...skills, watch("skills")]);
+                      setSkills([
+                        ...skills,
+                        {
+                          name: watch("skills"),
+                        },
+                      ]);
                       setValue("skills", "");
                     }}
                     className="h-10 cursor-pointer -mt-4 w-10 p-2 rounded-md bg-constructive text-background"
                   />
                 )}
-                {skills.length > 0 &&
-                  (watch("skills") === "false" || !watch("skills")) && (
-                    <FiPlus
-                      onClick={() => {
-                        document.getElementById("skills")?.click();
-                      }}
-                      className="h-10 cursor-pointer -mt-4 w-10 p-2 rounded-md bg-primary text-background"
-                    />
-                  )}
               </div>
               <div className="grid grid-cols-4 gap-3">
-                {skills?.map((skill, index) => {
-                  return (
-                    <div
-                      className="border  shadow-sm px-3 py-1 rounded-full flex items-center justify-center text-center"
-                      key={index}
-                    >
-                      {skill}
-                    </div>
-                  );
-                })}
+                {skills?.map(
+                  (
+                    skill: {
+                      name: string;
+                    },
+                    index: number
+                  ) => {
+                    return (
+                      <div
+                        className="border  shadow-sm px-3 py-1 rounded-full flex items-center justify-center text-center"
+                        key={index}
+                      >
+                        {skill.name}
+                      </div>
+                    );
+                  }
+                )}
               </div>
-              <Button disabled={skills?.length === 0} className="h-11 px-5   ">
+              <Button
+                isPending={isPending}
+                disabled={skills?.length === 0}
+                className="h-11 px-5   "
+              >
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>
@@ -330,8 +351,8 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
             </div>
           )}
           {comp === "title" && (
-            <div className="flex w-[40vw]  flex-col items-center gap-4">
-              <div className=" w-full flex flex-col gap-3 ">
+            <div className=" w-[80vw] flex lg:w-[40vw]  flex-col items-center gap-4">
+              <div className=" w-full  flex flex-col gap-3 ">
                 <Input
                   className="h-14"
                   placeholder="Headline"
@@ -360,9 +381,8 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   </div>
                 </div>
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
-                  {" "}
                   <h4>Save</h4>
                   <IoCloudDoneOutline />
                 </div>
@@ -370,11 +390,11 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
             </div>
           )}
           {comp === "languages" && (
-            <div className="flex  flex-col items-center gap-4 w-[40vw]">
-              <div className=" w-full flex gap-6">
+            <div className="flex  flex-col items-center gap-4 lg:w-[40vw]">
+              <div className=" w-full flex flex-col lg:flex-row  gap-6">
                 <Input
                   placeholder="language name"
-                  iconName="dlr"
+                  iconName="language"
                   {...register("language", {
                     required: "Please enter  language name",
                   })}
@@ -415,7 +435,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
                   </div>
                 </div>
               </div>
-              <Button className="h-11 px-5   ">
+              <Button isPending={isPending} className="h-11 px-5   ">
                 <div className="flex  gap-3 items-center">
                   {" "}
                   <h4>Save</h4>

@@ -19,7 +19,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
 
   const { temp } = useAppContext();
   const { isPending, signup } = useSignup();
-  const navigate = useNavigate()
+  const navigate = useNavigate(); 
 
   function handleSignUp(e: any) {
     signup(
@@ -27,9 +27,9 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
         emailId: e.emailId,
         firstName: e.firstName,
         password: e.password,
-        role:"freelancer",
+        role: temp === "Client" ? "client" : "freelancer",
         lastName: e.lastName,
-        otp:e?.otp ?? null,
+        otp: e?.otp ?? null,
       },
       {
         onSuccess(data) {
@@ -128,7 +128,14 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
           </div>
           <div className="flex items-center ml-4">
             <p className="text">Already have an account?</p>
-            <Button onClick={()=>{navigate("/login")}} type="button" className="-ml-1" variant={"link"}>
+            <Button
+              onClick={() => {
+                navigate("/login");
+              }}
+              type="button"
+              className="-ml-1"
+              variant={"link"}
+            >
               Log In
             </Button>
           </div>

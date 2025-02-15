@@ -47,20 +47,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, isPending, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <div className="flex">
+      <div className="flex items-center gap-3">
         <Comp
           disabled={isPending}
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref}
           {...props}
         >
-          <div className="flex items-center gap-6 relative">
-            {props.children}
-            <div className="absolute -right-8 animate-spin">
-              {isPending && <FaSpinner />}
-            </div>
-          </div>
+          <div className="flex items-center gap-6 ">{props.children}</div>
         </Comp>
+        {isPending && (
+          <div>{isPending && <FaSpinner className=" animate-spin" />}</div>
+        )}
       </div>
     );
   }

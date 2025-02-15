@@ -17,7 +17,7 @@ function DashBoardMain() {
     <div className="w-full">
       {isPending && <AppSpiner />}
       <DashboardNavBar />
-      <div className="px-4">
+      <div className="px-4">z
         <div className="pl-10 mt-10">
           <DashBoardHighlightCard />
         </div>

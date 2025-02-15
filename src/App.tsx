@@ -7,6 +7,7 @@ import Home from "./features/home/Home";
 import DashBoardMain from "./features/dashboard/DashBoardMain";
 import MyProfileMain from "./features/myprofile/MyProfileMain";
 import ProtectedLayout from "./features/dashboard/ProtectedRoute";
+import MessagesMain from "./features/messages/MessagesMain";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route element={<ProtectedLayout />}>
               <Route path="/dashboard" element={<DashBoardMain />} />
               <Route path="/myprofile" element={<MyProfileMain />} />
+              <Route path="/messages" element={<MessagesMain />} />
             </Route>
           </Routes>
         </BrowserRouter>

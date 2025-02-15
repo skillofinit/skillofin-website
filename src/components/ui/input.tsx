@@ -14,6 +14,7 @@ import { CiSearch, CiCalendarDate } from "react-icons/ci";
 import { FaDollarSign, FaAsterisk, FaRegBuilding } from "react-icons/fa";
 import { BiMinusBack } from "react-icons/bi";
 import { SiPolymerproject } from "react-icons/si";
+import { IoLanguage } from "react-icons/io5";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -53,8 +54,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return <FaRegBuilding className="w-4 h-4 text-foreground" />;
       } else if (iconName === "education") {
         return <IoSchoolSharp className="w-4 h-4 text-foreground" />;
-      } else if (iconName === "project") {
+      } 
+      else if (iconName === "project") {
         return <SiPolymerproject className="w-4 h-4 text-foreground" />;
+      }
+      else if (iconName === "language") {
+        return <IoLanguage className="w-4 h-4 text-foreground" />;
       }
     }
 

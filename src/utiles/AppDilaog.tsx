@@ -15,7 +15,7 @@ function AppDialog({
   title,
 }: AppdialogInterface) {
   return (
-    <div className="w-[100vw] h-[100vh] fixed inset-0 z-[998] bg-foreground/40 backdrop-blur-md flex items-center justify-center">
+    <div className="w-[100vw] h-[100vh] fixed inset-0 z-[998] bg-foreground/40 backdrop-blur-md flex items-center p-2 justify-center">
       <div className="min-w-[30vw] min-h-[30vh] bg-background  rounded-lg fex flex-col gap-2 ">
         <div className="bg-foreground/5 flex  py-2 items-center justify-between ">
           <h4 className="text-lg font-semibold pl-4">{title}</h4>

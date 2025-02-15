@@ -18,16 +18,31 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
+import { useUpdateProfile } from "@/hooks/userHooks";
+import AppSpiner from "@/utiles/AppSpiner";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
   const { userData } = useAppContext();
+  const { isPending, updateProfile } = useUpdateProfile();
 
-  console.log();
+  function onOnlineChange(value: boolean) {
+    updateProfile({
+      method: "online",
+      data: {
+        value,
+      },
+    });
+  }
+
   return (
     <div className="w-full justify-between flex items-center px-4 py-2 ">
+      {isPending && <AppSpiner bgColor="bg-foreground/40" />}
       <div className="flex items-center gap-8">
-        <img onClick={()=>{navigate("/dashboard")}}
+        <img
+          onClick={() => {
+            navigate("/dashboard");
+          }}
           src="Skillofin-Logo.png"
           alt="skillofin logo"
           className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
@@ -55,7 +70,7 @@ function DashboardNavBar() {
               </PopoverContent>
             </Popover>
           </div>
-          <div className="text-[15px]  cursor-pointer">Messages</div>
+          <div onClick={()=>{navigate("/messages")}} className="text-[15px]  cursor-pointer">Messages</div>
           <div className="text-[15px]  cursor-pointer">Jobs</div>
         </div>
       </div>
@@ -129,7 +144,10 @@ function DashboardNavBar() {
                 <div className="flex items-center justify-between px-3">
                   <p>Online for messages</p>
                   <div>
-                    <Switch className="" />
+                    <Switch
+                      value={userData?.userData?.online}
+                      onCheckedChange={onOnlineChange}
+                    />
                   </div>{" "}
                 </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
