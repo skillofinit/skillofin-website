@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { FaAsterisk } from "react-icons/fa";
+import { usePostJob } from "@/hooks/userHooks";
 
 interface PostJobDialogInterface {
   onClose: () => void;
@@ -25,6 +26,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
     handleSubmit,
     formState: { errors },
   } = useForm<JobPostFormValues>();
+  const { isPending, postJob } = usePostJob();
 
   const onSubmit = (data: JobPostFormValues) => {
     // Transform the comma-separated skills string into an array
@@ -34,10 +36,9 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
       .filter((skill) => skill.length > 0);
     const formData = { ...data, skills: skillsArray };
 
-    console.log("Job post data:", formData);
-    // TODO: Call your API to post the job using formData
+    postJob(formData);
 
-    onClose();
+    // onClose();
   };
 
   return (
@@ -148,7 +149,9 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit">Post Job</Button>
+          <Button isPending={isPending} type="submit">
+            Post Job
+          </Button>
         </div>
       </form>
     </AppDialog>

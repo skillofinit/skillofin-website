@@ -61,3 +61,14 @@ export async function logoutAPI() {
   const serverData = await response.json();
   return serverData;
 }
+export async function postJobAPI(data:any) {
+  const response = await fetch(BASE_URL + "/postjob", {
+    method: "post",
+    body: JSON.stringify({
+      ...data,
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}

@@ -2,6 +2,7 @@
 import {
   getMeAPI,
   logoutAPI,
+  postJobAPI,
   sendMessageAPI,
   updateProfileAPI,
   uplaodProfieImageAPI,
@@ -101,7 +102,7 @@ export function useSendMessage() {
       }
     },
     onError(err) {
-      console.log(err)
+      console.log(err);
       toast({
         duration: 3000,
         variant: "destructive",
@@ -170,4 +171,30 @@ export function useLogout() {
     },
   });
   return { isPending, logout };
+}
+export function usePostJob() {
+  const { toast } = useToast();
+
+  const { mutate: postJob, isPending } = useMutation({
+    mutationFn: (data: any) => postJobAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: "Job posted successfully",
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, postJob };
 }

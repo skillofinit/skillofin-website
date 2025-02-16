@@ -29,7 +29,9 @@ function Messaging() {
     if (selectedMessageKey && messages !== undefined) {
       const socketUrl = `wss://websocketconnect-b5o4.onrender.com/?senderEmail=${userData?.userData?.emailId}&receiverEmail=${selectedMessageKey}`;
       const socket = new WebSocket(socketUrl);
-
+      socket.onopen = () => {
+        setWs(socket);
+      };
       socket.onmessage = (event: MessageEvent) => {
         const [sender, msgContent] = event.data.split(":");
         setMessages((prevMessages) => [
@@ -49,8 +51,6 @@ function Messaging() {
           }
         }, 200);
       };
-
-      setWs(socket);
 
       return () => {
         socket.close();
@@ -76,6 +76,10 @@ function Messaging() {
     );
   }, [userData, selectedMessageKey]);
 
+  useEffect(() => {
+    console.log(ws?.readyState, WebSocket.OPEN);
+  }, [ws]);
+
   function handleMessageUserClick(key: string) {
     setSelectedMessageKey(key.replace(/\_/g, "."));
   }
@@ -99,6 +103,7 @@ function Messaging() {
       }
     );
   }
+  // console.log(ws && ws.readyState , WebSocket.OPEN)
 
   return (
     <div className="h-[80vh] w-[100vw]  lg:min-w-[80vw] flex  lg:border lg:shadow-lg">
@@ -204,21 +209,24 @@ function Messaging() {
             {/* Chat Input */}
             <form onSubmit={handleSubmit(handleOnSubmitClick)}>
               <div className="px-5 py-2 border-t  gap-2 bg-background flex flex-col  items-center">
-                <div>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      getMe();
-                    }}
-                    variant={"outline"}
-                    isPending={isLoading}
-                    className=" p-2 rounded-md h-7 "
-                  >
-                    <div className="flex items-center gap-2">
-                      Refresh <IoIosRefresh />
-                    </div>
-                  </Button>
-                </div>
+                {ws?.readyState !== WebSocket.OPEN && (
+                  <div>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        getMe();
+                      }}
+                      variant={"outline"}
+                      isPending={isLoading}
+                      className=" p-2 rounded-md h-7 "
+                    >
+                      <div className="flex items-center gap-2">
+                        <IoIosRefresh className={"animate-spin"} />
+                      </div>
+                    </Button>
+                  </div>
+                )}
+
                 <div className="flex  w-full items-center gap-4">
                   <div className="flex flex-col w-full">
                     <Textarea
@@ -232,12 +240,15 @@ function Messaging() {
                       {errors?.message?.message as string}
                     </div>
                   </div>
-                  <Button
-                    isPending={isPending}
-                    className=" text-white p-2 rounded-md "
-                  >
-                    Send <IoSend size={20} />
-                  </Button>
+                  {ws?.readyState === WebSocket.OPEN && selectedMessageKey && (
+                    <Button
+                    
+                      isPending={isPending || (ws?.readyState !== WebSocket.OPEN)}
+                      className=" text-white p-2 rounded-md "
+                    >
+                      Send <IoSend size={20} />
+                    </Button>
+                  )}
                 </div>
               </div>
             </form>
