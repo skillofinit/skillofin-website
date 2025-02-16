@@ -36,7 +36,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
         lastName: e.lastName,
         otp: e?.otp ?? null,
         countryCode: country?.alpha3,
-        corrency: country?.currencies[0],
+        currency: country?.currencies[0],
         countryName: country?.name,
       },
       {

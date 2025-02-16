@@ -18,16 +18,18 @@ import { useAppContext } from "@/utiles/AppContext";
 import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import PostJobDialog from "./PostJobDialog";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
-  const { userData } = useAppContext();
+  const { userData, userRole } = useAppContext();
   const { isPending, updateProfile } = useUpdateProfile();
 
   // For mobile menu toggling
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFinanceOpen, setMobileFinanceOpen] = useState(false);
   const { isPending: isLoading, logout } = useLogout();
+  const [open, setOpen] = useState<boolean>(false);
 
   function onOnlineChange(value: boolean) {
     updateProfile({
@@ -39,8 +41,13 @@ function DashboardNavBar() {
     logout();
   }
 
+  function onClose() {
+    setOpen(false);
+  }
+
   return (
     <div className="w-full relative">
+      {open && <PostJobDialog onClose={onClose} />}
       {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/40" />}
 
       {/* Desktop Navbar – visible on md and larger screens */}
@@ -97,18 +104,28 @@ function DashboardNavBar() {
         </div>
 
         <div className="h-full flex gap-4 justify-center items-center">
-          <div className="flex items-center">
-            <div className="mt-4">
-              <Input
-                iconName="search"
-                placeholder="Search Jobs"
-                className="h-8 w-[20vw]"
-              />
+          {userRole === "CLIENT" ? (
+            <div
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              <Button>Post Job</Button>
             </div>
-            <Button className="px-2 h-8">
-              <FiSearch />
-            </Button>
-          </div>
+          ) : (
+            <div className="flex items-center">
+              <div className="mt-4">
+                <Input
+                  iconName="search"
+                  placeholder="Search Jobs"
+                  className="h-8 w-[20vw]"
+                />
+              </div>
+              <Button className="px-2 h-8">
+                <FiSearch />
+              </Button>
+            </div>
+          )}
 
           <div>
             <Popover>
@@ -213,16 +230,26 @@ function DashboardNavBar() {
         {mobileMenuOpen && (
           <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit">
             {/* Search Bar */}
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="Search Jobs"
-                iconName="search"
-                className="h-8 flex-1"
-              />
-              <Button className="px-2 h-8 -mt-4">
-                <FiSearch />
-              </Button>
-            </div>
+            {userRole === "CLIENT" ? (
+              <div
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                <Button>Post Job</Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Input
+                  placeholder="Search Jobs"
+                  iconName="search"
+                  className="h-8 flex-1"
+                />
+                <Button className="px-2 h-8 -mt-4">
+                  <FiSearch />
+                </Button>
+              </div>
+            )}
             {/* Navigation Links */}
             <div className="flex flex-col space-y-3">
               {/* Manage Finances with submenu */}

@@ -21,6 +21,42 @@ function Messaging() {
   const messagesEndRef = useRef(null);
   const { getMe, isPending: isLoading } = useGetMe();
 
+  const [messages, setMessages] = useState<any[]>([]);
+  const [ws, setWs] = useState<WebSocket | null>(null);
+
+  useEffect(() => {
+    if (selectedMessageKey && messages !== undefined) {
+      const socketUrl = `wss://websocketconnect-b5o4.onrender.com/?senderEmail=${userData?.userData?.emailId}&receiverEmail=${selectedMessageKey}`;
+      const socket = new WebSocket(socketUrl);
+
+      socket.onmessage = (event: MessageEvent) => {
+        const [sender, msgContent] = event.data.split(":");
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            sender: sender.replace(/\./g, "_"),
+            receiver: userData?.userData?.emailId,
+            content: msgContent,
+          },
+        ]);
+        setTimeout(() => {
+          if (messagesEndRef.current) {
+            (messagesEndRef.current as any)?.scrollIntoView({
+              behavior: "smooth",
+              block: "end",
+            });
+          }
+        }, 200);
+      };
+
+      setWs(socket);
+
+      return () => {
+        socket.close();
+      };
+    }
+  }, [selectedMessageKey, messages]); // This can be optimized as mentioned below
+
   useEffect(() => {
     setSelectedMessageUser(
       userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
@@ -33,6 +69,10 @@ function Messaging() {
         });
       }
     }, 200);
+    setMessages(
+      userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
+        ?.messages ?? []
+    );
   }, [userData, selectedMessageKey]);
 
   function handleMessageUserClick(key: string) {
@@ -48,6 +88,10 @@ function Messaging() {
       {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
+            if (ws) {
+              const messageToSend = `${userData?.userData?.emailId}:${e?.message}`;
+              ws.send(messageToSend);
+            }
             reset();
           }
         },
@@ -138,11 +182,11 @@ function Messaging() {
 
             {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4 h-[30vh]">
-              {selectedMessageUser?.messages.map((msg: any, index: number) => (
+              {messages?.map((msg: any, index: number) => (
                 <div
                   key={index}
                   className={`p-3 w-fit rounded-lg ${
-                    msg?.receiver.replace(/\_/g, ".") !==
+                    msg?.sender?.replace(/\_/g, ".") ===
                     userData?.userData?.emailId
                       ? "bg-primary text-white ml-auto"
                       : "bg-foreground/5 text-gray-800"
