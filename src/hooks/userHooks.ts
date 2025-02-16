@@ -100,7 +100,8 @@ export function useSendMessage() {
         });
       }
     },
-    onError() {
+    onError(err) {
+      console.log(err)
       toast({
         duration: 3000,
         variant: "destructive",

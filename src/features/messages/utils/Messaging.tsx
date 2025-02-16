@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { IoSend } from "react-icons/io5";
 import { IoIosRefresh } from "react-icons/io";
 import { BiLeftArrowAlt } from "react-icons/bi";
+import AnimatedImage from "@/utils/AnimatedImage";
 
 function Messaging() {
   const { userData } = useAppContext();
@@ -120,13 +121,14 @@ function Messaging() {
               className="px-6 py-3 cursor-pointer hover:bg-foreground/5 lg:border-b flex justify-between items-center w-[100vw] lg:w-full bg-foreground/5 lg:bg-background"
             >
               <div className="flex items-center gap-4 relative w-full">
-                <img
-                  alt="profile"
+                <AnimatedImage
                   src={
                     userData?.userData?.messages[key]?.profile ?? "no-user.webp"
                   }
-                  className="w-12 h-12 rounded-full border object-cover"
+                  alt="profile"
+                  className="h-12 w-12 rounded-full border object-cover"
                 />
+
                 <div className="flex justify-between w-full items-center">
                   <div className="flex flex-col">
                     <h3 className="text-lg font-medium">
@@ -170,10 +172,10 @@ function Messaging() {
                   setSelectedMessageKey("");
                 }}
               />
-              <img
-                alt="profile"
+              <AnimatedImage
                 src={selectedMessageUser?.profile ?? "no-user.webp"}
-                className="w-12 h-12 rounded-full border object-cover"
+                alt="profile"
+                className="h-12 w-12 rounded-full border object-cover"
               />
               <h3 className="text-xl font-medium">
                 {selectedMessageUser?.name}

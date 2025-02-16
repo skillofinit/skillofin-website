@@ -44,7 +44,8 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
     <AppDialog
       onClose={onClose}
       title="Post a Job"
-      className="animate-slide-in-right"
+      className="h-[90vh]"
+      startFromRight
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-4">
         {/* Job Title */}
@@ -56,6 +57,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
             Job Title
           </label>
           <Input
+            mandatory
             id="title"
             placeholder="Enter job title"
             {...register("title", { required: "Job title is required" })}
@@ -105,11 +107,9 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
             type="number"
             placeholder="Cost per hour"
             iconName="dlr"
-            mandatory
             {...register("costPerHour", {
-              required: "Please enter cost per hour",
+              required: false,
             })}
-            errorMessage={errors?.costPerHour?.message}
           />
         </div>
 
@@ -127,9 +127,8 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
             placeholder="Enter contract amount"
             iconName="dlr"
             {...register("contractAmount", {
-              required: "Contract amount is required",
+              required: false,
             })}
-            errorMessage={errors?.contractAmount?.message}
           />
         </div>
 
@@ -144,8 +143,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
           <Input
             id="skills"
             placeholder="Enter skills separated by commas"
-            {...register("skills", { required: "Please list required skills" })}
-            errorMessage={errors?.skills?.message}
+            {...register("skills", { required: false })}
           />
         </div>
 
