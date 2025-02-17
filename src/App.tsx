@@ -8,6 +8,7 @@ import DashBoardMain from "./features/dashboard/DashBoardMain";
 import MyProfileMain from "./features/myprofile/MyProfileMain";
 import ProtectedLayout from "./features/dashboard/ProtectedRoute";
 import MessagesMain from "./features/messages/MessagesMain";
+import MyJobsMain from "./features/myjobs/MyJobsMain";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/dashboard" element={<DashBoardMain />} />
               <Route path="/myprofile" element={<MyProfileMain />} />
               <Route path="/messages" element={<MessagesMain />} />
+              <Route path="/myjobs" element={<MyJobsMain />} />
             </Route>
           </Routes>
         </BrowserRouter>
