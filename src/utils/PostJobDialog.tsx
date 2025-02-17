@@ -15,7 +15,6 @@ interface JobPostFormValues {
   title: string;
   description: string;
   costPerHour: number;
-  level: "basic" | "fluent" | "intermediate" | "native";
   contractAmount: number;
   skills: string; // Comma-separated skills (will be converted to an array)
 }
@@ -36,9 +35,11 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
       .filter((skill) => skill.length > 0);
     const formData = { ...data, skills: skillsArray };
 
-    postJob(formData);
-
-    // onClose();
+    postJob(formData, {
+      onSuccess(data) {
+        if (data?.message === "SUCCESS") onClose();
+      },
+    });
   };
 
   return (

@@ -19,6 +19,7 @@ import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "./PostJobDialog";
+import { BsPersonWorkspace } from "react-icons/bs";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
@@ -188,6 +189,19 @@ function DashboardNavBar() {
                     <FaRegUserCircle className="w-5 h-5 ml-1" />
                     <p>Your profile</p>
                   </div>
+                  {userRole === "CLIENT" && (
+                    <div className="w-full bg-foreground/10 h-[1px]"></div>
+                  )}
+
+                  {userRole === "CLIENT" && (
+                    <div
+                      onClick={() => navigate("/myjobs")}
+                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                    >
+                      <BsPersonWorkspace className="w-5 h-5 ml-1" />
+                      <p>My jobs</p>
+                    </div>
+                  )}
 
                   <div className="w-full bg-foreground/10 h-[1px]"></div>
                   <div
@@ -228,7 +242,7 @@ function DashboardNavBar() {
           </button>
         </div>
         {mobileMenuOpen && (
-          <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit">
+          <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit z-[998] ">
             {/* Search Bar */}
             {userRole === "CLIENT" ? (
               <div
@@ -361,6 +375,19 @@ function DashboardNavBar() {
                   <FaRegUserCircle className="w-5 h-5" />
                   <span>Your Profile</span>
                 </div>
+                {userRole === "CLIENT" && (
+                  <div className="w-full bg-foreground/10 h-[1px]"></div>
+                )}
+
+                {userRole === "CLIENT" && (
+                  <div
+                    onClick={() => navigate("/myjobs")}
+                    className="flex items-center gap-2 text-[15px] cursor-pointer"
+                  >
+                    <BsPersonWorkspace className="w-5 h-5 " />
+                    <p>My jobs</p>
+                  </div>
+                )}
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                 <div
