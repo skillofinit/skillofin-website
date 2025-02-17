@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  getJobsAPI,
   getMeAPI,
   logoutAPI,
   postJobAPI,
@@ -197,4 +198,25 @@ export function usePostJob() {
     },
   });
   return { isPending, postJob };
+}
+export function useGetJobs() {
+  const { toast } = useToast();
+
+  const {
+    mutate: getJobs,
+    isPending,
+    data,
+  } = useMutation({
+    mutationFn: () => getJobsAPI(),
+
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, getJobs, data };
 }

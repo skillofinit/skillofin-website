@@ -72,3 +72,8 @@ export async function postJobAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
+export async function getJobsAPI() {
+  const response = await fetch(BASE_URL + "/jobs");
+  const serverData = await response.json();
+  return serverData;
+}

@@ -15,16 +15,29 @@ import { FaDollarSign, FaAsterisk, FaRegBuilding } from "react-icons/fa";
 import { BiMinusBack } from "react-icons/bi";
 import { SiPolymerproject } from "react-icons/si";
 import { IoLanguage } from "react-icons/io5";
+import { X } from "lucide-react";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   iconName?: string;
   mandatory?: boolean;
   errorMessage?: any;
+  clearCallBack?: () => void;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, iconName, mandatory, errorMessage, ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      iconName,
+      mandatory,
+      errorMessage,
+      clearCallBack,
+      ...props
+    },
+    ref
+  ) => {
     function getIcon(): any {
       if (iconName === "emailId") {
         return <MdOutlineEmail className="w-4 h-4 text-foreground" />;
@@ -54,11 +67,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return <FaRegBuilding className="w-4 h-4 text-foreground" />;
       } else if (iconName === "education") {
         return <IoSchoolSharp className="w-4 h-4 text-foreground" />;
-      } 
-      else if (iconName === "project") {
+      } else if (iconName === "project") {
         return <SiPolymerproject className="w-4 h-4 text-foreground" />;
-      }
-      else if (iconName === "language") {
+      } else if (iconName === "language") {
         return <IoLanguage className="w-4 h-4 text-foreground" />;
       }
     }
@@ -66,7 +77,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         <div className="flex flex-row w-full items-center gap-1">
-          <div className=" flex items-center gap-2 border border-foreground/60 rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring ">
+          <div className=" flex items-center gap-2 border border-foreground/60 rounded-md w-full px-2  focus-within:ring-1 focus-within:ring-ring relative ">
             <div> {iconName && getIcon()}</div>
             <div className="w-full">
               <input
@@ -79,6 +90,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 {...props}
               />
             </div>
+            {clearCallBack && (
+              <div className="absolute  right-1" onClick={clearCallBack}>
+                <X className="h-8 w-8 rounded-full p-2 cursor-pointer lg:hover:bg-foreground/5" />
+              </div>
+            )}
           </div>
           <div className="h-2 w-2">
             {mandatory ? (
