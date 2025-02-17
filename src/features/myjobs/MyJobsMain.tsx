@@ -2,6 +2,7 @@ import { useGetMe } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import DashboardNavBar from "@/utils/DashboardNavBar";
 import { useEffect } from "react";
+import MyJobs from "./utils/MyJobs";
 
 function MyJobsMain() {
   const { isPending, getMe } = useGetMe();
@@ -15,15 +16,7 @@ function MyJobsMain() {
       {isPending && <AppSpiner />}
       <DashboardNavBar />
 
-      <div className="">
-        <div className="border min-w-[90vw] rounded-md min-h-[80vh] flex">
-
-
-            <div className="w-[30vw] border-r"></div>
-
-
-        </div>
-      </div>
+      <MyJobs />
     </div>
   );
 }

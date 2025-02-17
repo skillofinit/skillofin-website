@@ -20,3 +20,27 @@ export function getEmailId(): string {
   const emailId = decodeString(localStorage.getItem("authToken") ?? "");
   return emailId ?? "";
 }
+
+export function timeAgo(isoDate: string): string {
+  const now = new Date();
+  const past = new Date(isoDate);
+  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+  if (diffInSeconds < 60) return "Just now";
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes} min ago`;
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours} hr ago`;
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 30)
+    return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
+
+  const diffInMonths = Math.floor(diffInDays / 30);
+  return `${diffInMonths} month${diffInMonths > 1 ? "s" : ""} ago`;
+}
+
+export function truncateString(str: string, maxLength: number): string {
+  return str.length <= maxLength ? str : str.slice(0, maxLength) + "...";
+}
