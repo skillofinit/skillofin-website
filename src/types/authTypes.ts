@@ -6,6 +6,6 @@ export type userSignUpPayloadType = {
   otp?: string;
   role: "freelancer" | "client";
   countryCode: string;
-  corrency: string;
+  currency: string;
   countryName: string;
 };
