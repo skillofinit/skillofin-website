@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/components/ui/button";
 import { MdEditNote, MdOutlineLocationOn } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { FiPlus } from "react-icons/fi";
@@ -82,7 +81,7 @@ function Profile() {
   }
 
   return (
-    <div className="border mb-10 overflow-auto lg:w-[80vw] rounded-lg lg:min-h-fit">
+    <div className="border mb-10 overflow-auto w-[95vw] lg:w-[80vw] rounded-lg lg:min-h-fit">
       {(isPending || uplaoding || gettingUserDetails) && (
         <AppSpiner bgColor="bg-foreground/50" />
       )}
@@ -160,7 +159,7 @@ function Profile() {
           )}
 
           {/* Connects */}
-          {userRole !== "CLIENT" && (
+          {/* {userRole !== "CLIENT" && (
             <div className="p-5">
               <div className="p-5 gap-5 bg-background shadow-sm border rounded-lg flex flex-col">
                 <div className="text-xl ml-4 font-medium">
@@ -173,10 +172,10 @@ function Profile() {
                 </div>
               </div>
             </div>
-          )}
-          {userRole !== "CLIENT" && (
+          )} */}
+          {/* {userRole !== "CLIENT" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
-          )}
+          )} */}
 
           {/* Cost per Hour */}
           {userRole !== "CLIENT" && (
@@ -282,12 +281,12 @@ function Profile() {
                   />
                 </div>
               </div>
-              <div className="grid  lg:grid-cols-5 gap-2 mt-3">
+              <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 mt-3">
                 {userData?.userAccountData?.skills?.map(
                   (skill: { name: string }, index: number) => (
                     <div
                       key={index}
-                      className="px-5 py-1 rounded-full  border bg-background shadow-sm text-lg h-fit max-h-20 w-[9vw] text-wrap break-words"
+                      className="px-5 py-1 rounded-full  border bg-background shadow-sm text-lg h-fit max-h-20 lg:w-[9vw] text-wrap break-words"
                     >
                       {skill?.name}
                     </div>

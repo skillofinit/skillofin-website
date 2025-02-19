@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { FaAsterisk } from "react-icons/fa";
-import { usePostJob } from "@/hooks/userHooks";
+import { useGetMe, usePostJob } from "@/hooks/userHooks";
 
 interface PostJobDialogInterface {
   onClose: () => void;
@@ -26,6 +26,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
     formState: { errors },
   } = useForm<JobPostFormValues>();
   const { isPending, postJob } = usePostJob();
+  const { getMe, isPending: isLoading } = useGetMe();
 
   const onSubmit = (data: JobPostFormValues) => {
     // Transform the comma-separated skills string into an array
@@ -37,7 +38,15 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
 
     postJob(formData, {
       onSuccess(data) {
-        if (data?.message === "SUCCESS") onClose();
+        if (data?.message === "SUCCESS") {
+          getMe(undefined, {
+            onSuccess(data) {
+              if (data?.message === "SUCCESS") {
+                onClose();
+              }
+            },
+          });
+        }
       },
     });
   };
@@ -49,7 +58,10 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
       className="h-[90vh]"
       startFromRight
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-4 w-[90vw] lg:w-[30vw]">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-3 p-4 w-[90vw] lg:w-[30vw]"
+      >
         {/* Job Title */}
         <div className="space-y-1">
           <label
@@ -150,7 +162,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
         </div>
 
         <div className="flex justify-end">
-          <Button isPending={isPending} type="submit">
+          <Button isPending={isPending || isLoading} type="submit">
             Post Job
           </Button>
         </div>

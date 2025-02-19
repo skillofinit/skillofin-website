@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const { userData } = useAppContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="w-full  h-full flex flex-col gap-10">
-      <div className="flex flex-row px-20 gap-10 justify-between">
-        <div className="w-[80%]  min-h-[100vh] flex flex-col gap-4">
+      <div className="flex flex-row  px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-between">
+        <div className=" lg:w-[80%]  min-h-[100vh] flex flex-col gap-4">
           <DashBoardHighlightCard />
 
           <div className="grid grid-cols-1 gap-5">
@@ -29,7 +29,7 @@ function Dashboard() {
               ) => (
                 <div
                   key={index}
-                  className=" border shadow-md p-4 w-[30vw] rounded-lg bg-white flex flex-col gap-2"
+                  className=" border shadow-md p-4 lg:w-[30vw] rounded-lg bg-white flex flex-col gap-2"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gray-300 rounded-full">
@@ -39,7 +39,7 @@ function Dashboard() {
                       />
                     </div>
                     <div className="font-semibold">@{post?.emailId}</div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-xs lg:text-sm  text-gray-500">
                       • {timeAgo(post?.createdAt)}
                     </div>
                   </div>
@@ -66,23 +66,41 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="w-[30%] gap-4 h-fit p-4 flex flex-col border rounded-lg">
+        <div className="w-[30%] gap-4 h-fit p-4 lg:flex flex-col border rounded-lg hidden">
           <div className="text-xl font-semibold">Quick Links</div>
-          <div className="gap-3 flex flex-wrap">
-            <Button className="w-fit" variant="outline" onClick={()=>{navigate("/createpost")}}>
+          <div className="gap-3 grid grid-cols-3  ">
+            <Button
+              className="w-[10vw]"
+              variant="outline"
+              onClick={() => {
+                navigate("/createpost");
+              }}
+            >
               Create Post
             </Button>
-            <Button className="w-fit" variant="outline">
+
+
+            <Button
+              className="w-[10vw]"
+              variant="outline"
+              onClick={() => {
+                navigate("/myjobs");
+              }}
+            >
+              My jobs
+            </Button>
+
+            <Button onClick={()=>{navigate("/myprofile")}} className="w-[10vw]" variant="outline">
               My Profile
             </Button>
-            <Button className="w-fit" variant="outline">
+            <Button className="w-[10vw]" variant="outline" onClick={()=>{navigate("/messages")}} >
               Messages
             </Button>
           </div>
         </div>
       </div>
       <div className="pb-5">
-        <HomeFooter/>
+        <HomeFooter />
       </div>
     </div>
   );

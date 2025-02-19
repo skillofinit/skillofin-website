@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createPostAPI,
+  deletePostedAPI,
   getJobsAPI,
   getMeAPI,
   logoutAPI,
@@ -277,4 +278,30 @@ export function useCreatePost() {
     },
   });
   return { isPending, createPost };
+}
+export function usePostedDelete() {
+  const { toast } = useToast();
+
+  const { mutate: deletePosted, isPending } = useMutation({
+    mutationFn: (data: any) => deletePostedAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: `Successfully uploaded job post`,
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, deletePosted };
 }

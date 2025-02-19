@@ -9,16 +9,23 @@ import { Badge } from "@/components/ui/badge";
 import { MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AppDialog from "@/utiles/AppDilaog";
+import { MdDelete } from "react-icons/md";
+import { useGetMe, usePostedDelete } from "@/hooks/userHooks";
+import AppSpiner from "@/utiles/AppSpiner";
 
 function MyJobs() {
   const { userData, dispatch } = useAppContext();
   const [selectedJob, setSelectedJob] = useState<jobPostType | undefined>();
   const [selectedBid, setSelectedBid] = useState<IBid | undefined>();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const { deletePosted, isPending } = usePostedDelete();
+  const { getMe, isPending: isLoading } = useGetMe();
 
   function handleOnProjectClick(data: jobPostType) {
     setSelectedJob(data);
     setSelectedBid(undefined);
+    setOpen(true);
   }
 
   function handleOnBidClick(bid: IBid) {
@@ -42,96 +49,138 @@ function MyJobs() {
     }, 300);
   }
 
+  function handleDeleteJob() {
+    deletePosted(
+      { method: "job", id: selectedJob?.id },
+      {
+        onSettled(data) {
+          if (data?.message === "SUCCESS") {
+            getMe(undefined);
+            setSelectedJob(undefined);
+          }
+        },
+      }
+    );
+  }
+
   return (
     <div className="p-6">
-      <div className=" w-[90vw]  border h-[80vh] flex shadow-md rounded-md">
-        {/* Left Section - List of Jobs */}
-        <div className="w-[30vw] border-r ">
-          {userData?.userAccountData?.postedProjects?.map(
-            (jobPost: jobPostType, index: number) => (
-              <PostedJobCard
-                onClick={handleOnProjectClick}
-                jobDetails={jobPost}
-                key={index}
-              />
-            )
-          )}
-        </div>
+      {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/50" />}
+      {userData?.userAccountData?.postedProjects?.length === 0 && (
+        <div className="w-full h-full text-xl items-center justify-center flex min-h-[70vh]">No jobs posted</div>
+      )}
 
-        {/* Right Section - Job Details and Bids */}
-        <div className="flex flex-col w-full h-full items-center justify-center  p-1">
-          {!selectedJob ? (
-            <div className="text-xl text-center mt-10 text-gray-600">
-              Select a posted job to view details
-            </div>
-          ) : (
-            <div className="space-y-6 h-[80vh] overflow-auto w-[70vw] p-2">
-              {/* Job Details */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-2xl">
-                    {selectedJob.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600">{selectedJob.description}</p>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="outline">
-                      Budget: ${selectedJob.budget}
-                    </Badge>
-                    <div className="flex gap-2">
-                      {selectedJob?.skillsRequired?.map(
-                        (skill: string, index: number) => {
-                          return (
-                            <div key={index} className="py-1 px-3 bg-foreground/5 rounded-full">
-                              {skill}
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+      {userData?.userAccountData?.postedProjects?.length > 0 && (
+        <div className=" w-[90vw]  border h-[80vh] flex shadow-md rounded-md">
+          {/* Left Section - List of Jobs */}
+          <div
+            className={` lg:w-[30vw] lg:border-r ${
+              !open ? "flex flex-col " : "hidden lg:flex lg:flex-col"
+            } `}
+          >
+            {userData?.userAccountData?.postedProjects?.map(
+              (jobPost: jobPostType, index: number) => (
+                <PostedJobCard
+                  onClick={handleOnProjectClick}
+                  jobDetails={jobPost}
+                  key={index}
+                />
+              )
+            )}
+          </div>
 
-              {/* Bids Section */}
-              <div>
-                <h3 className="text-xl font-semibold">Bids Received</h3>
-                {selectedJob.bids.length === 0 ? (
-                  <p className="text-gray-500">No bids yet.</p>
-                ) : (
-                  <ul className="space-y-3">
-                    {selectedJob.bids.map((bid, index) => (
-                      <li
-                        key={index}
-                        className={`p-3 border rounded-md flex justify-between items-center cursor-pointer ${
-                          selectedBid === bid
-                            ? "bg-blue-100"
-                            : "hover:bg-gray-100"
-                        }`}
-                        onClick={() => handleOnBidClick(bid)}
-                      >
-                        <div className="flex flex-col gap-2">
-                          <p className="font-medium">{bid.freelancerEmail}</p>
-                          <p className="text-sm">
-                            <span className="font-semibold">Bid Amount: </span>$
-                            {bid.bidAmount}
-                          </p>
-
-                          <p className="text-sm ">
-                            <span className="font-semibold">Cover letter:</span>{" "}
-                            ${bid.coverLetter}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+          {/* Right Section - Job Details and Bids */}
+          <div
+            className={` flex-col w-full h-full items-center justify-center  p-1  ${
+              open ? "flex" : "hidden lg:flex"
+            }`}
+          >
+            {!selectedJob ? (
+              <div className="text-xl text-center mt-10 text-gray-600">
+                Select a posted job to view details
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="space-y-6 h-[80vh] overflow-auto w-[90vw] lg:w-[70vw] p-2">
+                {/* Job Details */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-2xl justify-between flex items-center">
+                      <div>{selectedJob.title}</div>
+                      <div>
+                        <MdDelete
+                          onClick={handleDeleteJob}
+                          className="text-destructive cursor-pointer bg-foreground/5 h-8 w-8 p-1 rounded-md"
+                        />
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">{selectedJob.description}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="outline">
+                        Budget: ${selectedJob.budget}
+                      </Badge>
+                      <div className="lg:flex gap-3 flex-col lg:flex-row">
+                        {selectedJob?.skillsRequired?.map(
+                          (skill: string, index: number) => {
+                            return (
+                              <div
+                                key={index}
+                                className="py-1 px-3 bg-foreground/5 rounded-full "
+                              >
+                                {skill}
+                              </div>
+                            );
+                          }
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Bids Section */}
+                <div>
+                  <h3 className="text-xl font-semibold">Bids Received</h3>
+                  {selectedJob.bids.length === 0 ? (
+                    <p className="text-gray-500">No bids yet.</p>
+                  ) : (
+                    <ul className="space-y-3">
+                      {selectedJob.bids.map((bid, index) => (
+                        <li
+                          key={index}
+                          className={`p-3 border rounded-md flex justify-between items-center cursor-pointer ${
+                            selectedBid === bid
+                              ? "bg-blue-100"
+                              : "hover:bg-gray-100"
+                          }`}
+                          onClick={() => handleOnBidClick(bid)}
+                        >
+                          <div className="flex flex-col gap-2">
+                            <p className="font-medium">{bid.freelancerEmail}</p>
+                            <p className="text-sm">
+                              <span className="font-semibold">
+                                Bid Amount:{" "}
+                              </span>
+                              ${bid.bidAmount}
+                            </p>
+
+                            <p className="text-sm ">
+                              <span className="font-semibold">
+                                Cover letter:
+                              </span>{" "}
+                              ${bid.coverLetter}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       {selectedBid && (
         <AppDialog
           title="Bid Details"

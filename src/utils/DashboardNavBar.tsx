@@ -18,7 +18,7 @@ import { useAppContext } from "@/utiles/AppContext";
 import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import PostJobDialog from "./PostJobDialog";
+import PostJobDialog from "../features/jobs/utils/PostJobDialog";
 import { BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
 
 function DashboardNavBar() {

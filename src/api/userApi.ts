@@ -101,3 +101,14 @@ export async function createPostAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
+export async function deletePostedAPI(data:any) {
+  const response = await fetch(BASE_URL + "/delete", {
+    method: "post",
+    body: JSON.stringify({
+      ...data,
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
