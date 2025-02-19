@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  createPostAPI,
   getJobsAPI,
   getMeAPI,
   logoutAPI,
@@ -16,15 +17,19 @@ import { useNavigate } from "react-router-dom";
 
 export function useGetMe() {
   const { dispatch } = useAppContext();
+  let providedEmailId: string | undefined = undefined;
 
   const {
     isPending,
     data,
     mutate: getMe,
   } = useMutation({
-    mutationFn: () => getMeAPI(),
+    mutationFn: (emailId?: string) => {
+      providedEmailId = emailId;
+      return getMeAPI(emailId);
+    },
     onSuccess(data) {
-      if (data?.message === "SUCCESS") {
+      if (data?.message === "SUCCESS" && !providedEmailId) {
         dispatch({
           type: "setUser",
           payload: {
@@ -103,8 +108,7 @@ export function useSendMessage() {
         });
       }
     },
-    onError(err) {
-      console.log(err);
+    onError() {
       toast({
         duration: 3000,
         variant: "destructive",
@@ -247,4 +251,30 @@ export function useSubmitBid() {
     },
   });
   return { isPending, submitBid };
+}
+export function useCreatePost() {
+  const { toast } = useToast();
+
+  const { mutate: createPost, isPending } = useMutation({
+    mutationFn: (data: any) => createPostAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: "Successfully uploaded post",
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, createPost };
 }

@@ -49,7 +49,7 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
       className="h-[90vh]"
       startFromRight
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-4 w-[90vw] lg:w-[30vw]">
         {/* Job Title */}
         <div className="space-y-1">
           <label

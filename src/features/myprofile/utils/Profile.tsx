@@ -4,20 +4,43 @@ import { MdEditNote, MdOutlineLocationOn } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { FiPlus } from "react-icons/fi";
 import { useAppContext } from "@/utiles/AppContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfigureDialog from "./ConfigureDialog";
 import { useToast } from "@/components/ui/use-toast";
-import { useUplaodProfileImage } from "@/hooks/userHooks";
+import { useGetMe, useUplaodProfileImage } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
+import { useLocation } from "react-router-dom";
 
 function Profile() {
-  const { userData, userRole } = useAppContext();
+  const { userData: myData, userRole: myRole } = useAppContext();
   const [openDialog, setOpendilog] = useState<boolean>(false);
   const [method, setMethod] = useState<"add" | "edit" | undefined>(undefined);
   const [comp, setComp] = useState<string | undefined>(undefined);
   const { toast } = useToast();
   const { isPending, uplaodProfileImage } = useUplaodProfileImage();
   const [uplaoding, setUploading] = useState<boolean>(false);
+
+  const [userData, setUserData] = useState<any>();
+  const [userRole, setUserRole] = useState<any>();
+
+  const { state } = useLocation();
+  const { getMe, isPending: gettingUserDetails } = useGetMe();
+
+  useEffect(() => {
+    if (state?.emailId) {
+      getMe(state?.emailId, {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            setUserData(data?.data);
+            setUserRole(data?.data?.userData?.role);
+          }
+        },
+      });
+    } else {
+      setUserData(myData);
+      setUserRole(myRole);
+    }
+  }, []);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -60,7 +83,9 @@ function Profile() {
 
   return (
     <div className="border mb-10 overflow-auto lg:w-[80vw] rounded-lg lg:min-h-fit">
-      {(isPending || uplaoding) && <AppSpiner bgColor="bg-foreground/50" />}
+      {(isPending || uplaoding || gettingUserDetails) && (
+        <AppSpiner bgColor="bg-foreground/50" />
+      )}
       <div className="p-6 flex justify-between items-center lg:flex-row flex-col gap-4">
         <div className="flex gap-5">
           <div className="relative ">

@@ -18,9 +18,9 @@ function AppDialog({
 }: AppdialogInterface) {
   return (
     <div
-      className={`w-[100vw] h-[100vh] fixed inset-0 z-[998] bg-foreground/40 backdrop-blur-md flex p-2 ${
+      className={`w-[100vw] h-[100vh] fixed inset-0 z-[999] bg-foreground/40 backdrop-blur-md flex p-2  ${
         startFromRight
-          ? "items-center  justify-end"
+          ? "lg:items-center  lg:justify-end"
           : "justify-center  items-center "
       }`}
     >
@@ -32,7 +32,7 @@ function AppDialog({
             className="w-8 h-8 bg-foreground/5 mr-2 cursor-pointer flex items-center justify-center p-2 rounded-full lg:hover:bg-foreground/10"
           />
         </div>
-        <div className="p-4 overflow-auto max-h-[100vh] max-w-[90vw] ">
+        <div className="p-4 overflow-auto max-h-[100vh] max-w-[100vw] ">
           {<div className={`${className}`}>{children}</div>}
         </div>
       </div>

@@ -223,7 +223,7 @@ function Messaging() {
                     <Button
                       type="button"
                       onClick={() => {
-                        getMe();
+                        getMe(undefined);
                       }}
                       variant={"outline"}
                       isPending={isLoading}

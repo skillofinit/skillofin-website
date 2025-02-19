@@ -25,7 +25,6 @@ function FreelancerJobs() {
     if (!jobListings)
       getJobs(undefined, {
         onSuccess(data) {
-          console.log(data);
           if (data?.message === "SUCCESS") {
             setJobs(data?.jobs);
           }

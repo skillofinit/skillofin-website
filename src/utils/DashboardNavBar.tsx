@@ -19,7 +19,7 @@ import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "./PostJobDialog";
-import { BsPersonWorkspace } from "react-icons/bs";
+import { BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
@@ -95,12 +95,14 @@ function DashboardNavBar() {
             >
               Messages
             </div>
-            <div
-              onClick={() => navigate("/jobs")}
-              className="text-[15px] cursor-pointer"
-            >
-              Jobs
-            </div>
+            {userRole !== "CLIENT" && (
+              <div
+                onClick={() => navigate("/jobs")}
+                className="text-[15px] cursor-pointer"
+              >
+                Jobs
+              </div>
+            )}
           </div>
         </div>
 
@@ -202,6 +204,13 @@ function DashboardNavBar() {
                       <p>My jobs</p>
                     </div>
                   )}
+                  <div
+                      onClick={() => navigate("/createpost")}
+                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                    >
+                      <BsPostcardHeart className="w-5 h-5 ml-1" />
+                      <p>Create Post</p>
+                    </div>
 
                   <div className="w-full bg-foreground/10 h-[1px]"></div>
                   <div
@@ -388,6 +397,13 @@ function DashboardNavBar() {
                     <p>My jobs</p>
                   </div>
                 )}
+                <div
+                    onClick={() => navigate("/createpost")}
+                    className="flex items-center gap-2 text-[15px] cursor-pointer"
+                  >
+                    <BsPostcardHeart className="w-5 h-5 " />
+                    <p>Create post</p>
+                  </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                 <div

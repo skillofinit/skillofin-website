@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BASE_URL } from "@/utiles/appUtils";
 
-export async function getMeAPI() {
+export async function getMeAPI(emailId?:string) {
   const response = await fetch(BASE_URL + "/getme", {
     method: "post",
     body: JSON.stringify({
       authToken: localStorage.getItem("authToken"),
+      emailId
     }),
   });
   const serverData = await response.json();
@@ -80,6 +81,17 @@ export async function getJobsAPI() {
 }
 export async function submitBidAPI(data:any) {
   const response = await fetch(BASE_URL + "/bid", {
+    method: "post",
+    body: JSON.stringify({
+      ...data,
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
+export async function createPostAPI(data:any) {
+  const response = await fetch(BASE_URL + "/post", {
     method: "post",
     body: JSON.stringify({
       ...data,

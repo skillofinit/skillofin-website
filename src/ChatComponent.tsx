@@ -9,21 +9,13 @@ const ChatComponent: React.FC = () => {
 
   useEffect(() => {
     if (senderEmail && receiverEmail && senderEmail !== receiverEmail) {
-      // Add sender and receiver emails as query parameters
       const socketUrl = `ws://localhost:5000?senderEmail=${senderEmail}&receiverEmail=${receiverEmail}`;
       const socket = new WebSocket(socketUrl);
-      socket.onopen = () => {
-        console.log("WebSocket connected");
-      };
 
       socket.onmessage = (event: MessageEvent) => {
         setMessages((prevMessages) => [...prevMessages, event.data]);
       };
-      setWs(socket);
-
-      socket.onclose = () => {
-        console.log("WebSocket disconnected");
-      };
+      setWs(socket)
 
       return () => {
         socket.close();

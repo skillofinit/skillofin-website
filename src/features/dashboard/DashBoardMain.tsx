@@ -1,27 +1,23 @@
-import DashBoardHighlightCard from "./utils/DashBoardHighlightCard";
 import DashboardNavBar from "../../utils/DashboardNavBar";
 import { useGetMe } from "@/hooks/userHooks";
 import { useEffect } from "react";
 import AppSpiner from "@/utiles/AppSpiner";
+import Dashboard from "./utils/Dashboard";
 
 function DashBoardMain() {
   const { getMe, isPending, data } = useGetMe();
 
   useEffect(() => {
     if (!data?.data) {
-      getMe();
+      getMe(undefined);
     }
   }, [data]);
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col overflow-auto  ">
       {isPending && <AppSpiner />}
       <DashboardNavBar />
-      <div className="px-4">
-        <div className="pl-10 mt-10">
-          <DashBoardHighlightCard />
-        </div>
-      </div>
+      <Dashboard />
     </div>
   );
 }

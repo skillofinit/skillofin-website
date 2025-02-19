@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 function DashBoardHighlightCard() {
   return (
-    <div className="border  w-[60vw] min-h-[30vh] rounded-md bg-primary text-background flex  p-5">
+    <div className="border  w-[50vw]rounded-md bg-primary text-background flex  p-5">
       <div className="flex flex-col justify-between gap-20">
         <div className="text-3xl font-serif  ">
           Zero commission fees for first 100 freelancers in any category for one

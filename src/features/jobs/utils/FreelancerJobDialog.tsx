@@ -23,8 +23,6 @@ function FreelancerJobDialog({ onClose, job }: FreelancerJobDialogProps) {
   const { isPending, submitBid } = useSubmitBid();
 
   const onSubmit = (data: BidFormValues) => {
-    // In a real application, send the bid to your API
-    console.log("Bid submitted:", data);
     submitBid({
       ...data,
       projectId:job.id

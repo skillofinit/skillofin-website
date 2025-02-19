@@ -32,7 +32,6 @@ function Login() {
       },
       {
         onSuccess(data) {
-          console.log(data);
           if (data?.message === "OTP_SUCCESS") {
             setStep(1);
           }

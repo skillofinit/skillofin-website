@@ -8,7 +8,7 @@ function MyJobsMain() {
   const { isPending, getMe } = useGetMe();
 
   useEffect(() => {
-    getMe();
+    getMe(undefined);
   }, []);
 
   return (

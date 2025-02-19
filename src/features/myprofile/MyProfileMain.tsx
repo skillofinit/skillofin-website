@@ -5,27 +5,21 @@ import { useEffect } from "react";
 import AppSpiner from "@/utiles/AppSpiner";
 
 function MyProfileMain() {
-  const {data,getMe,isPending} = useGetMe()
-  useEffect(()=>{
-    if(!data){
-      getMe()
+  const { data, getMe, isPending } = useGetMe();
+  useEffect(() => {
+    if (!data) {
+      getMe(undefined);
     }
-  },[])
+  }, []);
 
   return (
     <div className="w-full h-[100vh] flex flex-col overflow-auto">
-      {
-        isPending && <AppSpiner bgColor="bg-foreground/50" />
-      }
-      
+      {isPending && <AppSpiner bgColor="bg-foreground/50" />}
       <DashboardNavBar />
 
       <div className="flex items-center justify-center h-fit mt-10">
         <Profile />
-
       </div>
-
-
     </div>
   );
 }

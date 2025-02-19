@@ -37,37 +37,37 @@ function reducer(state: contextType, action: dispatchDataType) {
         loggedIn: action?.payload?.loggedIn,
         userRole: action?.payload?.data?.userData?.role ?? undefined,
         userData: action.payload?.data ?? undefined,
+        posts: action?.payload?.posts,
       };
 
-      case "addMessages": {
-        const receiverKey = action.payload.receiverEmail.replace(/\./g, "_");
-      
-        return {
-          ...state,
+    case "addMessages": {
+      const receiverKey = action.payload.receiverEmail.replace(/\./g, "_");
+
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
           userData: {
-            ...state.userData,
-            userData: {
-              ...state.userData?.userData,
-              messages: {
-                ...((state.userData?.userData?.messages ?? {})), // Ensure messages exist
-                [receiverKey]: {
-                  ...(state.userData?.userData?.messages?.[receiverKey] || {
-                    messages: [],
-                    name: action.payload.receiverName || "Unknown",
-                    profile: action.payload.receiverProfile || "",
-                    read: 0,
-                  }),
-                  messages: [
-                    ...(state.userData?.userData?.messages?.[receiverKey]?.messages ||
-                      []),
-                  ],
-                },
+            ...state.userData?.userData,
+            messages: {
+              ...(state.userData?.userData?.messages ?? {}), // Ensure messages exist
+              [receiverKey]: {
+                ...(state.userData?.userData?.messages?.[receiverKey] || {
+                  messages: [],
+                  name: action.payload.receiverName || "Unknown",
+                  profile: action.payload.receiverProfile || "",
+                  read: 0,
+                }),
+                messages: [
+                  ...(state.userData?.userData?.messages?.[receiverKey]
+                    ?.messages || []),
+                ],
               },
             },
           },
-        };
-      }
-      
+        },
+      };
+    }
 
     default:
       throw new Error("Action unkonwn");

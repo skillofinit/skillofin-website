@@ -10,6 +10,7 @@ import ProtectedLayout from "./features/dashboard/ProtectedRoute";
 import MessagesMain from "./features/messages/MessagesMain";
 import MyJobsMain from "./features/myjobs/MyJobsMain";
 import JobsMain from "./features/jobs/JobsMain";
+import CreatePost from "./features/createpost/CreatePost";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -24,9 +25,11 @@ function App() {
             <Route element={<ProtectedLayout />}>
               <Route path="/dashboard" element={<DashBoardMain />} />
               <Route path="/myprofile" element={<MyProfileMain />} />
+              <Route path="/profile" element={<MyProfileMain />} />
               <Route path="/messages" element={<MessagesMain />} />
               <Route path="/myjobs" element={<MyJobsMain />} />
               <Route path="/jobs" element={<JobsMain />} />
+              <Route path="/createpost" element={<CreatePost />} />
             </Route>
           </Routes>
         </BrowserRouter>
