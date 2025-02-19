@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { jobPostType } from "@/types/jobTypes";
 import { FiDollarSign } from "react-icons/fi";
+import { useSubmitBid } from "@/hooks/userHooks";
 
 interface FreelancerJobDialogProps {
   onClose: () => void;
@@ -19,11 +20,23 @@ interface BidFormValues {
 function FreelancerJobDialog({ onClose, job }: FreelancerJobDialogProps) {
   const { register, handleSubmit, formState } = useForm<BidFormValues>();
   const { errors } = formState;
+  const { isPending, submitBid } = useSubmitBid();
 
   const onSubmit = (data: BidFormValues) => {
     // In a real application, send the bid to your API
     console.log("Bid submitted:", data);
-    onClose();
+    submitBid({
+      ...data,
+      projectId:job.id
+
+    },{
+      onSuccess(data) {
+          if(data?.message === "SUCCESS"){
+            onClose()
+          }
+      },
+    });
+    // onClose();
   };
 
   return (
@@ -104,7 +117,9 @@ function FreelancerJobDialog({ onClose, job }: FreelancerJobDialogProps) {
               </div>
             </div>
             <div className="flex justify-end">
-              <Button type="submit">Submit Bid</Button>
+              <Button isPending={isPending} type="submit">
+                Submit Bid
+              </Button>
             </div>
           </form>
         </div>

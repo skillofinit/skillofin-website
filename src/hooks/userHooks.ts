@@ -5,6 +5,7 @@ import {
   logoutAPI,
   postJobAPI,
   sendMessageAPI,
+  submitBidAPI,
   updateProfileAPI,
   uplaodProfieImageAPI,
 } from "@/api/userApi";
@@ -219,4 +220,31 @@ export function useGetJobs() {
     },
   });
   return { isPending, getJobs, data };
+}
+
+export function useSubmitBid() {
+  const { toast } = useToast();
+
+  const { mutate: submitBid, isPending } = useMutation({
+    mutationFn: (data: any) => submitBidAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: "Bid submitted successfully",
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, submitBid };
 }

@@ -9,6 +9,7 @@ import { IoSend } from "react-icons/io5";
 import { IoIosRefresh } from "react-icons/io";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import AnimatedImage from "@/utils/AnimatedImage";
+import { useLocation } from "react-router-dom";
 
 function Messaging() {
   const { userData } = useAppContext();
@@ -24,6 +25,16 @@ function Messaging() {
 
   const [messages, setMessages] = useState<any[]>([]);
   const [ws, setWs] = useState<WebSocket | null>(null);
+  const {state} = useLocation()
+
+  useEffect(()=>{
+    if(state?.emailId){
+      setSelectedMessageKey(state?.emailId)
+    }
+
+  },[state])
+
+
 
   useEffect(() => {
     if (selectedMessageKey && messages !== undefined) {
@@ -76,9 +87,6 @@ function Messaging() {
     );
   }, [userData, selectedMessageKey]);
 
-  useEffect(() => {
-    console.log(ws?.readyState, WebSocket.OPEN);
-  }, [ws]);
 
   function handleMessageUserClick(key: string) {
     setSelectedMessageKey(key.replace(/\_/g, "."));
@@ -103,7 +111,6 @@ function Messaging() {
       }
     );
   }
-  // console.log(ws && ws.readyState , WebSocket.OPEN)
 
   return (
     <div className="h-[80vh] w-[100vw]  lg:min-w-[80vw] flex  lg:border lg:shadow-lg">
@@ -111,7 +118,7 @@ function Messaging() {
       <div
         className={`lg:w-[25vw] w-full lg:border-r ${
           selectedMessageUser ? "hidden lg:block" : ""
-        } `}
+        } `}  
       >
         <h2 className="px-6 py-4 text-lg font-semibold lg:border-b ">
           Messages
@@ -141,8 +148,10 @@ function Messaging() {
                     </h3>
                     <p className={``}>
                       {userData?.userData?.messages[key]?.messages[
-                        userData?.userData?.messages[key]?.messages.length - 1
-                      ].content.slice(0, 25) + "..."}
+                        userData?.userData?.messages[key]?.messages?.length - 1
+                      ]?.content && userData?.userData?.messages[key]?.messages[
+                        userData?.userData?.messages[key]?.messages?.length - 1
+                      ]?.content?.slice(0, 25) + "..."}
                     </p>
                   </div>
                   {userData?.userData?.messages[key]?.messages?.length -

@@ -39,6 +39,36 @@ function reducer(state: contextType, action: dispatchDataType) {
         userData: action.payload?.data ?? undefined,
       };
 
+      case "addMessages": {
+        const receiverKey = action.payload.receiverEmail.replace(/\./g, "_");
+      
+        return {
+          ...state,
+          userData: {
+            ...state.userData,
+            userData: {
+              ...state.userData?.userData,
+              messages: {
+                ...((state.userData?.userData?.messages ?? {})), // Ensure messages exist
+                [receiverKey]: {
+                  ...(state.userData?.userData?.messages?.[receiverKey] || {
+                    messages: [],
+                    name: action.payload.receiverName || "Unknown",
+                    profile: action.payload.receiverProfile || "",
+                    read: 0,
+                  }),
+                  messages: [
+                    ...(state.userData?.userData?.messages?.[receiverKey]?.messages ||
+                      []),
+                  ],
+                },
+              },
+            },
+          },
+        };
+      }
+      
+
     default:
       throw new Error("Action unkonwn");
   }

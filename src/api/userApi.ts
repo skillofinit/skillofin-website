@@ -61,6 +61,7 @@ export async function logoutAPI() {
   const serverData = await response.json();
   return serverData;
 }
+
 export async function postJobAPI(data:any) {
   const response = await fetch(BASE_URL + "/postjob", {
     method: "post",
@@ -74,6 +75,17 @@ export async function postJobAPI(data:any) {
 }
 export async function getJobsAPI() {
   const response = await fetch(BASE_URL + "/jobs");
+  const serverData = await response.json();
+  return serverData;
+}
+export async function submitBidAPI(data:any) {
+  const response = await fetch(BASE_URL + "/bid", {
+    method: "post",
+    body: JSON.stringify({
+      ...data,
+      authToken: localStorage.getItem("authToken"),
+    }),
+  });
   const serverData = await response.json();
   return serverData;
 }

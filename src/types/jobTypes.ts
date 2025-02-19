@@ -24,6 +24,9 @@ export interface IBid {
   coverLetter: string;
   status: BID_STATUS_ENUM;
   bidDate: Date;
+  name:string,
+  profile:string,
+  read:number
 }
 
 export interface IMilestone {

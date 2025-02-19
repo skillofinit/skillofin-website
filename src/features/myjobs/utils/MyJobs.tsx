@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MessageSquare, CheckCircle, XCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function MyJobs() {
-  const { userData } = useAppContext();
+  const { userData, dispatch } = useAppContext();
   const [selectedJob, setSelectedJob] = useState<jobPostType | undefined>();
   const [selectedBid, setSelectedBid] = useState<IBid | undefined>();
+  const navigate = useNavigate();
 
   function handleOnProjectClick(data: jobPostType) {
     setSelectedJob(data);
@@ -20,6 +22,23 @@ function MyJobs() {
 
   function handleOnBidClick(bid: IBid) {
     setSelectedBid(bid);
+  }
+  function handleMessageClick() {
+    dispatch({
+      type: "addMessages",
+      payload: {
+        receiverName: selectedBid?.name,
+        receiverProfile: selectedBid?.profile,
+        receiverEmail: selectedBid?.freelancerEmail,
+      },
+    });
+    setTimeout(()=>{
+      navigate("/messages",{
+        state:{
+          emailId:selectedBid?.freelancerEmail
+        }
+      })
+    },300)
   }
 
   return (
@@ -130,9 +149,7 @@ function MyJobs() {
                     {/* Message Freelancer Button */}
                     <Button
                       className="mt-4 flex items-center gap-2"
-                      onClick={() =>
-                        alert(`Messaging ${selectedBid.freelancerEmail}`)
-                      }
+                      onClick={handleMessageClick}
                     >
                       <MessageSquare className="w-5 h-5" /> Message Freelancer
                     </Button>
