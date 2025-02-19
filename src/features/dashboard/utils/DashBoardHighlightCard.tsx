@@ -1,22 +1,17 @@
-import { Button } from "@/components/ui/button";
 
 function DashBoardHighlightCard() {
   return (
-    <div className="border  w-[50vw]rounded-md bg-primary text-background flex  p-5">
+    <div className="border  lg:w-[50vw] rounded-md bg-primary text-background flex  p-5 justify-between items-center ">
       <div className="flex flex-col justify-between gap-20">
-        <div className="text-3xl font-serif  ">
-          Zero commission fees for first 100 freelancers in any category for one
-          year !
+        <div className="lg:text-3xl font-serif  ">
+          Zero commission fees for first 1000 in any category.
         </div>
-        <Button className="w-fit bg-background text-foreground hover:bg-gray-200">
-          Read More
-        </Button>
       </div>
       <div>
         <img
           alt="highlight"
           src="working-man-illu.jpg"
-          className="w-[20vw] rounded-lg"
+          className="w-[20vh] lg:w-[10vw] rounded-lg"
         />
       </div>
     </div>

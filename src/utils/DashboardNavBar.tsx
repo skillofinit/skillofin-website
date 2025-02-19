@@ -20,6 +20,7 @@ import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "../features/jobs/utils/PostJobDialog";
 import { BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
+import { FaSignsPost } from "react-icons/fa6";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
@@ -204,13 +205,22 @@ function DashboardNavBar() {
                       <p>My jobs</p>
                     </div>
                   )}
+                    <div className="w-full bg-foreground/10 h-[1px]"></div>
+
                   <div
-                      onClick={() => navigate("/createpost")}
-                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                    >
-                      <BsPostcardHeart className="w-5 h-5 ml-1" />
-                      <p>Create Post</p>
-                    </div>
+                    onClick={() => navigate("/createpost")}
+                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                  >
+                    <BsPostcardHeart className="w-5 h-5 ml-1" />
+                    <p>Create Post</p>
+                  </div>
+                  <div
+                    onClick={() => navigate("/myposts")}
+                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                  >
+                    <FaSignsPost className="w-5 h-5 ml-1" />
+                    <p>My Posts</p>
+                  </div>
 
                   <div className="w-full bg-foreground/10 h-[1px]"></div>
                   <div
@@ -397,13 +407,25 @@ function DashboardNavBar() {
                     <p>My jobs</p>
                   </div>
                 )}
+                <div className="w-full bg-foreground/10 h-[1px]"></div>
+
                 <div
-                    onClick={() => navigate("/createpost")}
-                    className="flex items-center gap-2 text-[15px] cursor-pointer"
-                  >
-                    <BsPostcardHeart className="w-5 h-5 " />
-                    <p>Create post</p>
-                  </div>
+                  onClick={() => navigate("/createpost")}
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
+                >
+                  <BsPostcardHeart className="w-5 h-5 " />
+                  <p>Create post</p>
+                </div>
+                
+                
+                <div
+                  onClick={() => navigate("/myposts")}
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
+                >
+                  <FaSignsPost className="w-5 h-5 " />
+                  <p>My Posts</p>
+                </div>
+
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                 <div

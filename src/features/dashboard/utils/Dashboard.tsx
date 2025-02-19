@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/utiles/AppContext";
 import DashBoardHighlightCard from "./DashBoardHighlightCard";
 import { timeAgo } from "@/utiles/appUtils";
-import HomeFooter from "@/utils/HomeFooter";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -12,11 +11,11 @@ function Dashboard() {
   return (
     <div className="w-full  h-full flex flex-col gap-10">
       <div className="flex flex-row  px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-between">
-        <div className=" lg:w-[80%]  min-h-[100vh] flex flex-col gap-4">
+        <div className=" lg:w-[80%]  min-h-[75vh] flex flex-col gap-4">
           <DashBoardHighlightCard />
 
           <div className="grid grid-cols-1 gap-5">
-            {userData?.posts?.map(
+            {userData?.allPosts?.map(
               (
                 post: {
                   profile: string;
@@ -79,6 +78,15 @@ function Dashboard() {
               Create Post
             </Button>
 
+            <Button
+              className="w-[10vw]"
+              variant="outline"
+              onClick={() => {
+                navigate("/myposts");
+              }}
+            >
+              My Posts
+            </Button>
 
             <Button
               className="w-[10vw]"
@@ -87,20 +95,29 @@ function Dashboard() {
                 navigate("/myjobs");
               }}
             >
-              My jobs
+              My Jobs
             </Button>
 
-            <Button onClick={()=>{navigate("/myprofile")}} className="w-[10vw]" variant="outline">
+            <Button
+              onClick={() => {
+                navigate("/myprofile");
+              }}
+              className="w-[10vw]"
+              variant="outline"
+            >
               My Profile
             </Button>
-            <Button className="w-[10vw]" variant="outline" onClick={()=>{navigate("/messages")}} >
+            <Button
+              className="w-[10vw]"
+              variant="outline"
+              onClick={() => {
+                navigate("/messages");
+              }}
+            >
               Messages
             </Button>
           </div>
         </div>
-      </div>
-      <div className="pb-5">
-        <HomeFooter />
       </div>
     </div>
   );

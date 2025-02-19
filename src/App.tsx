@@ -11,6 +11,7 @@ import MessagesMain from "./features/messages/MessagesMain";
 import MyJobsMain from "./features/myjobs/MyJobsMain";
 import JobsMain from "./features/jobs/JobsMain";
 import CreatePost from "./features/createpost/CreatePost";
+import MyPosts from "./features/createpost/utils/MyPosts";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/myjobs" element={<MyJobsMain />} />
               <Route path="/jobs" element={<JobsMain />} />
               <Route path="/createpost" element={<CreatePost />} />
+              <Route path="/myposts" element={<MyPosts />} />
             </Route>
           </Routes>
         </BrowserRouter>
