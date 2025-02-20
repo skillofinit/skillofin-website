@@ -25,11 +25,11 @@ function DashboardNavBar() {
   const navigate = useNavigate();
   const { userData, userRole } = useAppContext();
 
-  // For mobile menu toggling
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileFinanceOpen, setMobileFinanceOpen] = useState(false);
   const { isPending: isLoading, logout } = useLogout();
   const [open, setOpen] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>("");
 
   function handleLogoutClick() {
     logout();
@@ -39,10 +39,18 @@ function DashboardNavBar() {
     setOpen(false);
   }
 
+  function handleSearchJobClick() {
+    navigate("/jobs", {
+      state: {
+        value: inputValue,
+      },
+    });
+  }
+
   return (
     <div className="w-full relative">
       {open && <PostJobDialog onClose={onClose} />}
-      {( isLoading) && <AppSpiner bgColor="bg-foreground/40" />}
+      {isLoading && <AppSpiner bgColor="bg-foreground/40" />}
 
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
@@ -88,21 +96,21 @@ function DashboardNavBar() {
             >
               Messages
             </div>
-              <div
-                onClick={() => navigate(userRole === "CLIENT"?"/myjobs":"/jobs")}
-                className="text-[15px] cursor-pointer"
-              >
-                {
-                  userRole === "CLIENT"?"My Jobs":"Jobs"
-                }
-              </div>
-          </div>
-          <div
-              onClick={() => navigate("/myposts")}
+            <div
+              onClick={() =>
+                navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs")
+              }
               className="text-[15px] cursor-pointer"
             >
-              My Posts
+              {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
             </div>
+          </div>
+          <div
+            onClick={() => navigate("/myposts")}
+            className="text-[15px] cursor-pointer"
+          >
+            My Posts
+          </div>
         </div>
 
         <div className="h-full flex gap-4 justify-center items-center">
@@ -118,12 +126,17 @@ function DashboardNavBar() {
             <div className="flex items-center">
               <div className="mt-4">
                 <Input
+                  value={inputValue}
+                  onChange={(e) => {
+                    const value = e?.target?.value;
+                    setInputValue(value ?? "");
+                  }}
                   iconName="search"
                   placeholder="Search Jobs"
                   className="h-8 w-[20vw]"
                 />
               </div>
-              <Button className="px-2 h-8">
+              <Button className="px-2 h-8" onClick={handleSearchJobClick}>
                 <FiSearch />
               </Button>
             </div>
@@ -172,7 +185,6 @@ function DashboardNavBar() {
                     </div>
                   </div>
 
-                  
                   <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                   <div
@@ -195,7 +207,7 @@ function DashboardNavBar() {
                       <p>My jobs</p>
                     </div>
                   )}
-                    <div className="w-full bg-foreground/10 h-[1px]"></div>
+                  <div className="w-full bg-foreground/10 h-[1px]"></div>
 
                   <div
                     onClick={() => navigate("/createpost")}
@@ -264,12 +276,17 @@ function DashboardNavBar() {
             ) : (
               <div className="flex items-center gap-2">
                 <Input
+                  value={inputValue}
+                  onChange={(e) => {
+                    const value = e?.target?.value;
+                    setInputValue(value ?? "");
+                  }}
                   placeholder="Search Jobs"
                   iconName="search"
                   className="h-8 flex-1"
                 />
                 <Button className="px-2 h-8 -mt-4">
-                  <FiSearch />
+                  <FiSearch onClick={handleSearchJobClick} />
                 </Button>
               </div>
             )}
@@ -324,12 +341,12 @@ function DashboardNavBar() {
               </div>
               <div
                 onClick={() => {
-                  navigate(userRole === "CLIET"?"/myjobs":"/jobs");
+                  navigate(userRole === "CLIET" ? "/myjobs" : "/jobs");
                   setMobileMenuOpen(false);
                 }}
                 className="text-[15px] cursor-pointer"
               >
-                {userRole === "CLIENT"?"My Jobs":"Jobs"}
+                {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
               </div>
               <div
                 onClick={() => {
@@ -340,7 +357,6 @@ function DashboardNavBar() {
               >
                 My Posts
               </div>
-             
             </div>
             {/* Notifications and Profile Section */}
             <div className="border-t pt-4">
@@ -375,8 +391,6 @@ function DashboardNavBar() {
                 </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                
-
                 <div
                   onClick={() => {
                     navigate("/myprofile");
@@ -409,8 +423,7 @@ function DashboardNavBar() {
                   <BsPostcardHeart className="w-5 h-5 " />
                   <p>Create post</p>
                 </div>
-                
-                
+
                 <div
                   onClick={() => navigate("/myposts")}
                   className="flex items-center gap-2 text-[15px] cursor-pointer"
