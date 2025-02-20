@@ -7,7 +7,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
 import { FaRegUserCircle } from "react-icons/fa";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
@@ -15,7 +14,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
-import { useLogout, useUpdateProfile } from "@/hooks/userHooks";
+import { useLogout } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "../features/jobs/utils/PostJobDialog";
@@ -25,7 +24,6 @@ import { FaSignsPost } from "react-icons/fa6";
 function DashboardNavBar() {
   const navigate = useNavigate();
   const { userData, userRole } = useAppContext();
-  const { isPending, updateProfile } = useUpdateProfile();
 
   // For mobile menu toggling
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,12 +31,6 @@ function DashboardNavBar() {
   const { isPending: isLoading, logout } = useLogout();
   const [open, setOpen] = useState<boolean>(false);
 
-  function onOnlineChange(value: boolean) {
-    updateProfile({
-      method: "online",
-      data: { value },
-    });
-  }
   function handleLogoutClick() {
     logout();
   }
@@ -50,7 +42,7 @@ function DashboardNavBar() {
   return (
     <div className="w-full relative">
       {open && <PostJobDialog onClose={onClose} />}
-      {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/40" />}
+      {( isLoading) && <AppSpiner bgColor="bg-foreground/40" />}
 
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
@@ -96,15 +88,21 @@ function DashboardNavBar() {
             >
               Messages
             </div>
-            {userRole !== "CLIENT" && (
               <div
-                onClick={() => navigate("/jobs")}
+                onClick={() => navigate(userRole === "CLIENT"?"/myjobs":"/jobs")}
                 className="text-[15px] cursor-pointer"
               >
-                Jobs
+                {
+                  userRole === "CLIENT"?"My Jobs":"Jobs"
+                }
               </div>
-            )}
           </div>
+          <div
+              onClick={() => navigate("/myposts")}
+              className="text-[15px] cursor-pointer"
+            >
+              My Posts
+            </div>
         </div>
 
         <div className="h-full flex gap-4 justify-center items-center">
@@ -174,15 +172,7 @@ function DashboardNavBar() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between px-3">
-                    <p>Online for messages</p>
-                    <div>
-                      <Switch
-                        value={userData?.userData?.online}
-                        onCheckedChange={onOnlineChange}
-                      />
-                    </div>
-                  </div>
+                  
                   <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                   <div
@@ -334,13 +324,23 @@ function DashboardNavBar() {
               </div>
               <div
                 onClick={() => {
-                  navigate("/jobs");
+                  navigate(userRole === "CLIET"?"/myjobs":"/jobs");
                   setMobileMenuOpen(false);
                 }}
                 className="text-[15px] cursor-pointer"
               >
-                Jobs
+                {userRole === "CLIENT"?"My Jobs":"Jobs"}
               </div>
+              <div
+                onClick={() => {
+                  navigate("/myposts");
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[15px] cursor-pointer"
+              >
+                My Posts
+              </div>
+             
             </div>
             {/* Notifications and Profile Section */}
             <div className="border-t pt-4">
@@ -375,14 +375,7 @@ function DashboardNavBar() {
                 </div>
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                <div className="flex items-center justify-between px-2">
-                  <span className="text-[15px]">Online for messages</span>
-                  <Switch
-                    value={userData?.userData?.online}
-                    onCheckedChange={onOnlineChange}
-                  />
-                </div>
-                <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
+                
 
                 <div
                   onClick={() => {

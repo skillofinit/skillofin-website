@@ -5,7 +5,7 @@ import { timeAgo } from "@/utiles/appUtils";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const { userData } = useAppContext();
+  const { userData,userRole } = useAppContext();
   const navigate = useNavigate();
 
   return (
@@ -28,22 +28,22 @@ function Dashboard() {
               ) => (
                 <div
                   key={index}
-                  className=" border shadow-md p-4 lg:w-[30vw] rounded-lg bg-white flex flex-col gap-2"
+                  className=" border shadow-md p-4 lg:w-[30vw] rounded-lg bg-background flex flex-col gap-2"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full">
+                    <div className="w-10 h-10  rounded-full">
                       <img
                         alt="profile"
                         src={post?.profile ? post?.profile : "no-user.png"}
                       />
                     </div>
                     <div className="font-semibold">@{post?.emailId}</div>
-                    <div className="text-xs lg:text-sm  text-gray-500">
+                    <div className="text-xs lg:text-sm  text-foreground/60">
                       • {timeAgo(post?.createdAt)}
                     </div>
                   </div>
 
-                  <div className="text-lg font-medium text-gray-900">
+                  <div className="text-lg font-medium text-foreground">
                     {post.title}
                   </div>
                   <div className="text-gray-600">{post.content}</div>
@@ -92,10 +92,12 @@ function Dashboard() {
               className="w-[10vw]"
               variant="outline"
               onClick={() => {
-                navigate("/myjobs");
+                navigate(userRole=== "CLIENT"?"/myjobs":"/jobs");
               }}
             >
-              My Jobs
+              {
+                userRole === "CLIENT"?"My Jobs":"Jobs"
+              }
             </Button>
 
             <Button

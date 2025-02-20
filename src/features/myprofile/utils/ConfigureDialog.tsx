@@ -16,7 +16,8 @@ import { FaAsterisk } from "react-icons/fa";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
-import { useUpdateProfile } from "@/hooks/userHooks";
+import { useGetMe, useUpdateProfile } from "@/hooks/userHooks";
+import AppSpiner from "@/utiles/AppSpiner";
 
 interface ConfigureDialoginterface {
   method: "add" | "edit";
@@ -38,6 +39,7 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
   const [skills, setSkills] = useState<{ name: string }[]>([]);
 
   const { isPending, updateProfile } = useUpdateProfile();
+  const { getMe, isPending: isLoading } = useGetMe();
 
   function getTitle(): string {
     switch (comp) {
@@ -81,7 +83,11 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
       {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
-            onClose();
+            getMe(undefined, {
+              onSuccess(data) {
+                if (data?.message === "SUCCESS") onClose();
+              },
+            });
           }
         },
       }
@@ -90,6 +96,9 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
 
   return (
     <div>
+      {
+        isLoading && <AppSpiner bgColor="bg-foreground/50" />
+      }
       <AppDialog onClose={onClose} title={getTitle()}>
         <form onSubmit={handleSubmit(onSubmit)} className="px-4">
           {comp === "costPerHour" && (

@@ -10,7 +10,7 @@ import { MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AppDialog from "@/utiles/AppDilaog";
 import { MdDelete } from "react-icons/md";
-import { useGetMe, usePostedDelete } from "@/hooks/userHooks";
+import { useApproveBid, useGetMe, usePostedDelete } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 
 function MyJobs() {
@@ -21,6 +21,7 @@ function MyJobs() {
   const [open, setOpen] = useState(false);
   const { deletePosted, isPending } = usePostedDelete();
   const { getMe, isPending: isLoading } = useGetMe();
+  const {approvebid,isPending:approvingBid} = useApproveBid()
 
   function handleOnProjectClick(data: jobPostType) {
     setSelectedJob(data);
@@ -65,9 +66,11 @@ function MyJobs() {
 
   return (
     <div className="p-6">
-      {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/50" />}
+      {(isPending || isLoading || approvingBid) && <AppSpiner bgColor="bg-foreground/50" />}
       {userData?.userAccountData?.postedProjects?.length === 0 && (
-        <div className="w-full h-full text-xl items-center justify-center flex min-h-[70vh]">No jobs posted</div>
+        <div className="w-full h-full text-xl items-center justify-center flex min-h-[70vh]">
+          No jobs posted
+        </div>
       )}
 
       {userData?.userAccountData?.postedProjects?.length > 0 && (
@@ -148,12 +151,11 @@ function MyJobs() {
                       {selectedJob.bids.map((bid, index) => (
                         <li
                           key={index}
-                          className={`p-3 border rounded-md flex justify-between items-center cursor-pointer ${
+                          className={`p-3 border rounded-md flex justify-between items-center ${
                             selectedBid === bid
                               ? "bg-blue-100"
                               : "hover:bg-gray-100"
                           }`}
-                          onClick={() => handleOnBidClick(bid)}
                         >
                           <div className="flex flex-col gap-2">
                             <p className="font-medium">{bid.freelancerEmail}</p>
@@ -170,6 +172,26 @@ function MyJobs() {
                               </span>{" "}
                               ${bid.coverLetter}
                             </p>
+                          </div>
+                          <div className="flex gap-3 lg:flex-row flex-col">
+                            <Button onClick={() => handleOnBidClick(bid)}>
+                              View Details
+                            </Button>
+                            <Button
+                              disabled={bid?.status === "ACCEPTED"}
+                              onClick={() => {
+                                console.log(selectedJob);
+                                approvebid({
+                                  id:selectedJob?.id,
+                                  freelancerEmailId:bid?.freelancerEmail
+                                })
+                              }}
+                              variant={"constructive"}
+                            >
+                              {bid?.status === "ACCEPTED"
+                                ? "Approved"
+                                : "Approve"}
+                            </Button>
                           </div>
                         </li>
                       ))}

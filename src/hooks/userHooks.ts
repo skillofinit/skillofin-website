@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  approveBidAPI,
   createPostAPI,
   deletePostedAPI,
   getJobsAPI,
@@ -304,4 +305,31 @@ export function usePostedDelete() {
     },
   });
   return { isPending, deletePosted };
+}
+export function useApproveBid() {
+  const { toast } = useToast();
+
+  const { mutate: approvebid, isPending } = useMutation({
+    mutationFn: (data: { id: string; freelancerEmailId: string }) =>
+      approveBidAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: `Successfully sent approve message`,
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, approvebid };
 }

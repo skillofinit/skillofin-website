@@ -39,7 +39,7 @@ function Profile() {
       setUserData(myData);
       setUserRole(myRole);
     }
-  }, []);
+  }, [myData]);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);

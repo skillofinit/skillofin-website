@@ -25,16 +25,13 @@ function Messaging() {
 
   const [messages, setMessages] = useState<any[]>([]);
   const [ws, setWs] = useState<WebSocket | null>(null);
-  const {state} = useLocation()
+  const { state } = useLocation();
 
-  useEffect(()=>{
-    if(state?.emailId){
-      setSelectedMessageKey(state?.emailId)
+  useEffect(() => {
+    if (state?.emailId) {
+      setSelectedMessageKey(state?.emailId);
     }
-
-  },[state])
-
-
+  }, [state]);
 
   useEffect(() => {
     if (selectedMessageKey && messages !== undefined) {
@@ -70,9 +67,12 @@ function Messaging() {
   }, [selectedMessageKey, messages]); // This can be optimized as mentioned below
 
   useEffect(() => {
-    setSelectedMessageUser(
-      userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
-    );
+    if (userData?.userData?.messages) {
+      setSelectedMessageUser(
+        userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
+      );
+    }
+
     setTimeout(() => {
       if (messagesEndRef.current) {
         (messagesEndRef.current as any)?.scrollIntoView({
@@ -81,12 +81,13 @@ function Messaging() {
         });
       }
     }, 200);
-    setMessages(
-      userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
-        ?.messages ?? []
-    );
+    if (userData?.userData?.messages) {
+      setMessages(
+        userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
+          ?.messages ?? []
+      );
+    }
   }, [userData, selectedMessageKey]);
-
 
   function handleMessageUserClick(key: string) {
     setSelectedMessageKey(key.replace(/\_/g, "."));
@@ -118,7 +119,7 @@ function Messaging() {
       <div
         className={`lg:w-[25vw] w-full lg:border-r ${
           selectedMessageUser ? "hidden lg:block" : ""
-        } `}  
+        } `}
       >
         <h2 className="px-6 py-4 text-lg font-semibold lg:border-b ">
           Messages
@@ -135,7 +136,9 @@ function Messaging() {
               <div className="flex items-center gap-4 relative w-full">
                 <AnimatedImage
                   src={
-                    userData?.userData?.messages[key]?.profile ?? "no-user.webp"
+                    userData?.userData?.messages[key]?.profile
+                      ? userData?.userData?.messages[key]?.profile
+                      : "no-user.webp"
                   }
                   alt="profile"
                   className="h-12 w-12 rounded-full border object-cover"
@@ -146,13 +149,19 @@ function Messaging() {
                     <h3 className="text-lg font-medium">
                       {userData?.userData?.messages[key]?.name}
                     </h3>
-                    <p className={``}>
-                      {userData?.userData?.messages[key]?.messages[
-                        userData?.userData?.messages[key]?.messages?.length - 1
-                      ]?.content && userData?.userData?.messages[key]?.messages[
-                        userData?.userData?.messages[key]?.messages?.length - 1
-                      ]?.content?.slice(0, 25) + "..."}
-                    </p>
+                    {userData?.userData?.messages[key]?.messages?.length > 0 &&
+                      (() => {
+                        const rawHtml =
+                          userData?.userData?.messages[key]?.messages[
+                            userData?.userData?.messages[key]?.messages.length -
+                              1
+                          ]?.content || "";
+
+                        const textOnly =
+                          rawHtml.replace(/<[^>]*>/g, "").slice(0, 25) + "..."; // Remove HTML tags & slice
+
+                        return <div className="text-sm">{textOnly}</div>;
+                      })()}
                   </div>
                   {userData?.userData?.messages[key]?.messages?.length -
                     userData?.userData?.messages[key]?.read >
@@ -187,7 +196,11 @@ function Messaging() {
                 }}
               />
               <AnimatedImage
-                src={selectedMessageUser?.profile ?? "no-user.webp"}
+                src={
+                  userData?.userData?.messages[selectedMessageKey]?.profile
+                    ? userData?.userData?.messages[selectedMessageKey]?.profile
+                    : "no-user.webp"
+                }
                 alt="profile"
                 className="h-12 w-12 rounded-full border object-cover"
               />
@@ -208,7 +221,10 @@ function Messaging() {
                       : "bg-foreground/5 text-gray-800"
                   }`}
                 >
-                  <p className="text-sm ">{msg?.content}</p>
+                  <p
+                    className="text-sm"
+                    dangerouslySetInnerHTML={{ __html: msg.content }}
+                  />
                 </div>
               ))}
 
@@ -251,8 +267,7 @@ function Messaging() {
                   </div>
                   {ws?.readyState === WebSocket.OPEN && selectedMessageKey && (
                     <Button
-                    
-                      isPending={isPending || (ws?.readyState !== WebSocket.OPEN)}
+                      isPending={isPending || ws?.readyState !== WebSocket.OPEN}
                       className=" text-white p-2 rounded-md "
                     >
                       Send <IoSend size={20} />
