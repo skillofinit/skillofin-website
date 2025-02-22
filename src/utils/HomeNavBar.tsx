@@ -20,11 +20,9 @@ import {
 } from "@/utiles/appUtils";
 import { GiArmoredBoomerang } from "react-icons/gi";
 
-interface HomeNavBarInterface {
-  displayLogo?: boolean;
-}
 
-function HomeNavBar({}: HomeNavBarInterface) {
+
+function HomeNavBar() {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -106,18 +104,7 @@ function HomeNavBar({}: HomeNavBarInterface) {
               onClick={() => handleOpenLinks("pinterest")}
               className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
             />
-            <Button variant="default" onClick={() => navigate("/login")}>
-              <div className="flex items-center gap-2">
-                <FiUser className="w-6 h-6" />
-                <p>Login</p>
-              </div>
-            </Button>
-            <Button variant="default" onClick={() => navigate("/signup")}>
-              <div className="flex items-center gap-2">
-                <FiUserPlus className="w-6 h-6" />
-                <p>Sign Up</p>
-              </div>
-            </Button>
+           
           </div>
 
           {/* Mobile Menu Icon */}

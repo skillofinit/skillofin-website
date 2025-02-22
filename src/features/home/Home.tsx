@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
+import { LucideUserRoundCheck } from "lucide-react";
 import { useRef } from "react";
 import { FaStar } from "react-icons/fa";
 import { GiArmoredBoomerang } from "react-icons/gi";
-import { MdConnectWithoutContact, MdExpandMore } from "react-icons/md";
+import { LuUserPlus } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   // const { formState, reset } = useForm();
@@ -14,6 +16,7 @@ function Home() {
 
   const whomRef = useRef(null);
   const contactRef = useRef(null);
+  const navigate = useNavigate();
   // const { sendEmail } = useSendEmail();
 
   // async function handleContactUs(e: any) {
@@ -39,14 +42,13 @@ function Home() {
   //   });
   // }
 
-  function handleReadMoreClick() {
-    (whomRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
-  }
-  
-  function handleContactUsClick() {
-    (contactRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
-  }
+  // function handleReadMoreClick() {
+  //   (whomRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
+  // }
 
+  // function handleContactUsClick() {
+  //   (contactRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
+  // }
 
   return (
     <div className="w-full h-full flex flex-col relative bg-primary/5 text-foreground overflow-x-hidden">
@@ -147,7 +149,7 @@ function Home() {
                 <polygon points="290,0 300,4 290,8" fill="black" />
               </svg>
             </div>
-            <div className="w-fit flex flex-col lg:flex-row  items-center gap-2 lg:gap-10  mt-[5vw]">
+            {/* <div className="w-fit flex flex-col lg:flex-row  items-center gap-2 lg:gap-10  mt-[5vw]">
               <Button
                 variant={"outline"}
                 onClick={handleReadMoreClick}
@@ -168,6 +170,34 @@ function Home() {
                 <div className="flex   gap-1 items-center">
                   Contact Us
                   <MdConnectWithoutContact className="h-10 w-10" />
+                </div>
+              </Button>
+            </div> */}
+            <div className="w-fit flex flex-col lg:flex-row  items-center gap-2 lg:gap-10  mt-[5vw]">
+              <Button
+                variant={"outline"}
+                onClick={() => {
+                  navigate("/login");
+                }}
+                className="w-fit py-6 px-10 "
+              >
+                <div className="flex items-center gap-1">
+                  Login
+                  <div>
+                    <LucideUserRoundCheck />
+                  </div>
+                </div>
+              </Button>
+              <Button
+                variant={"outline"}
+                onClick={() => {
+                  navigate("/signup");
+                }}
+                className="w-fit py-6 px-10 "
+              >
+                <div className="flex   gap-1 items-center">
+                  Sig Up
+                  <LuUserPlus />
                 </div>
               </Button>
             </div>
