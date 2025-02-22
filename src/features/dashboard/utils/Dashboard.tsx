@@ -1,12 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/utiles/AppContext";
 import DashBoardHighlightCard from "./DashBoardHighlightCard";
 import { timeAgo } from "@/utiles/appUtils";
-import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const { userData,userRole } = useAppContext();
-  const navigate = useNavigate();
+  const { userData } = useAppContext();
 
   return (
     <div className="w-full  h-full flex flex-col gap-10">
@@ -14,7 +11,7 @@ function Dashboard() {
         <div className=" lg:w-[80%]  min-h-[75vh] flex flex-col gap-4">
           <DashBoardHighlightCard />
 
-          <div className="grid grid-cols-1 gap-5">
+          <div className="grid grid-cols-1 gap-5 pb-10 ">
             {userData?.allPosts?.map(
               (
                 post: {
@@ -23,6 +20,8 @@ function Dashboard() {
                   content: string;
                   createdAt: string;
                   emailId: string;
+                  name: string;
+                  image: string;
                 },
                 index: number
               ) => (
@@ -33,11 +32,12 @@ function Dashboard() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10  rounded-full">
                       <img
+                      className="rounded-full"
                         alt="profile"
                         src={post?.profile ? post?.profile : "no-user.png"}
                       />
                     </div>
-                    <div className="font-semibold">@{post?.emailId}</div>
+                    <div className="font-semibold">@{post?.name}</div>
                     <div className="text-xs lg:text-sm  text-foreground/60">
                       • {timeAgo(post?.createdAt)}
                     </div>
@@ -47,6 +47,13 @@ function Dashboard() {
                     {post.title}
                   </div>
                   <div className="text-gray-600">{post.content}</div>
+                  <div>
+                <img
+                  src={post.image}
+                  alt="post"
+                  className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
+                />
+                </div>
 
                   {/* <div className="flex justify-between mt-2 text-gray-500">
                     <button className="flex items-center gap-1 hover:text-red-500">
@@ -65,61 +72,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="w-[30%] gap-4 h-fit p-4 lg:flex flex-col border rounded-lg hidden">
-          <div className="text-xl font-semibold">Quick Links</div>
-          <div className="gap-3 grid grid-cols-3  ">
-            <Button
-              className="w-[10vw]"
-              variant="outline"
-              onClick={() => {
-                navigate("/createpost");
-              }}
-            >
-              Create Post
-            </Button>
-
-            <Button
-              className="w-[10vw]"
-              variant="outline"
-              onClick={() => {
-                navigate("/myposts");
-              }}
-            >
-              My Posts
-            </Button>
-
-            <Button
-              className="w-[10vw]"
-              variant="outline"
-              onClick={() => {
-                navigate(userRole=== "CLIENT"?"/myjobs":"/jobs");
-              }}
-            >
-              {
-                userRole === "CLIENT"?"My Jobs":"Jobs"
-              }
-            </Button>
-
-            <Button
-              onClick={() => {
-                navigate("/myprofile");
-              }}
-              className="w-[10vw]"
-              variant="outline"
-            >
-              My Profile
-            </Button>
-            <Button
-              className="w-[10vw]"
-              variant="outline"
-              onClick={() => {
-                navigate("/messages");
-              }}
-            >
-              Messages
-            </Button>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

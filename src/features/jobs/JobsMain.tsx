@@ -10,7 +10,6 @@ import {
   FiSearch,
 } from "react-icons/fi";
 import FreelancerJobDialog from "./utils/FreelancerJobDialog";
-import DashboardNavBar from "@/utils/DashboardNavBar";
 import { useGetJobs } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { Input } from "@/components/ui/input";
@@ -67,7 +66,6 @@ function FreelancerJobs() {
           onClose={() => setSelectedJob(null)}
         />
       )}
-      <DashboardNavBar />
       <div className="flex flex-col gap-6 items-center">
         <div className="items-center flex flex-col lg:flex-row gap-2 lg:gap-6 mt-5">
           <Input

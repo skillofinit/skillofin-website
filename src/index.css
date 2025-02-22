@@ -297,3 +297,33 @@
 }
 
 
+
+
+
+
+
+
+/* Skeleton loader effect */
+img {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite linear;
+  opacity: 1; /* Ensure visibility before image loads */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* When the image loads, remove skeleton */
+img.loaded {
+  background: none; /* Remove skeleton effect */
+  opacity: 1 !important;
+}
+
+/* Skeleton shimmer animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

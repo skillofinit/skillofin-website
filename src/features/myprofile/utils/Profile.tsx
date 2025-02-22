@@ -102,6 +102,7 @@ function Profile() {
                 type="file"
                 className="hidden"
                 id="fileClick"
+                accept="image/*"
                 onChange={(e: any) => {
                   if (e?.target?.files[0]) uploadImage(e?.target?.files[0]);
                 }}
@@ -140,7 +141,7 @@ function Profile() {
           {/* Earnings & Jobs */}
           <div className=" lg:hidden h-[1px] w-full bg-foreground/10"></div>
 
-          <div className="px-8 py-5 flex items-center justify-between">
+          <div className="px-8 py-5 flex items-center justify-between " >
             <div className="flex flex-col">
               <h5 className="text-xl font-semibold">
                 ${userData?.userAccountData?.earnings ?? 0}
@@ -242,17 +243,20 @@ function Profile() {
           {/* Title & Summary */}
           <div className="px-7 py-5">
             <div className="flex items-center justify-between">
-              <h3 className="font-medium text-3xl">
+              <h3 className="font-medium text-3xl ">
                 {userRole === "CLIENT"
                   ? userData?.userAccountData?.companyName ?? "Add company name"
                   : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
+              <div>
               <MdEditNote
                 onClick={() => {
                   handleConfigureClick("edit", "title");
                 }}
                 className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
               />
+              
+              </div>
             </div>
             <p className="text-lg pr-5 mt-3">
               {userData?.userAccountData?.description

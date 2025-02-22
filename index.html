@@ -5,6 +5,30 @@
     <link rel="icon" type="image/svg+xml" href="/Skillofin-Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skillofin</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function applyImageLoadAnimations() {
+          const images = document.querySelectorAll("img");
+    
+          images.forEach((img) => {
+            if (img.complete) {
+              img.classList.add("loaded"); // If already loaded
+            } else {
+              img.addEventListener("load", () => {
+                img.classList.add("loaded");
+              });
+            }
+          });
+        }
+    
+        // Run initially
+        applyImageLoadAnimations();
+    
+        // Watch for new images (React renders dynamically)
+        const observer = new MutationObserver(applyImageLoadAnimations);
+        observer.observe(document.getElementById("root"), { childList: true, subtree: true });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -109,6 +109,13 @@ export function useSendMessage() {
             data: data?.data,
           },
         });
+      } else if (data?.message === "CONTACT_INFO_NOT_ALLOWED") {
+        toast({
+          duration: 3000,
+          variant: "destructive",
+          title: "Suspicious Message",
+          description: "Sharing contact details is not allowed.",
+        });
       }
     },
     onError() {
@@ -339,7 +346,7 @@ export function useResetPassword() {
 
   const { mutate: resetPassword, isPending } = useMutation({
     mutationFn: (data: any) => resetPasswordAPI(data),
-    
+
     onError() {
       toast({
         duration: 3000,

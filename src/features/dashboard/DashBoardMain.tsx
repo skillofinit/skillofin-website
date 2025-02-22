@@ -1,4 +1,3 @@
-import DashboardNavBar from "../../utils/DashboardNavBar";
 import { useGetMe } from "@/hooks/userHooks";
 import { useEffect } from "react";
 import AppSpiner from "@/utiles/AppSpiner";
@@ -16,7 +15,6 @@ function DashBoardMain() {
   return (
     <div className="w-full flex flex-col overflow-auto  ">
       {isPending && <AppSpiner />}
-      <DashboardNavBar />
       <Dashboard />
     </div>
   );

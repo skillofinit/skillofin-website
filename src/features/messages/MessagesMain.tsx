@@ -1,4 +1,3 @@
-import DashboardNavBar from "@/utils/DashboardNavBar";
 import Messaging from "./utils/Messaging";
 import { useGetMe } from "@/hooks/userHooks";
 import { useEffect } from "react";
@@ -12,7 +11,6 @@ function MessagesMain() {
   return (
     <div className="w-full flex flex-col " >
       {isPending && <AppSpiner bgColor="bg-foreground/50" />}
-      <DashboardNavBar />
       <div className="flex items-center mx-20 justify-center">
         <Messaging />
       </div>

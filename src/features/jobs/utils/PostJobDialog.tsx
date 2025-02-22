@@ -6,6 +6,15 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { FaAsterisk } from "react-icons/fa";
 import { useGetMe, usePostJob } from "@/hooks/userHooks";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PostJobDialogInterface {
   onClose: () => void;
@@ -17,6 +26,7 @@ interface JobPostFormValues {
   costPerHour: number;
   contractAmount: number;
   skills: string; // Comma-separated skills (will be converted to an array)
+  jobType: string;
 }
 
 function PostJobDialog({ onClose }: PostJobDialogInterface) {
@@ -24,6 +34,8 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
+    setValue
   } = useForm<JobPostFormValues>();
   const { isPending, postJob } = usePostJob();
   const { getMe, isPending: isLoading } = useGetMe();
@@ -105,6 +117,37 @@ function PostJobDialog({ onClose }: PostJobDialogInterface) {
             <div className="h-4 text-destructive ml-2 text-[12px]">
               {errors?.description?.message as string}
             </div>
+          </div>
+        </div>
+        <div>
+          <div className="w-full flex  items-center gap-2">
+            <Select
+              onValueChange={(value:string) => {
+                clearErrors("jobType");
+                setValue("jobType", value);
+
+              }}
+              {...register("jobType", {
+                required: "Please select job type",
+              })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select job type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Job Type</SelectLabel>
+                  <SelectItem value="regularJob">Regular Job</SelectItem>
+                  <SelectItem value="project">Project</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <div className="h-2 w-2">
+              <FaAsterisk className="text-destructive h-2 w-2" />
+            </div>
+          </div>
+          <div className="h-4 text-destructive ml-2 text-[12px]">
+            {errors?.jobType?.message as string}
           </div>
         </div>
 

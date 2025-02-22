@@ -1,4 +1,3 @@
-import DashboardNavBar from "@/utils/DashboardNavBar";
 import Profile from "./utils/Profile";
 import { useGetMe } from "@/hooks/userHooks";
 import { useEffect } from "react";
@@ -15,7 +14,6 @@ function MyProfileMain() {
   return (
     <div className="w-full h-[90vh] flex flex-col overflow-auto">
       {isPending && <AppSpiner bgColor="bg-foreground/50" />}
-      <DashboardNavBar />
 
       <div className="flex items-center justify-center h-fit mt-10">
         <Profile />

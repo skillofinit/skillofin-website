@@ -2,13 +2,17 @@ import { useGetMe, usePostedDelete } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import AppSpiner from "@/utiles/AppSpiner";
 import { timeAgo } from "@/utiles/appUtils";
-import DashboardNavBar from "@/utils/DashboardNavBar";
 import { MdDelete } from "react-icons/md";
+import { BsEmojiSmile } from "react-icons/bs";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 function MyPosts() {
   const { userData } = useAppContext();
   const { deletePosted, isPending } = usePostedDelete();
   const { getMe, isPending: isLoading } = useGetMe();
+  const navigate = useNavigate()
+
 
   function handleDeleteJob(id: string) {
     deletePosted(
@@ -27,11 +31,16 @@ function MyPosts() {
     <div className="w-full h-full flex flex-col ">
       {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/50" />}
 
-      <DashboardNavBar />
+      <div className="flex w-full justify-end px-4 lg:px-10 mt-3">
+        <Button onClick={()=>{navigate("/createpost")}} className="w-fit px-10 py-6 " variant={"outline"}>
+          Create Post
+        </Button>
+      </div>
       <div className="flex flex-col items-start justify-end px-4 lg:px-10 mt-5 gap-6">
         {userData?.userData?.posts?.length === 0 && (
-          <div className="flex  items-center justify-center min-h-[60vh] w-full">
-            <div className="text-xl">No posts yet</div>
+          <div className="flex flex-col gap-4 items-center justify-center min-h-[60vh] w-full">
+            <div className="text-3xl">No posts yet</div>
+            <BsEmojiSmile className="h-20 w-20 text-constructive/40" />
           </div>
         )}
         {userData?.userData?.posts?.length > 0 && (
@@ -49,6 +58,8 @@ function MyPosts() {
               createdAt: string;
               emailId: string;
               id: string;
+              name: string;
+              image: string;
             },
             index: number
           ) => (
@@ -64,7 +75,7 @@ function MyPosts() {
                       src={post?.profile ? post?.profile : "no-user.png"}
                     />
                   </div>
-                  <div className="font-semibold">@{post?.emailId}</div>
+                  <div className="font-semibold">@{post?.name}</div>
                   <div className="text-xs lg:text-sm  text-gray-500">
                     • {timeAgo(post?.createdAt)}
                   </div>
@@ -83,6 +94,13 @@ function MyPosts() {
                 {post.title}
               </div>
               <div className="text-gray-600">{post.content}</div>
+              <div>
+                <img
+                  src={post.image}
+                  alt="post"
+                  className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
+                />
+                </div>
 
               {/* <div className="flex justify-between mt-2 text-gray-500">
                           <button className="flex items-center gap-1 hover:text-red-500">
