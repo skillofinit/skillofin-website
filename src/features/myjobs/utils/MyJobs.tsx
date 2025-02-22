@@ -12,6 +12,7 @@ import AppDialog from "@/utiles/AppDilaog";
 import { MdDelete } from "react-icons/md";
 import { useApproveBid, useGetMe, usePostedDelete } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
+import { BsEmojiSmile } from "react-icons/bs";
 
 function MyJobs() {
   const { userData, dispatch } = useAppContext();
@@ -21,7 +22,7 @@ function MyJobs() {
   const [open, setOpen] = useState(false);
   const { deletePosted, isPending } = usePostedDelete();
   const { getMe, isPending: isLoading } = useGetMe();
-  const {approvebid,isPending:approvingBid} = useApproveBid()
+  const { approvebid, isPending: approvingBid } = useApproveBid();
 
   function handleOnProjectClick(data: jobPostType) {
     setSelectedJob(data);
@@ -66,10 +67,15 @@ function MyJobs() {
 
   return (
     <div className="p-6">
-      {(isPending || isLoading || approvingBid) && <AppSpiner bgColor="bg-foreground/50" />}
+      {(isPending || isLoading || approvingBid) && (
+        <AppSpiner bgColor="bg-foreground/50" />
+      )}
       {userData?.userAccountData?.postedProjects?.length === 0 && (
-        <div className="w-full h-full text-xl items-center justify-center flex min-h-[70vh]">
-          No jobs posted
+        <div>
+          <div className="w-full h-full text-xl items-center justify-center flex flex-col gap-4 min-h-[70vh]">
+            <div className="text-3xl">No jobs posted</div>
+            <BsEmojiSmile className="h-20 w-20 text-constructive/40" />
+          </div>
         </div>
       )}
 
@@ -182,9 +188,9 @@ function MyJobs() {
                               onClick={() => {
                                 console.log(selectedJob);
                                 approvebid({
-                                  id:selectedJob?.id,
-                                  freelancerEmailId:bid?.freelancerEmail
-                                })
+                                  id: selectedJob?.id,
+                                  freelancerEmailId: bid?.freelancerEmail,
+                                });
                               }}
                               variant={"constructive"}
                             >
