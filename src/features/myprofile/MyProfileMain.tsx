@@ -12,7 +12,7 @@ function MyProfileMain() {
   }, []);
 
   return (
-    <div className="w-full h-[90vh] flex flex-col overflow-auto">
+    <div className="w-full h-[80vh] flex flex-col overflow-auto">
       {isPending && <AppSpiner bgColor="bg-foreground/50" />}
 
       <div className="flex items-center justify-center h-fit mt-10">

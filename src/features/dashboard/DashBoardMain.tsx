@@ -13,7 +13,7 @@ function DashBoardMain() {
   }, [data]);
 
   return (
-    <div className="w-full flex flex-col overflow-auto  ">
+    <div className="w-full flex flex-col  ">
       {isPending && <AppSpiner />}
       <Dashboard />
     </div>

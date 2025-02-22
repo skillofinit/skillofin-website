@@ -81,7 +81,7 @@ function Profile() {
   }
 
   return (
-    <div className="border mb-10 overflow-auto w-[95vw] lg:w-[80vw] rounded-lg lg:min-h-fit">
+    <div className="border mb-10  w-[95vw] lg:w-[80vw] rounded-lg h-full">
       {(isPending || uplaoding || gettingUserDetails) && (
         <AppSpiner bgColor="bg-foreground/50" />
       )}

@@ -14,8 +14,10 @@ function ProtectedLayout() {
       <DashboardNavBar />
 
       <div className=" w-full h-full flex flex-row ">
-        <div className="w-full h-full ">
-          <Outlet />
+        <div className="w-full h-full flex flex-col">
+          <div className="flex w-full h-full min-h-[80vh]">
+            <Outlet />
+          </div>
           <div className="pb-3">
             <HomeFooter />
           </div>
