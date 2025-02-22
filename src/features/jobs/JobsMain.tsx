@@ -10,7 +10,6 @@ import {
   FiSearch,
 } from "react-icons/fi";
 import FreelancerJobDialog from "./utils/FreelancerJobDialog";
-import { useGetJobs } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { Input } from "@/components/ui/input";
 import { useLocation } from "react-router-dom";
@@ -25,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MdClear } from "react-icons/md";
+import { useGetJobs } from "@/hooks/jobHooks";
 
 function FreelancerJobs() {
   const [selectedJob, setSelectedJob] = useState<jobPostType | null>(null);

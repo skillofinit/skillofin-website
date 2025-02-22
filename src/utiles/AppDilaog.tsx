@@ -24,7 +24,7 @@ function AppDialog({
           : "justify-center  items-center "
       }`}
     >
-      <div className="min-w-[30vw] min-h-[30vh] bg-background  rounded-lg fex flex-col gap-2 ">
+      <div className="min-w-[25vw] min-h-[30vh] bg-background  rounded-lg fex flex-col gap-2 ">
         <div className="bg-foreground/5 flex  py-2 items-center justify-between ">
           <h4 className="text-lg font-semibold pl-4">{title}</h4>
           <X

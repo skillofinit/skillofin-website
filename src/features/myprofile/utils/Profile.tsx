@@ -2,7 +2,6 @@
 import { MdEditNote, MdOutlineLocationOn } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { FiPlus } from "react-icons/fi";
-import { useAppContext } from "@/utiles/AppContext";
 import { useEffect, useState } from "react";
 import ConfigureDialog from "./ConfigureDialog";
 import { useToast } from "@/components/ui/use-toast";
@@ -12,7 +11,6 @@ import AppSpiner from "@/utiles/AppSpiner";
 import { useLocation } from "react-router-dom";
 
 function Profile() {
-  const { userData: myData, userRole: myRole } = useAppContext();
   const [openDialog, setOpendilog] = useState<boolean>(false);
   const [method, setMethod] = useState<"add" | "edit" | undefined>(undefined);
   const [comp, setComp] = useState<string | undefined>(undefined);
@@ -27,14 +25,14 @@ function Profile() {
   const { getMe, isPending: gettingUserDetails } = useGetMe();
 
   useEffect(() => {
-      getMe(state?.emailId ?? undefined, {
-        onSuccess(data) {
-          if (data?.message === "SUCCESS") {
-            setUserData(data?.data);
-            setUserRole(data?.data?.userData?.role);
-          }
-        },
-      });
+    getMe(state?.emailId ?? undefined, {
+      onSuccess(data) {
+        if (data?.message === "SUCCESS") {
+          setUserData(data?.data);
+          setUserRole(data?.data?.userData?.role);
+        }
+      },
+    });
   }, []);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {

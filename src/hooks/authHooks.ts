@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { loginApi, signupApi } from "@/api/authApi";
+import { loginApi, signupApi } from "@/services/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import { userSignUpPayloadType } from "@/types/authTypes";
 import { useMutation } from "@tanstack/react-query";

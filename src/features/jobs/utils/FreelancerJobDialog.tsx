@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { jobPostType } from "@/types/jobTypes";
 import { FiDollarSign } from "react-icons/fi";
-import { useSubmitBid } from "@/hooks/userHooks";
+import { useSubmitBid } from "@/hooks/jobHooks";
 
 interface FreelancerJobDialogProps {
   onClose: () => void;

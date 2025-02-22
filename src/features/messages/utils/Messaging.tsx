@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useGetMe, useSendMessage } from "@/hooks/userHooks";
+import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,20 @@ import { IoIosRefresh } from "react-icons/io";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import AnimatedImage from "@/utils/AnimatedImage";
 import { useLocation } from "react-router-dom";
+import { truncateString } from "@/utiles/appUtils";
+import AppDialog from "@/utiles/AppDilaog";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { FaAsterisk } from "react-icons/fa6";
+import { useSendMessage } from "@/hooks/messagingHooks";
 
 function Messaging() {
   const { userData } = useAppContext();
@@ -17,7 +31,15 @@ function Messaging() {
     useState<any>(undefined);
   const [selectedMessageKey, setSelectedMessageKey] = useState("");
 
-  const { register, formState, handleSubmit, reset } = useForm();
+  const {
+    register,
+    formState,
+    handleSubmit,
+    reset,
+    setValue,
+    clearErrors,
+    watch,
+  } = useForm();
   const { errors } = formState;
   const { isPending, sendMessage } = useSendMessage();
   const messagesEndRef = useRef(null);
@@ -27,6 +49,7 @@ function Messaging() {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const { state } = useLocation();
   const [userMessages, setUserMessages] = useState<any>([]);
+  const [openDialog, setOpneDialog] = useState(false);
 
   useEffect(() => {
     if (state?.emailId) {
@@ -91,8 +114,6 @@ function Messaging() {
     }
   }, [userData, selectedMessageKey]);
 
-  console.log();
-
   function handleMessageUserClick(key: string) {
     setSelectedMessageKey(key.replace(/\_/g, "."));
   }
@@ -117,23 +138,34 @@ function Messaging() {
     );
   }
 
+  function handleOpenCreateMilestoneDialog() {
+    setOpneDialog(true);
+  }
+
+  function handleCreateMileStone(e: any) {
+    console.log(e);
+  }
+
+  if (Object?.keys(userMessages ?? [])?.length === 0) {
+    return (
+      <div className="items-center flex justify-center w-full h-full min-h-[70vh]  text-center mt-10 text-xl">
+        No Messages yet
+      </div>
+    );
+  }
+
   return (
-    <div className="h-[80vh] w-[100vw]  lg:min-w-[80vw] flex  lg:border lg:shadow-lg">
+    <div className="h-[80vh]   lg:min-w-[70vw] flex  lg:border lg:shadow-lg">
       {/* Sidebar */}
       <div
         className={`lg:w-[25vw] w-full lg:border-r ${
           selectedMessageUser ? "hidden lg:block" : ""
         } `}
       >
-        <h2 className="px-6 h-16 py-4 text-lg font-semibold lg:border-b ">
+        <h2 className="px-6 h-16 py-4 text-lg font-semibold border backdrop-blur-md shadow-md ">
           Messages
         </h2>
 
-        {Object?.keys(userMessages ?? [])?.length === 0 && (
-          <div className="items-center justify-center w-full text-center mt-10 text-xl">
-            No Messages yet
-          </div>
-        )}
         {Object?.keys(userMessages ?? [])?.map((key: string, index: number) => (
           <div
             onClick={() => {
@@ -185,7 +217,7 @@ function Messaging() {
       </div>
 
       <div
-        className={`w-[100vw] lg:w-full h-[90vh] lg:h-full ${
+        className={`w-[100vw] lg:w-[60vw] h-[90vh] lg:h-full border-r ${
           !selectedMessageUser ? "hidden lg:flex" : "lg:flex"
         } `}
       >
@@ -210,9 +242,13 @@ function Messaging() {
                 alt="profile"
                 className="h-12 w-12 rounded-full border object-cover"
               />
-              <h3 className="text-xl font-medium">
-                {selectedMessageUser?.name}
-              </h3>
+              <div>
+                <h3 className="text-xl font-medium">
+                  {selectedMessageUser?.name}
+                </h3>
+
+                <h3 className="text-foreground/50">{selectedMessageKey}</h3>
+              </div>
             </div>
 
             {/* Chat Messages */}
@@ -220,7 +256,7 @@ function Messaging() {
               {messages?.map((msg: any, index: number) => (
                 <div
                   key={index}
-                  className={`p-3 w-fit rounded-lg ${
+                  className={`p-2 w-fit rounded-lg ${
                     msg?.sender?.replace(/\_/g, ".") ===
                     userData?.userData?.emailId
                       ? "bg-primary text-white ml-auto"
@@ -264,6 +300,7 @@ function Messaging() {
                       className="resize-none flex-1 border rounded-md p-2"
                       placeholder="Type a message..."
                       {...register("message", {
+                        disabled: openDialog,
                         required: "Please enter Message",
                       })}
                     />
@@ -284,13 +321,170 @@ function Messaging() {
             </form>
           </div>
         )}
-        {!selectedMessageUser &&
-          Object?.keys(userMessages ?? [])?.length > 0 && (
-            <div className="w-full h-full text-xl  flex items-center justify-center">
-              Start Messaging by selecting user
-            </div>
-          )}
+        {!selectedMessageUser && (
+          <div className="w-full h-full text-xl  flex items-center justify-center">
+            Start Messaging by selecting user
+          </div>
+        )}
       </div>
+
+      {selectedMessageUser && (
+        <div className="w-[30vw] hidden lg:hidde h-full overflow-auto">
+          <div className="flex flex-col w-full">
+            <div className="border h-16 py-4 text-lg px-6 w-full shadow-md">
+              Assiged project Details
+            </div>
+
+            <div className="p-3 flex flex-col">
+              <div className="flex flex-col  gap-1 border-b pb-4">
+                <div className="text-lg font-semibold">
+                  {selectedMessageUser?.project?.title}
+                </div>
+
+                <div className="">
+                  Project type :{" "}
+                  {selectedMessageUser?.project?.projectType?.toLowerCase()}
+                </div>
+
+                <div className="text-foreground/50">
+                  {truncateString(
+                    selectedMessageUser?.project?.description,
+                    100
+                  )}
+                </div>
+                <div>
+                  Budget : $
+                  {`${
+                    selectedMessageUser?.project.budget
+                      ? `${selectedMessageUser?.project.budget} - Fixed price`
+                      : `${selectedMessageUser?.project.costPerHour} /Hr`
+                  }`}
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {selectedMessageUser?.project?.skillsRequired?.map(
+                    (item: string, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          className="bg-foreground/5 text-nowrap w-fit px-2 rounded-full py-1"
+                        >
+                          {item}
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+
+                <div className="">
+                  Assiged to -{" "}
+                  {truncateString(
+                    selectedMessageUser?.project?.assignedFreelancerEmail,
+                    100
+                  )}
+                </div>
+              </div>
+              {/**
+               * MileStone Ui
+               */}
+
+              <div>
+                <div className="w-full flex justify-end mt-3">
+                  <Button
+                    onClick={() => {
+                      handleOpenCreateMilestoneDialog();
+                      setOpneDialog(true);
+                    }}
+                    className="text-xs"
+                    variant={"constructive"}
+                  >
+                    Create Milestone
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {openDialog && selectedMessageUser && (
+        <AppDialog
+          title="Create Milstone"
+          onClose={() => {
+            setOpneDialog(false);
+            clearErrors();
+          }}
+        >
+          <form
+            onSubmit={handleSubmit(handleCreateMileStone)}
+            className="flex flex-col gap-3"
+          >
+            <Input
+              mandatory
+              placeholder="Description"
+              iconName="text"
+              {...register("description", {
+                required: "Please enter Description",
+              })}
+              errorMessage={errors?.description?.message as string}
+            />
+
+            <Input
+              mandatory
+              placeholder="Amout"
+              type="number"
+              iconName="dlr"
+              {...register("description", {
+                required: "Please enter Description",
+              })}
+              errorMessage={errors?.description?.message as string}
+            />
+            <div>
+              <div className="flex items-center gap-2">
+                <Popover
+                  {...register("date", {
+                    required: "Please select Date",
+                  })}
+                >
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[25vw]  justify-start text-left h-12 font-normal",
+                        (!watch("date") as any) && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {(watch("date") as any) ? (
+                        format(watch("date") as any, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={(watch("date") as any) ?? undefined}
+                      onSelect={(date) => {
+                        setValue("date", date);
+                        clearErrors("date");
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <div className="h-2 w-2">
+                  <FaAsterisk className="text-destructive h-2 w-2" />
+                </div>
+              </div>
+              <div className="h-4 text-destructive ml-2 text-[12px]">
+                {errors?.date?.message as string}
+              </div>
+            </div>
+
+            <Button className="mt-10">Create</Button>
+          </form>
+        </AppDialog>
+      )}
     </div>
   );
 }

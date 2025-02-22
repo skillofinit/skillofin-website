@@ -1,4 +1,4 @@
-import { useGetMe, usePostedDelete } from "@/hooks/userHooks";
+import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import AppSpiner from "@/utiles/AppSpiner";
 import { timeAgo } from "@/utiles/appUtils";
@@ -6,6 +6,7 @@ import { MdDelete } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { usePostedDelete } from "@/hooks/jobHooks";
 
 function MyPosts() {
   const { userData } = useAppContext();

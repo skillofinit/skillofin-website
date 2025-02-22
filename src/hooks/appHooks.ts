@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { uploadImageAPI } from "@/api/appApi";
+import { uploadImageAPI } from "@/services/appApi";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 

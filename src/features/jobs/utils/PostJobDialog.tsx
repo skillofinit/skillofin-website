@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { FaAsterisk } from "react-icons/fa";
-import { useGetMe, usePostJob } from "@/hooks/userHooks";
+import { useGetMe } from "@/hooks/userHooks";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePostJob } from "@/hooks/jobHooks";
 
 interface PostJobDialogInterface {
   onClose: () => void;

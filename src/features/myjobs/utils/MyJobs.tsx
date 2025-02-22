@@ -10,9 +10,10 @@ import { MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AppDialog from "@/utiles/AppDilaog";
 import { MdDelete } from "react-icons/md";
-import { useApproveBid, useGetMe, usePostedDelete } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { BsEmojiSmile } from "react-icons/bs";
+import { useApproveBid, usePostedDelete } from "@/hooks/jobHooks";
+import { useGetMe } from "@/hooks/userHooks";
 
 function MyJobs() {
   const { userData, dispatch } = useAppContext();
@@ -186,11 +187,12 @@ function MyJobs() {
                             <Button
                               disabled={bid?.status === "ACCEPTED"}
                               onClick={() => {
-                                console.log(selectedJob);
-                                approvebid({
-                                  id: selectedJob?.id,
-                                  freelancerEmailId: bid?.freelancerEmail,
-                                });
+                                approvebid(
+                                  {
+                                    id: selectedJob?.id,
+                                    freelancerEmailId: bid?.freelancerEmail,
+                                  }
+                                );
                               }}
                               variant={"constructive"}
                             >

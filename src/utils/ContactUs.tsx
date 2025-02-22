@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { contactUsAPI } from "@/api/emailApi";
+import { contactUsAPI } from "@/services/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSendEmail } from "@/hooks/emailHooks";

@@ -1,4 +1,4 @@
-import { sendEmailAPI } from "@/api/emailApi";
+import { sendEmailAPI } from "@/services/emailApi";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 

@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import AppDialog from "@/utiles/AppDilaog";
-import { useCreatePost, useGetMe } from "@/hooks/userHooks";
+import {  useGetMe } from "@/hooks/userHooks";
 import { useUplaodImage } from "@/hooks/appHooks";
 import { FaAsterisk } from "react-icons/fa6";
 import { useState } from "react";
 import { VscVerified } from "react-icons/vsc";
+import { useCreatePost } from "@/hooks/postHooks";
 
 interface PostFormValues {
   title: string;
