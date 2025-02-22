@@ -43,7 +43,7 @@ function SignUp() {
   return (
     <div className="w-[100vw]  h-[100vh] text-foreground flex flex-col justify-between">
       <div className="flex flex-col gap-3">
-        <HomeNavBar  displayLogo={true}/>
+        <HomeNavBar  />
         {step === 0 ? (
           <SelectAccountType
             handleChangeJoinType={handleChangeJoinType}

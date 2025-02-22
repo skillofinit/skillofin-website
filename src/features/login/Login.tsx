@@ -42,8 +42,8 @@ function Login() {
 
   return (
     <div className="w-full h-full   flex flex-col justify-between">
-      <div className="flex flex-col h-full gap-5 items-center">
-        <HomeNavBar displayLogo={true} />
+      <div className="flex flex-col h-full gap-5  w-full ">
+        <HomeNavBar  />
         {isLoading && <AppSpiner />}
 
         <div className="w-full h-full flex  lg:flex-row flex-col items-center justify-center lg:gap-10 p-4 lg:p-0 ">
