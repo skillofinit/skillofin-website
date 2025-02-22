@@ -1,48 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { contactUsAPI } from "@/api/emailApi";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useSendEmail } from "@/hooks/emailHooks";
-import { COMPANY_EMAIL } from "@/utiles/appUtils";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa";
 import { GiArmoredBoomerang } from "react-icons/gi";
 import { MdConnectWithoutContact, MdExpandMore } from "react-icons/md";
 
 function Home() {
-  const { formState, handleSubmit, register, reset } = useForm();
-  const { errors } = formState;
+  // const { formState, reset } = useForm();
+  // const { errors } = formState;
 
   const whomRef = useRef(null);
   const contactRef = useRef(null);
-  const { isPending, sendEmail } = useSendEmail();
+  // const { sendEmail } = useSendEmail();
 
-  async function handleContactUs(e: any) {
-    sendEmail(
-      {
-        body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone}`,
-        subject: "New Message from SkilloFin chat",
-        title: "New Message from SkilloFin",
-        toEmail: COMPANY_EMAIL,
-      },
-      {
-        onSuccess(data) {
-          if (data === "SUCCESS") {
-            reset();
-          }
-        },
-      }
-    );
-    await contactUsAPI({
-      emailId: e.emailId,
-      fullName: e.fullName,
-      phone: e.phone,
-    });
-  }
+  // async function handleContactUs(e: any) {
+  //   sendEmail(
+  //     {
+  //       body: `New message recived from  ${e.fullName} with email - ${e.emailId} and phone - ${e.phone}`,
+  //       subject: "New Message from SkilloFin chat",
+  //       title: "New Message from SkilloFin",
+  //       toEmail: COMPANY_EMAIL,
+  //     },
+  //     {
+  //       onSuccess(data) {
+  //         if (data === "SUCCESS") {
+  //           reset();
+  //         }
+  //       },
+  //     }
+  //   );
+  //   await contactUsAPI({
+  //     emailId: e.emailId,
+  //     fullName: e.fullName,
+  //     phone: e.phone,
+  //   });
+  // }
 
   function handleReadMoreClick() {
     (whomRef?.current as any)?.scrollIntoView({ behavior: "smooth" });
