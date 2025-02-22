@@ -121,6 +121,10 @@ function Login() {
                 </Button>
               </div>
             </form>
+
+            <div className="flex items-center">
+              Forgot your password? <Button variant={"link"}  onClick={()=>navigate("/forgotpassword")} >Reset here</Button>
+            </div>
           </div>
         </div>
       </div>

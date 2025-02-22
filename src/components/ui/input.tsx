@@ -74,6 +74,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     }
 
+
     return (
       <div className="w-full">
         <div className="flex flex-row w-full items-center gap-1">
@@ -103,7 +104,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </div>
 
-        <div className="h-4 text-destructive ml-2 text-[12px]">
+        <div className="h-4 text-destructive ml-2  lg:text-[12px]">
           {errorMessage}
         </div>
       </div>

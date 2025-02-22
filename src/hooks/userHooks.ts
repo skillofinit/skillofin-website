@@ -333,3 +333,20 @@ export function useApproveBid() {
   });
   return { isPending, approvebid };
 }
+export function useResetPassword() {
+  const { toast } = useToast();
+
+  const { mutate: resetPassword, isPending } = useMutation({
+    mutationFn: (data: any) => approveBidAPI(data),
+    
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, resetPassword };
+}

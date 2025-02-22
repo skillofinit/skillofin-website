@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BASE_URL } from "@/utiles/appUtils";
 
-export async function getMeAPI(emailId?:string) {
+export async function getMeAPI(emailId?: string) {
   const response = await fetch(BASE_URL + "/getme", {
     method: "post",
     body: JSON.stringify({
       authToken: localStorage.getItem("authToken"),
-      emailId
+      emailId,
     }),
   });
   const serverData = await response.json();
@@ -63,7 +63,7 @@ export async function logoutAPI() {
   return serverData;
 }
 
-export async function postJobAPI(data:any) {
+export async function postJobAPI(data: any) {
   const response = await fetch(BASE_URL + "/postjob", {
     method: "post",
     body: JSON.stringify({
@@ -79,7 +79,7 @@ export async function getJobsAPI() {
   const serverData = await response.json();
   return serverData;
 }
-export async function submitBidAPI(data:any) {
+export async function submitBidAPI(data: any) {
   const response = await fetch(BASE_URL + "/bid", {
     method: "post",
     body: JSON.stringify({
@@ -90,7 +90,7 @@ export async function submitBidAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
-export async function createPostAPI(data:any) {
+export async function createPostAPI(data: any) {
   const response = await fetch(BASE_URL + "/post", {
     method: "post",
     body: JSON.stringify({
@@ -101,7 +101,7 @@ export async function createPostAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
-export async function deletePostedAPI(data:any) {
+export async function deletePostedAPI(data: any) {
   const response = await fetch(BASE_URL + "/delete", {
     method: "post",
     body: JSON.stringify({
@@ -112,9 +112,9 @@ export async function deletePostedAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
-export async function approveBidAPI(data:{
-  id:string,
-  freelancerEmailId:string
+export async function approveBidAPI(data: {
+  id: string;
+  freelancerEmailId: string;
 }) {
   const response = await fetch(BASE_URL + "/approvebid", {
     method: "post",
@@ -122,6 +122,14 @@ export async function approveBidAPI(data:{
       ...data,
       authToken: localStorage.getItem("authToken"),
     }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
+export async function resetPasswordAPI(data: any) {
+  const response = await fetch(BASE_URL + "/resetpassword", {
+    method: "post",
+    body: JSON.stringify(data),
   });
   const serverData = await response.json();
   return serverData;
