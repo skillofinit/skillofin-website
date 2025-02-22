@@ -8,6 +8,7 @@ import ConfigureDialog from "./ConfigureDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useGetMe, useUplaodProfileImage } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
+
 import { useLocation } from "react-router-dom";
 
 function Profile() {
@@ -26,8 +27,7 @@ function Profile() {
   const { getMe, isPending: gettingUserDetails } = useGetMe();
 
   useEffect(() => {
-    if (state?.emailId) {
-      getMe(state?.emailId, {
+      getMe(state?.emailId ?? undefined, {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
             setUserData(data?.data);
@@ -35,11 +35,7 @@ function Profile() {
           }
         },
       });
-    } else {
-      setUserData(myData);
-      setUserRole(myRole);
-    }
-  }, [myData]);
+  }, []);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -81,7 +77,7 @@ function Profile() {
   }
 
   return (
-    <div className="border mb-10  w-[95vw] lg:w-[80vw] rounded-lg h-full">
+    <div className="border  w-[95vw] lg:w-[80vw] rounded-lg h-full">
       {(isPending || uplaoding || gettingUserDetails) && (
         <AppSpiner bgColor="bg-foreground/50" />
       )}
@@ -127,7 +123,9 @@ function Profile() {
             </p>
             <div className=" items-center mt-2 gap-2 hidden lg:flex">
               <MdOutlineLocationOn className="w-4 h-4" />
-              <p className="text-lg">Hyderabad, India – 3:01 am local time</p>
+              <p className="text-lg">
+                {userData?.userData?.countryName.split("-")[0]}
+              </p>
             </div>
           </div>
         </div>
@@ -135,13 +133,12 @@ function Profile() {
 
       <div className="h-[1px] w-full bg-foreground/20"></div>
 
-      <div className="flex  lg:flex-row flex-col-reverse ">
+      <div className="flex  lg:flex-row flex-col-reverse  ">
         {/* Left Sidebar */}
-        <div className="flex flex-col border-r border-foreground/20  min-w-[25vw] ">
-          {/* Earnings & Jobs */}
+        <div className="flex flex-col border-r  border-foreground/20  min-w-[25vw] ">
+          {/* Earnings & Jobs */}``
           <div className=" lg:hidden h-[1px] w-full bg-foreground/10"></div>
-
-          <div className="px-8 py-5 flex items-center justify-between " >
+          <div className="px-8 py-5 flex items-center justify-between ">
             <div className="flex flex-col">
               <h5 className="text-xl font-semibold">
                 ${userData?.userAccountData?.earnings ?? 0}
@@ -158,7 +155,6 @@ function Profile() {
           {userRole !== "CLIENT" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
-
           {/* Connects */}
           {/* {userRole !== "CLIENT" && (
             <div className="p-5">
@@ -177,7 +173,6 @@ function Profile() {
           {/* {userRole !== "CLIENT" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )} */}
-
           {/* Cost per Hour */}
           {userRole !== "CLIENT" && (
             <div className="p-7 flex flex-col mt-5">
@@ -198,7 +193,6 @@ function Profile() {
           {userRole !== "CLIENT" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
-
           {/* Languages */}
           {userRole !== "CLIENT" && (
             <div className="p-7 flex flex-col mt-5 ">
@@ -249,13 +243,12 @@ function Profile() {
                   : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
               <div>
-              <MdEditNote
-                onClick={() => {
-                  handleConfigureClick("edit", "title");
-                }}
-                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-              />
-              
+                <MdEditNote
+                  onClick={() => {
+                    handleConfigureClick("edit", "title");
+                  }}
+                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                />
               </div>
             </div>
             <p className="text-lg pr-5 mt-3">

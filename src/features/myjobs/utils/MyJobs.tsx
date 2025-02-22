@@ -48,7 +48,7 @@ function MyJobs() {
           emailId: selectedBid?.freelancerEmail,
         },
       });
-    }, 300);
+    }, 200);
   }
 
   function handleDeleteJob() {

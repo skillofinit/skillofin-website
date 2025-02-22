@@ -15,7 +15,7 @@ function ProtectedLayout() {
 
       <div className=" w-full h-full flex flex-row ">
         <div className="w-full h-full flex flex-col">
-          <div className="flex w-full h-full min-h-[80vh]">
+          <div className="flex w-full h-full pb-5 ">
             <Outlet />
           </div>
           <div className="pb-3">

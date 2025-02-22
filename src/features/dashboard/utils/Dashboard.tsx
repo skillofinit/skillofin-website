@@ -11,7 +11,7 @@ function Dashboard() {
         <div className=" lg:w-[80%]  min-h-[75vh] flex flex-col gap-4">
           <DashBoardHighlightCard />
 
-          <div className="grid grid-cols-1 gap-5 pb-10 ">
+          <div className="grid grid-cols-1 gap-5 ">
             {userData?.allPosts?.map(
               (
                 post: {

@@ -1,6 +1,7 @@
 // export const BASE_URL = "http://localhost:3000/api";
 export const BASE_URL = "https://skillofinapi.vercel.app/api";
 
+
 //company urls
 export const COMPANY_EMAIL = "contact@Skillofin.com";
 export const COMPANY_FACEBOOK =
@@ -44,3 +45,8 @@ export function timeAgo(isoDate: string): string {
 export function truncateString(str: string, maxLength: number): string {
   return str.length <= maxLength ? str : str.slice(0, maxLength) + "...";
 }
+
+
+
+
+

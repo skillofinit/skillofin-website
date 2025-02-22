@@ -26,6 +26,7 @@ function Messaging() {
   const [messages, setMessages] = useState<any[]>([]);
   const [ws, setWs] = useState<WebSocket | null>(null);
   const { state } = useLocation();
+  const [userMessages, setUserMessages] = useState<any>([]);
 
   useEffect(() => {
     if (state?.emailId) {
@@ -71,6 +72,7 @@ function Messaging() {
       setSelectedMessageUser(
         userData?.userData?.messages[selectedMessageKey?.replace(/\./g, "_")]
       );
+      setUserMessages(userData?.userData?.messages);
     }
 
     setTimeout(() => {
@@ -88,6 +90,8 @@ function Messaging() {
       );
     }
   }, [userData, selectedMessageKey]);
+
+  console.log();
 
   function handleMessageUserClick(key: string) {
     setSelectedMessageKey(key.replace(/\_/g, "."));
@@ -121,61 +125,63 @@ function Messaging() {
           selectedMessageUser ? "hidden lg:block" : ""
         } `}
       >
-        <h2 className="px-6 py-4 text-lg font-semibold lg:border-b ">
+        <h2 className="px-6 h-16 py-4 text-lg font-semibold lg:border-b ">
           Messages
         </h2>
-        {Object?.keys(userData?.userData?.messages ?? [])?.map(
-          (key: string, index: number) => (
-            <div
-              onClick={() => {
-                handleMessageUserClick(key);
-              }}
-              key={index}
-              className="px-6 py-3 cursor-pointer hover:bg-foreground/5 lg:border-b flex justify-between items-center w-[100vw] lg:w-full bg-foreground/5 lg:bg-background"
-            >
-              <div className="flex items-center gap-4 relative w-full">
-                <AnimatedImage
-                  src={
-                    userData?.userData?.messages[key]?.profile
-                      ? userData?.userData?.messages[key]?.profile
-                      : "no-user.webp"
-                  }
-                  alt="profile"
-                  className="h-12 w-12 rounded-full border object-cover"
-                />
 
-                <div className="flex justify-between w-full items-center">
-                  <div className="flex flex-col">
-                    <h3 className="text-lg font-medium">
-                      {userData?.userData?.messages[key]?.name}
-                    </h3>
-                    {userData?.userData?.messages[key]?.messages?.length > 0 &&
-                      (() => {
-                        const rawHtml =
-                          userData?.userData?.messages[key]?.messages[
-                            userData?.userData?.messages[key]?.messages.length -
-                              1
-                          ]?.content || "";
+        {Object?.keys(userMessages ?? [])?.length === 0 && (
+          <div className="items-center justify-center w-full text-center mt-10 text-xl">
+            No Messages yet
+          </div>
+        )}
+        {Object?.keys(userMessages ?? [])?.map((key: string, index: number) => (
+          <div
+            onClick={() => {
+              handleMessageUserClick(key);
+            }}
+            key={index}
+            className="px-6 py-3 cursor-pointer hover:bg-foreground/5 lg:border-b flex justify-between items-center w-[100vw] lg:w-full bg-foreground/5 lg:bg-background"
+          >
+            <div className="flex items-center gap-4 relative w-full">
+              <AnimatedImage
+                src={
+                  userMessages[key]?.profile
+                    ? userMessages[key]?.profile
+                    : "no-user.webp"
+                }
+                alt="profile"
+                className="h-12 w-12 rounded-full border object-cover"
+              />
 
-                        const textOnly =
-                          rawHtml.replace(/<[^>]*>/g, "").slice(0, 25) + "..."; // Remove HTML tags & slice
+              <div className="flex justify-between w-full items-center">
+                <div className="flex flex-col">
+                  <h3 className="text-lg font-medium">
+                    {userMessages[key]?.name}
+                  </h3>
+                  {userMessages[key]?.messages?.length > 0 &&
+                    (() => {
+                      const rawHtml =
+                        userMessages[key]?.messages[
+                          userMessages[key]?.messages.length - 1
+                        ]?.content || "";
 
-                        return <div className="text-sm">{textOnly}</div>;
-                      })()}
-                  </div>
-                  {userData?.userData?.messages[key]?.messages?.length -
-                    userData?.userData?.messages[key]?.read >
-                    0 && (
-                    <div className="flex items-center justify-center w-5 h-5 rounded-full bg-destructive text-background">
-                      {userData?.userData?.messages[key]?.messages?.length -
-                        userData?.userData?.messages[key]?.read}
-                    </div>
-                  )}
+                      const textOnly =
+                        rawHtml.replace(/<[^>]*>/g, "").slice(0, 25) + "..."; // Remove HTML tags & slice
+
+                      return <div className="text-sm">{textOnly}</div>;
+                    })()}
                 </div>
+                {userMessages[key]?.messages?.length - userMessages[key]?.read >
+                  0 && (
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-destructive text-background">
+                    {userMessages[key]?.messages?.length -
+                      userMessages[key]?.read}
+                  </div>
+                )}
               </div>
             </div>
-          )
-        )}
+          </div>
+        ))}
       </div>
 
       <div
@@ -187,7 +193,7 @@ function Messaging() {
         {selectedMessageUser && (
           <div className="flex flex-col justify-between w-full h-full">
             {/* Chat Header */}
-            <div className="px-6 py-3 shadow-md border-b bg-background flex items-center gap-4">
+            <div className="px-6 py-3 h-16 shadow-md border-b bg-background flex items-center gap-4">
               <BiLeftArrowAlt
                 className=" lg:hidden p-2 bg-white shadow-md w-10 h-10 rounded-lg"
                 onClick={() => {
@@ -197,8 +203,8 @@ function Messaging() {
               />
               <AnimatedImage
                 src={
-                  userData?.userData?.messages[selectedMessageKey]?.profile
-                    ? userData?.userData?.messages[selectedMessageKey]?.profile
+                  selectedMessageUser?.profile
+                    ? selectedMessageUser?.profile
                     : "no-user.webp"
                 }
                 alt="profile"
@@ -278,11 +284,12 @@ function Messaging() {
             </form>
           </div>
         )}
-        {!selectedMessageUser && (
-          <div className="w-full h-full text-xl  flex items-center justify-center">
-            Start Messaging by selecting user
-          </div>
-        )}
+        {!selectedMessageUser &&
+          Object?.keys(userMessages ?? [])?.length > 0 && (
+            <div className="w-full h-full text-xl  flex items-center justify-center">
+              Start Messaging by selecting user
+            </div>
+          )}
       </div>
     </div>
   );
