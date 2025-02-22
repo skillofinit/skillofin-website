@@ -10,18 +10,14 @@ function ProtectedLayout() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full justify-between  overflow-auto ">
+    <div className="flex flex-col w-full h-screen">
       <DashboardNavBar />
 
-      <div className=" w-full h-full flex flex-row ">
-        <div className="w-full h-full flex flex-col">
-          <div className="flex w-full h-full pb-5 ">
-            <Outlet />
-          </div>
-          <div className="pb-3">
-            <HomeFooter />
-          </div>
+      <div className="flex flex-col flex-grow overflow-y-auto">
+        <div className="flex-grow">
+          <Outlet />
         </div>
+        <div className="pb-5"><HomeFooter /></div>
       </div>
     </div>
   );
