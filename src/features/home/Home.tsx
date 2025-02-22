@@ -56,7 +56,7 @@ function Home() {
         <img
           alt="banner-image"
           src="beams.png"
-          className="object-cover w-full h-[120vh] lg:h-[100vh]"
+          className="object-cover w-full h-[320vh] lg:h-[100vh]"
         />
         <svg
           className="absolute top-10 right-10 hidden lg:flex"
@@ -109,13 +109,13 @@ function Home() {
                 <div>
                   <img
                     src="working.png"
-                    className="w-[40vw] h-[5vh] lg:h-[10vh] lg:w-[10vw] rounded-full object-cover"
+                    className="w-[40vw] h-[7vh] lg:h-[10vh] lg:w-[10vw] rounded-full object-cover"
                   />
                 </div>
                 <div>
                   <img
                     src="connect.jpg"
-                    className=" w-[50vw] h-[5vh]  lg:w-[20vw] lg:h-[10vh]  rounded-full object-cover"
+                    className=" w-[50vw] h-[7vh]  lg:w-[20vw] lg:h-[10vh]  rounded-full object-cover"
                   />
                 </div>
               </div>
@@ -173,7 +173,7 @@ function Home() {
                 </div>
               </Button>
             </div> */}
-            <div className="w-fit flex flex-col lg:flex-row  items-center gap-2 lg:gap-10  mt-[5vw]">
+            <div className="w-fit flex  lg:flex-row  items-center gap-2 lg:gap-10  mt-[2vw]">
               <Button
                 variant={"outline"}
                 onClick={() => {

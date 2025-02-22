@@ -20,6 +20,7 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "../features/jobs/utils/PostJobDialog";
 import { BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
 import { FaSignsPost } from "react-icons/fa6";
+import Logo from "./Logo";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
@@ -55,12 +56,9 @@ function DashboardNavBar() {
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
         <div className="flex items-center gap-8">
-          <img
-            onClick={() => navigate("/dashboard")}
-            src="Skillofin-Logo.png"
-            alt="skillofin logo"
-            className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
-          />
+          <div onClick={() => navigate("/dashboard")} className="cursor-pointer">
+          <Logo/>
+          </div>
           <div className="flex items-center gap-5">
             <div>
               <Popover>
