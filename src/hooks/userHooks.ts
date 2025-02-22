@@ -7,6 +7,7 @@ import {
   getMeAPI,
   logoutAPI,
   postJobAPI,
+  resetPasswordAPI,
   sendMessageAPI,
   submitBidAPI,
   updateProfileAPI,
@@ -337,7 +338,7 @@ export function useResetPassword() {
   const { toast } = useToast();
 
   const { mutate: resetPassword, isPending } = useMutation({
-    mutationFn: (data: any) => approveBidAPI(data),
+    mutationFn: (data: any) => resetPasswordAPI(data),
     
     onError() {
       toast({

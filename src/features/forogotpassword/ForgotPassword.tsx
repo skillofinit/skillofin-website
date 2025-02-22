@@ -21,14 +21,15 @@ function ForgotPassword() {
   function handleResetPassword(e: any) {
     resetPassword(e, {
       onSuccess(data) {
-        if (data?.message === "SUCCESS") {
+        console.log("hello")
+        if (data?.message === "OTP_SUCCESS" || data?.message === "SUCCESS") {
           if (step === 0) {
             setStep(1);
             toast({
               duration: 3000,
               variant: "constructive",
               title: "Success",
-              description: `OTP successfully sent to Enter Email id`,
+              description: `OTP successfully sent to entered Email id`,
             });
           } else if (step === 1) {
             setStep(2);
@@ -51,11 +52,7 @@ function ForgotPassword() {
       },
     });
 
-    if (step === 0) {
-      setStep(1);
-    } else {
-      setStep(2);
-    }
+   
   }
 
   function validatePassword(e: any) {
@@ -100,11 +97,11 @@ function ForgotPassword() {
           <HomeNavBar />
         </div>
         <div className="flex items-center  h-full   lg:w-[80vw]   lg:justify-between lg:flex-row flex-col">
-          <div>
+          <div className="lg:w-[40vw] lg:h-[60vh] w-[90vw] h-[30vh]">
             <img
               alt="forgot password"
               src="forgotpassword.png"
-              className="lg:w-[40vw]"
+              className="lg:w-[40vw] lg:h-[60vh] w-[90vw] h-[30vh]"
             />
           </div>
           <div className="bg-foreground w-[1px] min-h-[60vh] hidden lg:flex"></div>
@@ -168,13 +165,15 @@ function ForgotPassword() {
                 </div>
               )}
 
-              <Button isPending={isPending} className="px-10 py-6 mt-6  w-fit">
+              <div className="mt-6">
+              <Button isPending={isPending} className="px-10 py-6   w-fit">
                 {step === 0
                   ? "Send Otp"
                   : step === 1
                   ? "Validate"
                   : "Reset Password"}
               </Button>
+              </div>
             </form>
           </div>
         </div>
