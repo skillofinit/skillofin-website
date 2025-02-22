@@ -75,7 +75,7 @@ function ContactUs() {
   }
 
   return (
-    <div className="bg-background mt-[10vh] w-full ">
+    <div className="bg-background mt-[10vh] pt-5 w-full ">
       <div className="flex flex-col items-center mt-[10vh]">
         <h6 className="text-4xl font-bold font-serif"> CONTACT US</h6>
         <div className="h-1 w-[20vw] lg:w-[6vw] bg-primary mt-[2vh]"></div>

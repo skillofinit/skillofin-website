@@ -112,14 +112,14 @@ function HomeNavBar({ displayLogo = false }: HomeNavBarInterface) {
             className="p-2 cursor-pointer hover:scale-125  rounded-full w-10 h-10"
           />
 
-          <Button variant={"ghost"} onClick={()=>{navigate("/login")}}>
+          <Button variant={"default"} onClick={()=>{navigate("/login")}}>
             <div className="flex items-center gap-2">
               <FiUser className="w-6 h-6" />
               <p> Login</p>
             </div>
           </Button>
           
-          <Button variant={"ghost"} onClick={()=>{navigate("/signup")}}>
+          <Button variant={"default"} onClick={()=>{navigate("/signup")}}>
             <div className="flex items-center gap-2">
               <FiUserPlus className="w-6 h-6" />
               <p>Sign Up</p>
