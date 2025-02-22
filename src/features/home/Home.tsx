@@ -107,13 +107,13 @@ function Home() {
                 <div>
                   <img
                     src="working.png"
-                    className="w-[40vw] h-[5vh] lg:h-[10vh] lg:w-[10vw] rounded-full"
+                    className="w-[40vw] h-[5vh] lg:h-[10vh] lg:w-[10vw] rounded-full object-cover"
                   />
                 </div>
                 <div>
                   <img
                     src="connect.jpg"
-                    className=" w-[50vw] h-[5vh]  lg:w-[20vw] lg:h-[10vh]  rounded-full"
+                    className=" w-[50vw] h-[5vh]  lg:w-[20vw] lg:h-[10vh]  rounded-full object-cover"
                   />
                 </div>
               </div>
