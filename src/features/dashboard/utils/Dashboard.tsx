@@ -1,5 +1,4 @@
 import { useAppContext } from "@/utiles/AppContext";
-import DashBoardHighlightCard from "./DashBoardHighlightCard";
 import { timeAgo } from "@/utiles/appUtils";
 
 function Dashboard() {
@@ -7,9 +6,8 @@ function Dashboard() {
 
   return (
     <div className="w-full  h-full flex flex-col gap-10">
-      <div className="flex flex-row  px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-between">
-        <div className=" lg:w-[80%]  min-h-[75vh] flex flex-col gap-4">
-          <DashBoardHighlightCard />
+    <div className="flex flex-row items-center px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-center">
+        <div className=" lg:w-fit   min-h-[75vh] flex flex-col gap-4">
 
           <div className="grid grid-cols-1 gap-5 ">
             {userData?.allPosts?.map(
