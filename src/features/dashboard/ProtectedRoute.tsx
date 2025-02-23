@@ -17,7 +17,7 @@ function ProtectedLayout() {
         <div className="flex-grow">
           <Outlet />
         </div>
-        <div className="pb-5"><HomeFooter /></div>
+        <div className="py-5"><HomeFooter /></div>
       </div>
     </div>
   );

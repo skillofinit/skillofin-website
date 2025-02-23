@@ -22,7 +22,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { FaAsterisk } from "react-icons/fa6";
+import { FaAsterisk, FaRegEye } from "react-icons/fa6";
 import { useCreateMilestone, useSendMessage } from "@/hooks/messagingHooks";
 import {
   Accordion,
@@ -59,6 +59,8 @@ function Messaging() {
 
   const { createMilestone, isPending: creatingMilestone } =
     useCreateMilestone();
+
+  const [openProjectDetails, setOpenProjectDetails] = useState(false);
 
   useEffect(() => {
     if (state?.emailId) {
@@ -185,7 +187,7 @@ function Messaging() {
           selectedMessageUser ? "hidden lg:block" : ""
         } `}
       >
-        <h2 className="px-6 h-16 py-4 text-lg font-semibold border backdrop-blur-md shadow-md ">
+        <h2 className="px-6 h-16 py-4 text-lg font-semibold border shadow-md ">
           Messages
         </h2>
 
@@ -240,7 +242,7 @@ function Messaging() {
       </div>
 
       <div
-        className={`w-[100vw] lg:w-[60vw] h-[90vh] lg:h-full border-r ${
+        className={`w-[100vw] lg:w-[60vw] h-[80vh] lg:h-full border-r ${
           !selectedMessageUser ? "hidden lg:flex" : "lg:flex"
         } `}
       >
@@ -248,29 +250,42 @@ function Messaging() {
         {selectedMessageUser && (
           <div className="flex flex-col justify-between w-full h-full">
             {/* Chat Header */}
-            <div className="px-6 py-3 h-16 shadow-md border-b bg-background flex items-center gap-4">
-              <BiLeftArrowAlt
-                className=" lg:hidden p-2 bg-white shadow-md w-10 h-10 rounded-lg"
-                onClick={() => {
-                  setSelectedMessageUser(undefined);
-                  setSelectedMessageKey("");
-                }}
-              />
-              <AnimatedImage
-                src={
-                  selectedMessageUser?.profile
-                    ? selectedMessageUser?.profile
-                    : "no-user.webp"
-                }
-                alt="profile"
-                className="h-12 w-12 rounded-full border object-cover"
-              />
-              <div>
-                <h3 className="text-xl font-medium">
-                  {selectedMessageUser?.name}
-                </h3>
+            <div className="px-6 py-3 h-16 shadow-md justify-between border-b bg-background flex items-center gap-4">
+              <div className="flex items-center gap-4">
+                <div>
+                  <BiLeftArrowAlt
+                    className=" lg:hidden p-2 bg-white shadow-md w-10 h-10 rounded-lg"
+                    onClick={() => {
+                      setSelectedMessageUser(undefined);
+                      setSelectedMessageKey("");
+                    }}
+                  />
+                </div>
+                <AnimatedImage
+                  src={
+                    selectedMessageUser?.profile
+                      ? selectedMessageUser?.profile
+                      : "no-user.webp"
+                  }
+                  alt="profile"
+                  className="h-12 w-12 rounded-full border object-cover"
+                />
+                <div>
+                  <h3 className="text-xl font-medium">
+                    {selectedMessageUser?.name}
+                  </h3>
 
-                <h3 className="text-foreground/50">{selectedMessageKey}</h3>
+                  <h3 className="text-foreground/50">{selectedMessageKey}</h3>
+                </div>
+              </div>
+              <div
+                className="relative top-14 right-4"
+                onClick={() => setOpenProjectDetails(true)}
+              >
+                <div className="px-3 py-2 rounded-md lg:hidden flex items-center gap-1 bg-primary text-background text-nowrap ">
+                  <FaRegEye />
+                  View Milestones
+                </div>
               </div>
             </div>
 
@@ -352,9 +367,21 @@ function Messaging() {
       </div>
 
       {selectedMessageUser && (
-        <div className="w-[30vw] hidden lg:flex h-full overflow-auto">
+        <div
+          className={` ${
+            openProjectDetails
+              ? "absolute bg-background lg:relative"
+              : "hidden lg:relative"
+          } lg:w-[30vw]  lg:flex h-full overflow-auto`}
+        >
           <div className="flex flex-col w-full">
-            <div className="border h-16 py-4 text-lg px-6 w-full shadow-md">
+            <div className="border h-16 py-4 text-lg px-6 w-full shadow-md flex items-center gap-4">
+              <BiLeftArrowAlt
+                className=" lg:hidden p-2 bg-white shadow-md w-10 h-10 rounded-lg"
+                onClick={() => {
+                  setOpenProjectDetails(false);
+                }}
+              />
               Assiged project Details
             </div>
 
@@ -418,13 +445,17 @@ function Messaging() {
                       setOpneDialog(true);
                     }}
                     className="text-xs"
-                    variant={"constructive"}
+                    variant={"outline"}
                   >
                     Create Milestone
                   </Button>
                 </div>
 
                 <div className="mt-5">
+                  <div className="text-xl pb-2">Milestones</div>
+                  {selectedMessageUser?.project?.milestones?.length === 0 && (
+                    <div>No milestones yet</div>
+                  )}
                   <Accordion type="single" collapsible>
                     {selectedMessageUser?.project?.milestones?.map(
                       (milestone: any, index: number) => {
@@ -481,6 +512,22 @@ function Messaging() {
                                     {milestone?.status?.toLowerCase()}
                                   </span>
                                 </div>
+                                <div className="mt-5 w-full flex items-center justify-between gap-3">
+                                  <Button
+                                    className="   px-5"
+                                    variant={"constructive"}
+                                  >
+                                    Relese
+                                  </Button>
+                                  
+                                  <Button
+                                    className="  px-5"
+                                    variant={"destructive"}
+                                  >
+                                    Delete
+                                  </Button>
+
+                                </div>
                               </div>
                             </AccordionContent>
                           </AccordionItem>
@@ -504,7 +551,7 @@ function Messaging() {
         >
           <form
             onSubmit={handleSubmit(handleCreateMileStone)}
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-3 w-fit items-center"
           >
             <Input
               mandatory
@@ -527,7 +574,7 @@ function Messaging() {
               errorMessage={errors?.amount?.message as string}
             />
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2  ">
                 <Popover
                   {...register("date", {
                     required: "Please select Date",
@@ -537,7 +584,7 @@ function Messaging() {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[25vw]  justify-start text-left h-12 font-normal",
+                        "w-[75vw]  lg:w-[25vw]  justify-start text-left h-12 font-normal",
                         (!watch("date") as any) && "text-muted-foreground"
                       )}
                     >
@@ -577,7 +624,7 @@ function Messaging() {
               </div>
             </div>
 
-            <Button className="mt-10" isPending={creatingMilestone}>
+            <Button className="mt-10 px-10" isPending={creatingMilestone}>
               Create
             </Button>
           </form>
