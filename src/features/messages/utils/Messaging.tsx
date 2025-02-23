@@ -23,7 +23,13 @@ import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { FaAsterisk } from "react-icons/fa6";
-import { useSendMessage } from "@/hooks/messagingHooks";
+import { useCreateMilestone, useSendMessage } from "@/hooks/messagingHooks";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 function Messaging() {
   const { userData } = useAppContext();
@@ -50,6 +56,9 @@ function Messaging() {
   const { state } = useLocation();
   const [userMessages, setUserMessages] = useState<any>([]);
   const [openDialog, setOpneDialog] = useState(false);
+
+  const { createMilestone, isPending: creatingMilestone } =
+    useCreateMilestone();
 
   useEffect(() => {
     if (state?.emailId) {
@@ -143,7 +152,21 @@ function Messaging() {
   }
 
   function handleCreateMileStone(e: any) {
-    console.log(e);
+    createMilestone(
+      {
+        ...e,
+        id: selectedMessageUser?.project?.id,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            getMe(undefined);
+            setOpneDialog(false);
+            reset();
+          }
+        },
+      }
+    );
   }
 
   if (Object?.keys(userMessages ?? [])?.length === 0) {
@@ -329,7 +352,7 @@ function Messaging() {
       </div>
 
       {selectedMessageUser && (
-        <div className="w-[30vw] hidden lg:hidde h-full overflow-auto">
+        <div className="w-[30vw] hidden lg:flex h-full overflow-auto">
           <div className="flex flex-col w-full">
             <div className="border h-16 py-4 text-lg px-6 w-full shadow-md">
               Assiged project Details
@@ -400,6 +423,72 @@ function Messaging() {
                     Create Milestone
                   </Button>
                 </div>
+
+                <div className="mt-5">
+                  <Accordion type="single" collapsible>
+                    {selectedMessageUser?.project?.milestones?.map(
+                      (milestone: any, index: number) => {
+                        return (
+                          <AccordionItem
+                            value={index?.toString()}
+                            key={index}
+                            className="border px-3 rounded-md bg-primary text-background "
+                          >
+                            <AccordionTrigger>
+                              <div>
+                                <p className="text-xs">
+                                  {`${milestone?.description} - $${
+                                    milestone?.amount
+                                  } - ${new Date(
+                                    milestone?.dueDate
+                                  )?.toLocaleDateString("en-GB", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  })}`}
+                                </p>
+                              </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div>
+                                <div className=" font-semibold">
+                                  description :{" "}
+                                  <span className="font-thin">
+                                    {milestone?.description}
+                                  </span>
+                                </div>
+                                <div className=" font-semibold">
+                                  Amount :{" "}
+                                  <span className="font-thin">
+                                    ${milestone?.amount}
+                                  </span>
+                                </div>
+                                <div className=" font-semibold">
+                                  Due Date :{" "}
+                                  <span className="font-thin">
+                                    {new Date(
+                                      milestone?.dueDate
+                                    )?.toLocaleDateString("en-GB", {
+                                      day: "2-digit",
+                                      month: "short",
+                                      year: "numeric",
+                                    })}
+                                  </span>
+                                </div>
+                                <div className=" font-semibold">
+                                  Status :{" "}
+                                  <span className="font-thin">
+                                    {milestone?.status?.toLowerCase()}
+                                  </span>
+                                </div>
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        );
+                      }
+                    )}
+                  </Accordion>
+                </div>
               </div>
             </div>
           </div>
@@ -410,7 +499,7 @@ function Messaging() {
           title="Create Milstone"
           onClose={() => {
             setOpneDialog(false);
-            clearErrors();
+            reset();
           }}
         >
           <form
@@ -432,10 +521,10 @@ function Messaging() {
               placeholder="Amout"
               type="number"
               iconName="dlr"
-              {...register("description", {
-                required: "Please enter Description",
+              {...register("amount", {
+                required: "Please enter Amount",
               })}
-              errorMessage={errors?.description?.message as string}
+              errorMessage={errors?.amount?.message as string}
             />
             <div>
               <div className="flex items-center gap-2">
@@ -465,7 +554,14 @@ function Messaging() {
                       mode="single"
                       selected={(watch("date") as any) ?? undefined}
                       onSelect={(date) => {
-                        setValue("date", date);
+                        setValue(
+                          "date",
+                          date?.toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })
+                        );
                         clearErrors("date");
                       }}
                       initialFocus
@@ -481,7 +577,9 @@ function Messaging() {
               </div>
             </div>
 
-            <Button className="mt-10">Create</Button>
+            <Button className="mt-10" isPending={creatingMilestone}>
+              Create
+            </Button>
           </form>
         </AppDialog>
       )}

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToast } from "@/components/ui/use-toast";
-import { sendMessageAPI } from "@/services/messageApi";
+import { createMileStoneAPI, sendMessageAPI } from "@/services/messageApi";
 import { useAppContext } from "@/utiles/AppContext";
 import { useMutation } from "@tanstack/react-query";
 
@@ -38,4 +39,30 @@ export function useSendMessage() {
     },
   });
   return { isPending, sendMessage };
+}
+export function useCreateMilestone() {
+  const { toast } = useToast();
+
+  const { mutate: createMilestone, isPending } = useMutation({
+    mutationFn: (data: any) => createMileStoneAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "destructive",
+          title: "Successfully created",
+          description: "Successfully created milestone",
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, createMilestone };
 }
