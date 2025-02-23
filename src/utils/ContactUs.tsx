@@ -75,15 +75,15 @@ function ContactUs() {
   }
 
   return (
-    <div className="bg-background mt-[10vh] pt-5 w-full ">
+    <div className="bg-background pt-5 w-full ">
       <div className="flex flex-col items-center mt-[10vh]">
-        <h6 className="text-4xl font-bold font-serif"> CONTACT US</h6>
+        <h6 className=" text-2xl lg:text-4xl font-bold font-serif"> CONTACT US</h6>
         <div className="h-1 w-[20vw] lg:w-[6vw] bg-primary mt-[2vh]"></div>
       </div>
-      <div className="items-center flex w-full justify-center mt-[10vh]">
+      <div className="items-center flex w-full justify-center mt-10 lg:mt-[10vh]">
         <div className="flex flex-col lg:flex-row justify-between w-[70vw] items-center">
           <div className="flex flex-col gap-4">
-            <h5 className="font-mono text-4xl font-bold ">
+            <h5 className="font-mono text-2xl lg:text-4xl font-bold ">
               Get in Touch with SkilloFin 👋
             </h5>
             <p className="text-lg lg:max-w-[30vw]">
@@ -91,7 +91,7 @@ function ContactUs() {
               services. Our support team is ready to solve any of your issues.
               Just push a text to us and we will get back to you immediately.
             </p>
-            <div className="flex items-center justify-between mt-8 gap-2 lg:px-8">
+            <div className="flex items-center  justify-between mt-8 gap-2 lg:px-8">
               <IoMdMail title="Email"
                 onClick={() => {
                   handleOpenLinks("mail");
@@ -140,7 +140,7 @@ function ContactUs() {
           </div>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-[100vw] lg:w-[40vw] max-w-sm flex flex-col gap-3 p-8"
+            className="w-[90vw] lg:w-[40vw] max-w-sm flex flex-col gap-3 p-8"
           >
             <Input
               mandatory

@@ -173,9 +173,9 @@ function Home() {
                 </div>
               </Button>
             </div> */}
-            <div className="w-fit flex  lg:flex-row  items-center gap-2 lg:gap-10  mt-[2vw]">
+            <div className="w-fit flex  lg:flex-row  items-center gap-5  lg:gap-10  mt-[2vw]">
               <Button
-                variant={"outline"}
+                
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -189,7 +189,7 @@ function Home() {
                 </div>
               </Button>
               <Button
-                variant={"outline"}
+                
                 onClick={() => {
                   navigate("/signup");
                 }}
@@ -403,7 +403,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="w-full" ref={contactRef}>
+        <div className="w-full mt-20" ref={contactRef}>
           <ContactUs />
         </div>
         <div className="pt-[10vh] w-full pb-10 bg-background ">

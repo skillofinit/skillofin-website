@@ -67,7 +67,9 @@ function HomeNavBar() {
               className="cursor-pointer w-[40vw] lg:w-[10vw] max-w-xs md:w-[30vw]"
             />
           )} */}
-          <Logo />
+          <div onClick={() => navigate("/")} className="cursor-pointer">
+            <Logo />
+          </div>
 
           {/* LG Navbar - remains unchanged */}
           <div className="items-center gap-5 lg:flex hidden">
@@ -101,6 +103,17 @@ function HomeNavBar() {
               onClick={() => handleOpenLinks("pinterest")}
               className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
             />
+            <Button
+              onClick={() => {
+                navigate("/contactus");
+                setMobileMenuOpen(false);
+              }}
+            >
+              <div className="flex   gap-2">
+                <FiUserPlus className="w-6 h-6" />
+                <p>Contact Us</p>
+              </div>
+            </Button>
           </div>
 
           {/* Mobile Menu Icon */}
@@ -118,11 +131,11 @@ function HomeNavBar() {
 
       {/* Mobile Slide Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed  w-[70vw] top-0 h-[100vh]  justify-between bg-white shadow p-6 z-50 flex flex-col gap-6 ">
+        <div className="lg:hidden fixed  w-[80vw] top-0 h-[100vh]  justify-between bg-white shadow p-6 z-50 flex flex-col gap-6 ">
           <div className="flex flex-col gap-10  ">
             <Logo />
             {/* Login & Sign Up Buttons */}
-            <div className="flex flex-col gap-4 px-3">
+            <div className="flex flex-col gap-10 px-3">
               <Button
                 variant="outline"
                 onClick={() => {
@@ -142,9 +155,33 @@ function HomeNavBar() {
                   setMobileMenuOpen(false);
                 }}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex gap-2">
                   <FiUserPlus className="w-6 h-6" />
                   <p>Sign Up</p>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigate("/contactus");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <div className="flex   gap-2">
+                  <FiUserPlus className="w-6 h-6" />
+                  <p>Contact Us</p>
+                </div>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  navigate("/forgotpassword");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <div className="flex   gap-2">
+                  <FiUserPlus className="w-6 h-6" />
+                  <p>Reset Password</p>
                 </div>
               </Button>
             </div>

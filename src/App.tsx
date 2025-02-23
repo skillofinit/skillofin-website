@@ -13,6 +13,7 @@ import JobsMain from "./features/jobs/JobsMain";
 import CreatePost from "./features/createpost/CreatePost";
 import MyPosts from "./features/createpost/utils/MyPosts";
 import ForgotPassword from "./features/forogotpassword/ForgotPassword";
+import ContactUsPage from "./features/contactus/ContactUsPage";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/contactus" element={<ContactUsPage />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
 
             <Route element={<ProtectedLayout />}>
