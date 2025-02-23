@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,8 +57,11 @@ function DashboardNavBar() {
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
         <div className="flex items-center gap-8">
-          <div onClick={() => navigate("/dashboard")} className="cursor-pointer">
-          <Logo/>
+          <div
+            onClick={() => navigate("/dashboard")}
+            className="cursor-pointer"
+          >
+            <Logo />
           </div>
           <div className="flex items-center gap-5">
             <div>
@@ -249,16 +253,19 @@ function DashboardNavBar() {
             alt="Skillofin logo"
             className="cursor-pointer w-32"
           />
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-xl"
-          >
-            {mobileMenuOpen ? (
-              <IoIosCloseCircleOutline className="w-7 h-7" />
-            ) : (
-              <FiMenu />
-            )}
-          </button>
+
+          <div className="items-center flex gap-3">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-xl"
+            >
+              {mobileMenuOpen ? (
+                <IoIosCloseCircleOutline className="w-7 h-7" />
+              ) : (
+                <FiMenu />
+              )}
+            </button>
+          </div>
         </div>
         {mobileMenuOpen && (
           <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit z-[998] ">

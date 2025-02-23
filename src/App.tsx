@@ -16,6 +16,8 @@ import ForgotPassword from "./features/forogotpassword/ForgotPassword";
 import ContactUsPage from "./features/contactus/ContactUsPage";
 const queryClient = new QueryClient();
 function App() {
+
+
   return (
     <div className="w-[100vw] h-[100vh] flex bg-background ">
       <QueryClientProvider client={queryClient}>

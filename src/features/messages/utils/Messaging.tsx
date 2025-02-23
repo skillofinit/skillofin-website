@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/accordion";
 
 function Messaging() {
-  const { userData } = useAppContext();
+  const { userData, userRole } = useAppContext();
   const [selectedMessageUser, setSelectedMessageUser] =
     useState<any>(undefined);
   const [selectedMessageKey, setSelectedMessageKey] = useState("");
@@ -99,7 +99,7 @@ function Messaging() {
         socket.close();
       };
     }
-  }, [selectedMessageKey, messages]); // This can be optimized as mentioned below
+  }, [selectedMessageKey, messages]);
 
   useEffect(() => {
     if (userData?.userData?.messages) {
@@ -385,7 +385,7 @@ function Messaging() {
         )}
       </div>
 
-      {selectedMessageUser && (
+      {selectedMessageUser && userRole === "CLIENT" && (
         <div
           className={` ${
             openProjectDetails
@@ -424,9 +424,9 @@ function Messaging() {
                 <div>
                   Budget : $
                   {`${
-                    selectedMessageUser?.project.budget
-                      ? `${selectedMessageUser?.project.budget} - Fixed price`
-                      : `${selectedMessageUser?.project.costPerHour} /Hr`
+                    selectedMessageUser?.project?.budget
+                      ? `${selectedMessageUser?.project?.budget} - Fixed price`
+                      : `${selectedMessageUser?.project?.costPerHour} /Hr`
                   }`}
                 </div>
                 <div className="grid grid-cols-3 gap-2">

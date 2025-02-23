@@ -191,7 +191,7 @@ function MyJobs() {
                                   {
                                     id: selectedJob?.id,
                                     freelancerEmailId: bid?.freelancerEmail,
-                                  }
+                                  },
                                 );
                               }}
                               variant={"constructive"}
