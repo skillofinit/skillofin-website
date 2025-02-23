@@ -12,7 +12,7 @@ export async function sendEmailAPI(body: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify(body),
   });
   const serverData = await response.json();
@@ -25,7 +25,7 @@ export async function contactUsAPI(body: {
   fullName: string;
 }) {
   await fetch(BASE_URL + "/contact-us", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify(body),
   });
 }

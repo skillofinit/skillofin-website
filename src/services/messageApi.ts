@@ -3,7 +3,7 @@ import { BASE_URL } from "@/utiles/appUtils";
 
 export async function sendMessageAPI(data: any) {
   const response = await fetch(BASE_URL + "/chat", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({
       message: data?.message,
       receiver: data?.receiver,
@@ -15,7 +15,7 @@ export async function sendMessageAPI(data: any) {
 }
 export async function createMileStoneAPI(data: any) {
   const response = await fetch(BASE_URL + "/milestone", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({...data,
       authToken: localStorage.getItem("authToken"),
     }),

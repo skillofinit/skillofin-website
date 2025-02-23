@@ -30,6 +30,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AppSpiner from "@/utiles/AppSpiner";
 
 function Messaging() {
   const { userData, userRole } = useAppContext();
@@ -200,7 +201,7 @@ function Messaging() {
 
   return (
     <div className="h-[80vh]   lg:min-w-[70vw] flex  lg:border lg:shadow-lg">
-      {/* Sidebar */}
+      {isLoading && <AppSpiner />}
       <div
         className={`lg:w-[25vw] w-full lg:border-r ${
           selectedMessageUser ? "hidden lg:block" : ""

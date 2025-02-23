@@ -3,7 +3,7 @@ import { BASE_URL } from "@/utiles/appUtils";
 
 export async function getMeAPI(emailId?: string) {
   const response = await fetch(BASE_URL + "/getme", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({
       authToken: localStorage.getItem("authToken"),
       emailId,
@@ -15,7 +15,7 @@ export async function getMeAPI(emailId?: string) {
 
 export async function updateProfileAPI(data: any) {
   const response = await fetch(BASE_URL + "/updateprofile", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({
       ...data,
       authToken: localStorage.getItem("authToken"),
@@ -27,7 +27,7 @@ export async function updateProfileAPI(data: any) {
 
 export async function uplaodProfieImageAPI(data: any) {
   const response = await fetch(BASE_URL + "/updateprofile", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({
       method: "profileImage",
       data: {
@@ -42,7 +42,7 @@ export async function uplaodProfieImageAPI(data: any) {
 
 export async function logoutAPI() {
   const response = await fetch(BASE_URL + "/logout", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify({
       authToken: localStorage.getItem("authToken"),
     }),
@@ -53,7 +53,7 @@ export async function logoutAPI() {
 
 export async function resetPasswordAPI(data: any) {
   const response = await fetch(BASE_URL + "/resetpassword", {
-    method: "post",
+     method: "post",credentials:"include",
     body: JSON.stringify(data),
   });
   const serverData = await response.json();

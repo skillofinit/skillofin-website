@@ -53,7 +53,7 @@ function Profile() {
     data.append("image", img);
 
     const a = await fetch("https://api.imgbb.com/1/upload", {
-      method: "post",
+       method: "post",credentials:"include",
       body: data,
     });
     const url = await (a.json() as any);

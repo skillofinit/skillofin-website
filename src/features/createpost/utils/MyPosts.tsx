@@ -16,7 +16,7 @@ function MyPosts() {
 
   function handleDeleteJob(id: string) {
     deletePosted(
-      { method: "post", id },
+      {  method: "post",credentials:"include", id },
       {
         onSettled(data) {
           if (data?.message === "SUCCESS") {

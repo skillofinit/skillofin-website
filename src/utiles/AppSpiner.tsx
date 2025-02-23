@@ -5,7 +5,7 @@ interface AppSpinerInterface{
 }
 function AppSpiner({bgColor = "bg-background"}:AppSpinerInterface) {
   return (
-    <div className={`w-[100vw] h-[100vh] fixed inset-0 flex items-center justify-center  backdrop-blur-lg z-[999] ${bgColor}`}>
+    <div className={`w-[100vw] h-[100vh] fixed inset-0 flex items-center justify-center  backdrop-blur-lg z-[1000] ${bgColor}`}>
       <svg className="pl" width="240" height="240" viewBox="0 0 240 240">
         <circle
           className="pl__ring pl__ring--a"

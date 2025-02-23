@@ -5,6 +5,7 @@ import { BASE_URL } from "@/utiles/appUtils";
 export async function signupApi(values: userSignUpPayloadType) {
   const response = await fetch(BASE_URL + "/signup", {
     method: "post",
+    credentials: "include",
     body: JSON.stringify(values),
   });
   const serverData = await response.json();
@@ -18,6 +19,7 @@ export async function loginApi(values: {
 }) {
   const response = await fetch(BASE_URL + "/login", {
     method: "post",
+    credentials: "include",
     body: JSON.stringify(values),
   });
   const serverData = await response.json();
