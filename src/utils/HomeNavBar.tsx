@@ -55,7 +55,7 @@ function HomeNavBar() {
   }
 
   return (
-    <header className="relative">
+    <header className="relative bg-background shadow-md ">
       {/* Navbar */}
       <div className="w-full flex h-fit px-4 lg:px-8 py-4 lg:py-3">
         <div className={`flex items-center w-full justify-between `}>

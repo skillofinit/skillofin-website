@@ -51,7 +51,7 @@ function Home() {
   // }
 
   return (
-    <div className="w-full h-full flex flex-col relative bg-primary/5 text-foreground overflow-x-hidden">
+    <div className="w-full h-full flex flex-col relative bg-background text-foreground overflow-x-hidden">
       <div className="relative w-full h-[100vh]">
         <img
           alt="banner-image"
@@ -59,7 +59,7 @@ function Home() {
           className="object-cover w-full h-[320vh] lg:h-[100vh]"
         />
         <svg
-          className="absolute top-10 right-10 hidden lg:flex"
+          className="absolute top-20 right-10 hidden lg:flex"
           width="200"
           height="200"
           xmlns="http://www.w3.org/2000/svg"
