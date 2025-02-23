@@ -49,7 +49,7 @@ export function useCreateMilestone() {
       if (data?.message === "SUCCESS") {
         toast({
           duration: 3000,
-          variant: "destructive",
+          variant: "constructive",
           title: "Successfully created",
           description: "Successfully created milestone",
         });

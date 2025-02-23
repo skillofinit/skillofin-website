@@ -171,6 +171,25 @@ function Messaging() {
     );
   }
 
+  function deleteMileStore(milestoneId: string) {
+    createMilestone(
+      {
+        method: "delete",
+        milestoneId,
+        id: selectedMessageUser?.project?.id,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            getMe(undefined);
+            setOpneDialog(false);
+            reset();
+          }
+        },
+      }
+    );
+  }
+
   if (Object?.keys(userMessages ?? [])?.length === 0) {
     return (
       <div className="items-center flex justify-center w-full h-full min-h-[70vh]  text-center mt-10 text-xl">
@@ -519,14 +538,17 @@ function Messaging() {
                                   >
                                     Relese
                                   </Button>
-                                  
+
                                   <Button
+                                    isPending={creatingMilestone}
                                     className="  px-5"
                                     variant={"destructive"}
+                                    onClick={() => {
+                                      deleteMileStore(milestone?._id);
+                                    }}
                                   >
                                     Delete
                                   </Button>
-
                                 </div>
                               </div>
                             </AccordionContent>
@@ -624,9 +646,11 @@ function Messaging() {
               </div>
             </div>
 
-            <Button className="mt-10 px-10" isPending={creatingMilestone}>
-              Create
-            </Button>
+            <div className="mt-10 ">
+              <Button className="px-10" isPending={creatingMilestone}>
+                Create
+              </Button>
+            </div>
           </form>
         </AppDialog>
       )}
