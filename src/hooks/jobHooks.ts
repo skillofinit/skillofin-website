@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToast } from "@/components/ui/use-toast";
-import { approveBidAPI, deletePostedAPI, getJobsAPI, postJobAPI, submitBidAPI } from "@/services/jobApi";
+import {
+  approveBidAPI,
+  createPaymentAPI,
+  deletePostedAPI,
+  getJobsAPI,
+  postJobAPI,
+  submitBidAPI,
+} from "@/services/jobApi";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
 
 export function useGetJobs() {
   const { toast } = useToast();
@@ -26,7 +32,6 @@ export function useGetJobs() {
   });
   return { isPending, getJobs, data };
 }
-
 
 export function usePostJob() {
   const { toast } = useToast();
@@ -55,89 +60,104 @@ export function usePostJob() {
   return { isPending, postJob };
 }
 
-
-
 export function useApproveBid() {
-    const { toast } = useToast();
-    const Navigate = useNavigate();
-  
-    const { mutate: approvebid, isPending } = useMutation({
-      mutationFn: (data: { id: string; freelancerEmailId: string }) =>
-        approveBidAPI(data),
-      onSuccess(data) {
-        if (data?.message === "SUCCESS") {
-          toast({
-            duration: 3000,
-            variant: "constructive",
-            title: "Success",
-            description: `Successfully sent approve message`,
-          });
-          Navigate("/messages")
-        }
-      },
-      onError() {
-        toast({
-          duration: 3000,
-          variant: "destructive",
-          title: "Please try again",
-          description: "Something went wrong, Please try again after some time!",
-        });
-      },
-    });
-    return { isPending, approvebid };
-  }
-  
-  export function usePostedDelete() {
-    const { toast } = useToast();
-  
-    const { mutate: deletePosted, isPending } = useMutation({
-      mutationFn: (data: any) => deletePostedAPI(data),
-      onSuccess(data) {
-        if (data?.message === "SUCCESS") {
-          toast({
-            duration: 3000,
-            variant: "constructive",
-            title: "Success",
-            description: `Successfully uploaded job post`,
-          });
-        }
-      },
-      onError() {
-        toast({
-          duration: 3000,
-          variant: "destructive",
-          title: "Please try again",
-          description: "Something went wrong, Please try again after some time!",
-        });
-      },
-    });
-    return { isPending, deletePosted };
-  }
+  const { toast } = useToast();
+  const Navigate = useNavigate();
 
-  export function useSubmitBid() {
-    const { toast } = useToast();
-  
-    const { mutate: submitBid, isPending } = useMutation({
-      mutationFn: (data: any) => submitBidAPI(data),
-      onSuccess(data) {
-        if (data?.message === "SUCCESS") {
-          toast({
-            duration: 3000,
-            variant: "constructive",
-            title: "Success",
-            description: "Bid submitted successfully",
-          });
-        }
-      },
-      onError() {
+  const { mutate: approvebid, isPending } = useMutation({
+    mutationFn: (data: { id: string; freelancerEmailId: string }) =>
+      approveBidAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
         toast({
           duration: 3000,
-          variant: "destructive",
-          title: "Please try again",
-          description: "Something went wrong, Please try again after some time!",
+          variant: "constructive",
+          title: "Success",
+          description: `Successfully sent approve message`,
         });
-      },
-    });
-    return { isPending, submitBid };
-  }
-  
+        Navigate("/messages");
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, approvebid };
+}
+
+export function usePostedDelete() {
+  const { toast } = useToast();
+
+  const { mutate: deletePosted, isPending } = useMutation({
+    mutationFn: (data: any) => deletePostedAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: `Successfully uploaded job post`,
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, deletePosted };
+}
+
+export function useSubmitBid() {
+  const { toast } = useToast();
+
+  const { mutate: submitBid, isPending } = useMutation({
+    mutationFn: (data: any) => submitBidAPI(data),
+    onSuccess(data) {
+      if (data?.message === "SUCCESS") {
+        toast({
+          duration: 3000,
+          variant: "constructive",
+          title: "Success",
+          description: "Bid submitted successfully",
+        });
+      }
+    },
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, submitBid };
+}
+
+export function useCreatePayment() {
+  const { toast } = useToast();
+
+  const { mutate: createPayment, isPending } = useMutation({
+    mutationFn: (data: { amount: string }) => createPaymentAPI(data),
+
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, createPayment };
+}

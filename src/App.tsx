@@ -14,10 +14,9 @@ import CreatePost from "./features/createpost/CreatePost";
 import MyPosts from "./features/createpost/utils/MyPosts";
 import ForgotPassword from "./features/forogotpassword/ForgotPassword";
 import ContactUsPage from "./features/contactus/ContactUsPage";
+import CreatePaymentPage from "./features/payment/CreatePaymet";
 const queryClient = new QueryClient();
 function App() {
-
-
   return (
     <div className="w-[100vw] h-[100vh] flex bg-background ">
       <QueryClientProvider client={queryClient}>
@@ -38,6 +37,7 @@ function App() {
               <Route path="/jobs" element={<JobsMain />} />
               <Route path="/createpost" element={<CreatePost />} />
               <Route path="/myposts" element={<MyPosts />} />
+              <Route path="/payment" element={<CreatePaymentPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

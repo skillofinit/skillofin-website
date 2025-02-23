@@ -19,6 +19,8 @@ import {
   COMPANY_TWITTER,
 } from "@/utiles/appUtils";
 import Logo from "./Logo";
+import { TbHeartHandshake } from "react-icons/tb";
+import { MdDashboard, MdLockReset } from "react-icons/md";
 
 function HomeNavBar() {
   const navigate = useNavigate();
@@ -135,9 +137,21 @@ function HomeNavBar() {
           <div className="flex flex-col gap-10  ">
             <Logo />
             {/* Login & Sign Up Buttons */}
-            <div className="flex flex-col gap-10 px-3">
+            <div className="flex flex-col gap-6 px-3">
               <Button
-                variant="outline"
+                variant="default"
+                onClick={() => {
+                  navigate("/");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <MdDashboard className="w-6 h-6" />
+                  <p>Home</p>
+                </div>
+              </Button>
+              <Button
+                variant="default"
                 onClick={() => {
                   navigate("/login");
                   setMobileMenuOpen(false);
@@ -149,7 +163,7 @@ function HomeNavBar() {
                 </div>
               </Button>
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => {
                   navigate("/signup");
                   setMobileMenuOpen(false);
@@ -161,26 +175,26 @@ function HomeNavBar() {
                 </div>
               </Button>
               <Button
-                variant="outline"
+                variant="default"
                 onClick={() => {
                   navigate("/contactus");
                   setMobileMenuOpen(false);
                 }}
               >
                 <div className="flex   gap-2">
-                  <FiUserPlus className="w-6 h-6" />
+                  <TbHeartHandshake className="w-6 h-6 mt-1" />
                   <p>Contact Us</p>
                 </div>
               </Button>
               <Button
-                variant="outline"
+                variant="destructive"
                 onClick={() => {
                   navigate("/forgotpassword");
                   setMobileMenuOpen(false);
                 }}
               >
-                <div className="flex   gap-2">
-                  <FiUserPlus className="w-6 h-6" />
+                <div className="flex gap-2">
+                  <MdLockReset className="w-6 h-6" />
                   <p>Reset Password</p>
                 </div>
               </Button>

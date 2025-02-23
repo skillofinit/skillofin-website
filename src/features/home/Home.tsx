@@ -6,7 +6,6 @@ import HomeNavBar from "@/utils/HomeNavBar";
 import { LucideUserRoundCheck } from "lucide-react";
 import { useRef } from "react";
 import { FaStar } from "react-icons/fa";
-import { GiArmoredBoomerang } from "react-icons/gi";
 import { LuUserPlus } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
@@ -103,7 +102,6 @@ function Home() {
 
                   <div className="h-1 mt-[4vw] lg:mt-[2vw] bg-primary w-[40vw] lg:w-[15vw]"></div>
                 </div>
-                <GiArmoredBoomerang className=" w-10 h-10 lg:w-20 lg:h-20 lg:-mt-10 lg:ml-5 -mt-5 ml-3 " />
               </div>
               <div className="flex items-center gap-4 ">
                 <div>
@@ -122,7 +120,8 @@ function Home() {
             </div>
             <div>
               <p className="text-4xl lg:pt-2 md:text-2xl lg:text-2xl">
-                Projects - Hiring - Funding - Networking - Empowering Your Work
+                Projects - Hiring - Funding - Networking - Empowrig work
+                ecosystem
               </p>
             </div>
 
@@ -175,7 +174,6 @@ function Home() {
             </div> */}
             <div className="w-fit flex  lg:flex-row  items-center gap-5  lg:gap-10  mt-[2vw]">
               <Button
-                
                 onClick={() => {
                   navigate("/login");
                 }}
@@ -189,7 +187,6 @@ function Home() {
                 </div>
               </Button>
               <Button
-                
                 onClick={() => {
                   navigate("/signup");
                 }}

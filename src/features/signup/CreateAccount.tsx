@@ -32,7 +32,12 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
         emailId: e.emailId,
         firstName: e.firstName,
         password: e.password,
-        role: temp === "Client" ? "client" : "freelancer",
+        role:
+          temp === "Client"
+            ? "client"
+            : temp === "Bank"
+            ? "bank"
+            : "freelancer",
         lastName: e.lastName,
         otp: e?.otp ?? null,
         countryCode: country?.alpha3,
@@ -110,7 +115,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
               />
               <div className="w-[98%]">
                 <CountryDropdown
-                  onChange={(e:any) => {
+                  onChange={(e: any) => {
                     setCountry(e);
                   }}
                   placeholder="Select country"
