@@ -12,8 +12,7 @@ function MyPosts() {
   const { userData } = useAppContext();
   const { deletePosted, isPending } = usePostedDelete();
   const { getMe, isPending: isLoading } = useGetMe();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   function handleDeleteJob(id: string) {
     deletePosted(
@@ -29,24 +28,30 @@ function MyPosts() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col ">
+    <div className="w-full h-full flex flex-col items-center ">
       {(isPending || isLoading) && <AppSpiner bgColor="bg-foreground/50" />}
 
-      <div className="flex w-full justify-end px-4 lg:px-10 mt-3">
-        <Button onClick={()=>{navigate("/createpost")}} className="w-fit px-10 py-6 " variant={"outline"}>
+      <div className="flex w-full justify-between px-4 lg:px-10 mt-3">
+        {userData?.userData?.posts?.length > 0 && (
+          <div className="flex ">
+            <div className="text-2xl lg:text-3xl font-semibold ">My posts</div>
+          </div>
+        )}
+        <Button
+          onClick={() => {
+            navigate("/createpost");
+          }}
+          className="w-fit px-10 py-6 "
+          variant={"outline"}
+        >
           Create Post
         </Button>
       </div>
-      <div className="flex flex-col items-start justify-end px-4 lg:px-10 mt-5 gap-6">
+      <div className="flex flex-col  w-fit justify-end px-4 lg:px-10 mt-5 gap-6">
         {userData?.userData?.posts?.length === 0 && (
           <div className="flex flex-col gap-4 items-center justify-center min-h-[60vh] w-full">
             <div className="text-3xl">No posts yet</div>
             <BsEmojiSmile className="h-20 w-20 text-constructive/40" />
-          </div>
-        )}
-        {userData?.userData?.posts?.length > 0 && (
-          <div className="flex ">
-            <div className="text-2xl lg:text-3xl font-semibold ">My posts</div>
           </div>
         )}
 
@@ -101,7 +106,7 @@ function MyPosts() {
                   alt="post"
                   className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
                 />
-                </div>
+              </div>
 
               {/* <div className="flex justify-between mt-2 text-gray-500">
                           <button className="flex items-center gap-1 hover:text-red-500">
