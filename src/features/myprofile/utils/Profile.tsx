@@ -9,6 +9,7 @@ import { useGetMe, useUplaodProfileImage } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 
 import { useLocation } from "react-router-dom";
+import { useAppContext } from "@/utiles/AppContext";
 
 function Profile() {
   const [openDialog, setOpendilog] = useState<boolean>(false);
@@ -23,17 +24,30 @@ function Profile() {
 
   const { state } = useLocation();
   const { getMe, isPending: gettingUserDetails } = useGetMe();
+  const [loadedFromState, setLaodedFromState] = useState<boolean>(false);
+  const { userData: myData } = useAppContext();
 
   useEffect(() => {
-    getMe(state?.emailId ?? undefined, {
-      onSuccess(data) {
-        if (data?.message === "SUCCESS") {
-          setUserData(data?.data);
-          setUserRole(data?.data?.userData?.role);
-        }
-      },
-    });
-  }, []);
+    if (state?.emailId && !loadedFromState) {
+      getMe(state?.emailId, {
+        onSuccess(data) {
+          setLaodedFromState(true);
+          if (data?.message === "SUCCESS") {
+            setUserData(data?.data);
+            setUserRole(data?.data?.userData?.role);
+          }
+        },
+      });
+    }
+  }, [state]);
+
+  useEffect(() => {
+    if (myData && !state?.emailId) {
+      setUserData(myData);
+      setUserRole(myData?.userData?.role);
+
+    }
+  }, [myData]);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -53,15 +67,22 @@ function Profile() {
     data.append("image", img);
 
     const a = await fetch("https://api.imgbb.com/1/upload", {
-       method: "post",credentials:"include",
+      method: "post",
       body: data,
     });
     const url = await (a.json() as any);
 
     if (url?.data?.url) {
-      uplaodProfileImage({
-        image: url.data.url,
-      });
+      uplaodProfileImage(
+        {
+          image: url.data.url,
+        },
+        {
+          onSuccess() {
+            getMe(undefined);
+          },
+        }
+      );
       setUploading(false);
     } else {
       toast({
@@ -91,7 +112,7 @@ function Profile() {
               }`}
               className="h-20 w-20 lg:w-28 lg:h-28 rounded-full"
             />
-            <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
+            {!state?.emailId && <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
               <input
                 type="file"
                 className="hidden"
@@ -107,7 +128,7 @@ function Profile() {
                   document.getElementById("fileClick")?.click();
                 }}
               />
-            </div>
+            </div>}
           </div>
           <div className="flex flex-col justify-center gap-1">
             <h3 className=" text-xl lg:text-4xl font-semibold">
@@ -134,7 +155,7 @@ function Profile() {
       <div className="flex  lg:flex-row flex-col-reverse  ">
         {/* Left Sidebar */}
         <div className="flex flex-col border-r  border-foreground/20  min-w-[25vw] ">
-          {/* Earnings & Jobs */}``
+          {/* Earnings & Jobs */}
           <div className=" lg:hidden h-[1px] w-full bg-foreground/10"></div>
           <div className="px-8 py-5 flex items-center justify-between ">
             <div className="flex flex-col">
@@ -176,12 +197,12 @@ function Profile() {
             <div className="p-7 flex flex-col mt-5">
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Cost per hour</div>
-                <MdEditNote
+                {!state?.emailId && <MdEditNote
                   onClick={() => {
                     handleConfigureClick("edit", "costPerHour");
                   }}
                   className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                />
+                />}
               </div>
               <div className="text-xl ml-1 font-medium mt-1">
                 ${userData?.userAccountData?.hourlyRate ?? 0}/hr
@@ -197,12 +218,12 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Languages</div>
                 <div className="flex gap-4">
-                  <FiPlus
+                {!state?.emailId &&  <FiPlus
                     onClick={() => {
                       handleConfigureClick("add", "languages");
                     }}
                     className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />
+                  />}
                 </div>
               </div>
               <div className="text-lg mt-4 flex flex-col gap-3">
@@ -241,12 +262,12 @@ function Profile() {
                   : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
               <div>
-                <MdEditNote
+              {!state?.emailId && <MdEditNote
                   onClick={() => {
                     handleConfigureClick("edit", "title");
                   }}
                   className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                />
+                />}
               </div>
             </div>
             <p className="text-lg pr-5 mt-3">
@@ -268,12 +289,12 @@ function Profile() {
                 <h3 className="font-medium text-3xl">Skills</h3>
 
                 <div className="flex items-center gap-4">
-                  <FiPlus
+                {!state?.emailId &&  <FiPlus
                     onClick={() => {
                       handleConfigureClick("add", "skills");
                     }}
                     className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />
+                  />}
                 </div>
               </div>
               <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 mt-3">
@@ -300,12 +321,12 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Projects</h3>
                 <div className="flex gap-4">
-                  <FiPlus
+                {!state?.emailId && <FiPlus
                     onClick={() => {
                       handleConfigureClick("add", "project");
                     }}
                     className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />
+                  />}
                 </div>
               </div>
               <div className="mt-3 grid lg:grid-cols-2 gap-5">
@@ -344,12 +365,12 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Employment History</h3>
                 <div className="flex gap-4">
-                  <FiPlus
+                {!state?.emailId && <FiPlus
                     onClick={() => {
                       handleConfigureClick("add", "employment");
                     }}
                     className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />
+                  />}
                 </div>
               </div>
               <div className="mt-3 grid lg:grid-cols-2 gap-3">
@@ -397,12 +418,14 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Education</h3>
                 <div className="flex gap-4">
-                  <FiPlus
-                    onClick={() => {
-                      handleConfigureClick("add", "education");
-                    }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "education");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
                 </div>
               </div>
               <div className="mt-3 grid lg:grid-cols-2 gap-2 ">

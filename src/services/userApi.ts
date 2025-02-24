@@ -3,10 +3,11 @@ import { BASE_URL } from "@/utiles/appUtils";
 
 export async function getMeAPI(emailId?: string) {
   const response = await fetch(BASE_URL + "/getme", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify({
-      authToken: localStorage.getItem("authToken"),
-      emailId,
+      emailId: localStorage.getItem("emailId"),
+      email: emailId,
     }),
   });
   const serverData = await response.json();
@@ -15,10 +16,11 @@ export async function getMeAPI(emailId?: string) {
 
 export async function updateProfileAPI(data: any) {
   const response = await fetch(BASE_URL + "/updateprofile", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify({
       ...data,
-      authToken: localStorage.getItem("authToken"),
+      emailId: localStorage.getItem("emailId"),
     }),
   });
   const serverData = await response.json();
@@ -27,13 +29,14 @@ export async function updateProfileAPI(data: any) {
 
 export async function uplaodProfieImageAPI(data: any) {
   const response = await fetch(BASE_URL + "/updateprofile", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify({
       method: "profileImage",
       data: {
         image: data?.image,
       },
-      authToken: localStorage.getItem("authToken"),
+      emailId: localStorage.getItem("emailId"),
     }),
   });
   const serverData = await response.json();
@@ -42,9 +45,10 @@ export async function uplaodProfieImageAPI(data: any) {
 
 export async function logoutAPI() {
   const response = await fetch(BASE_URL + "/logout", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify({
-      authToken: localStorage.getItem("authToken"),
+      emailId: localStorage.getItem("emailId"),
     }),
   });
   const serverData = await response.json();
@@ -53,7 +57,8 @@ export async function logoutAPI() {
 
 export async function resetPasswordAPI(data: any) {
   const response = await fetch(BASE_URL + "/resetpassword", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify(data),
   });
   const serverData = await response.json();

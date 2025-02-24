@@ -3,11 +3,12 @@ import { BASE_URL } from "@/utiles/appUtils";
 
 export async function sendMessageAPI(data: any) {
   const response = await fetch(BASE_URL + "/chat", {
-     method: "post",credentials:"include",
+    method: "post",
+    credentials: "include",
     body: JSON.stringify({
       message: data?.message,
       receiver: data?.receiver,
-      authToken: localStorage.getItem("authToken"),
+      emailId: localStorage.getItem("emailId"),
     }),
   });
   const serverData = await response.json();
@@ -15,10 +16,9 @@ export async function sendMessageAPI(data: any) {
 }
 export async function createMileStoneAPI(data: any) {
   const response = await fetch(BASE_URL + "/milestone", {
-     method: "post",credentials:"include",
-    body: JSON.stringify({...data,
-      authToken: localStorage.getItem("authToken"),
-    }),
+    method: "post",
+    credentials: "include",
+    body: JSON.stringify({ ...data, emailId: localStorage.getItem("emailId") }),
   });
   const serverData = await response.json();
   return serverData;

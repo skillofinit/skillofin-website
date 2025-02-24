@@ -124,7 +124,7 @@ export function useLogout() {
     mutationFn: () => logoutAPI(),
     onSuccess(data) {
       if (data?.message === "SUCCESS") {
-        localStorage.removeItem("authToken");
+        localStorage.removeItem("emailId");
         dispatch({
           type: "setUser",
           payload: {
@@ -146,10 +146,6 @@ export function useLogout() {
   });
   return { isPending, logout };
 }
-
-
-
-
 
 export function useResetPassword() {
   const { toast } = useToast();

@@ -9,7 +9,7 @@ import { IoSend } from "react-icons/io5";
 import { IoIosRefresh } from "react-icons/io";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import AnimatedImage from "@/utils/AnimatedImage";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { truncateString } from "@/utiles/appUtils";
 import AppDialog from "@/utiles/AppDilaog";
 import { Calendar } from "@/components/ui/calendar";
@@ -62,6 +62,7 @@ function Messaging() {
     useCreateMilestone();
 
   const [openProjectDetails, setOpenProjectDetails] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (state?.emailId) {
@@ -536,6 +537,7 @@ function Messaging() {
                                   <Button
                                     className="   px-5"
                                     variant={"constructive"}
+                                    onClick={()=>{navigate("/payment")}}
                                   >
                                     Relese
                                   </Button>

@@ -3,9 +3,9 @@ import HomeFooter from "@/utils/HomeFooter";
 import { Outlet, Navigate } from "react-router-dom";
 
 function ProtectedLayout() {
-  const authToken = localStorage.getItem("authToken");
+  const emailId = localStorage.getItem("emailId");
 
-  if (!authToken) {
+  if (!emailId) {
     return <Navigate to="/login" replace />;
   }
 
@@ -17,7 +17,9 @@ function ProtectedLayout() {
         <div className="flex-grow">
           <Outlet />
         </div>
-        <div className="py-5"><HomeFooter /></div>
+        <div className="py-5">
+          <HomeFooter />
+        </div>
       </div>
     </div>
   );

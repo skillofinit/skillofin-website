@@ -77,7 +77,7 @@ export function useLogin() {
           description: "We Sent a OTP for given Email Id",
         });
       } else if (data?.message === "SUCCESS") {
-        localStorage.setItem("authToken", data?.authToken);
+        localStorage.setItem("emailId", data?.emailId);
 
         navigate("/dashboard  ");
       } else if (data?.message === "USER_NOT_FOUND") {
