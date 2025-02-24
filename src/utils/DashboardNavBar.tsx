@@ -50,7 +50,7 @@ function DashboardNavBar() {
   }
 
   return (
-    <div className="w-full relative py-2 pl-3">
+    <div className="w-full relative  pl-3">
       {open && <PostJobDialog onClose={onClose} />}
       {isLoading && <AppSpiner bgColor="bg-foreground/40" />}
 

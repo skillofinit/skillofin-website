@@ -4,30 +4,37 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
+import { NavLink, useLocation } from "react-router-dom";\
 
-const stripePromise = loadStripe(
-  "pk_test_51QuEIcQ9qBqxEsVwX7kVNzPaUJyhzIYbnjaEuS4ugh82zpnFxqItyZ8dyaV958lrtAJrX1mTotWRXlYuyw6v2q8v004F5fOcAt"
-);
+
+
+const env = await import.meta.env;
+
+const stripePromise = loadStripe(env?.VITE_STRIPE_KEY as string);
 
 function CreatePaymentPage() {
   const [clientSecret, setClientSecret] = useState<string>("");
-
   const { isPending, createPayment } = useCreatePayment();
+  const { state } = useLocation();
+  const [loaded,setLoaded] = useState<boolean>(false)
 
   useEffect(() => {
-    createPayment(
-      {
-        amount: "100",
-      },
-      {
-        onSettled(data) {
-          if (data?.clientSecret) {
-            setClientSecret(data?.clientSecret);
-          }
+    if (state?.amount && !loaded) {
+      setLoaded(true)
+      createPayment(
+        {
+          amount: state?.amount,
         },
-      }
-    );
-  }, []);
+        {
+          onSettled(data) {
+            if (data?.clientSecret) {
+              setClientSecret(data?.clientSecret);
+            }
+          },
+        }
+      );
+    }
+  }, [state,loaded]);
 
   if (isPending) return <AppSpiner />;
 
@@ -48,7 +55,5 @@ function CreatePaymentPage() {
     </div>
   );
 }
-
-
 
 export default CreatePaymentPage;
