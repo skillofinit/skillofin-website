@@ -32,14 +32,14 @@ function CheckoutForm() {
   return (
     <div className="flex flex-col lg:flex-row  w-full h-full lg:px-20">
       <div className="flex flex-row w-full ">
-        <div>
+        <div className="lg:w-[50vw]">
           <img alt="Payment" src="payment.jpg" className="lg:h-[70vh]" />
         </div>
         <div className="hidden lg:flex h-full w-[1px] bg-foreground/40"></div>
       </div>
 
       <div className="lg:w-full flex items-center justify-center h-full">
-        <div className="w-[90vw] lg:w-[30vw]  lg:max-h-[70vh] overflow-auto">
+        <div className="w-[90vw] lg:w-[30vw]  lg:max-h-[90vh] p-3 overflow-auto">
           <form onSubmit={handleSubmit} className="flex flex-col items-center ">
             <PaymentElement />
             <Button disabled={!stripe} className="mt-10 w-fit">
