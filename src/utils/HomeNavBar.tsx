@@ -21,7 +21,7 @@ import {
 import Logo from "./Logo";
 import { TbHeartHandshake } from "react-icons/tb";
 import { MdDashboard, MdLockReset, MdPrivacyTip } from "react-icons/md";
-import { FaQuestionCircle } from "react-icons/fa";
+import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { LuListEnd } from "react-icons/lu";
 
 function HomeNavBar() {
@@ -123,7 +123,7 @@ function HomeNavBar() {
                 }}
               >
                 <div className="flex   gap-2">
-                  <TbHeartHandshake className="w-6 h-6" />
+                  <TbHeartHandshake className="w-6 h-6 mt-1" />
                   <p>Contact Us</p>
                 </div>
               </Button>
@@ -152,7 +152,8 @@ function HomeNavBar() {
             {/* Navigation Buttons */}
             <div className="flex flex-col gap-4">
               {[
-                { label: "Home", icon: <MdDashboard />, path: "/" },
+                { label: "Home", icon: <FaHome />, path: "/" },
+                { label: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
                 { label: "Login", icon: <FiUser />, path: "/login" },
                 { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
                 {
