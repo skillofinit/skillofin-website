@@ -15,6 +15,9 @@ import MyPosts from "./features/createpost/utils/MyPosts";
 import ForgotPassword from "./features/forogotpassword/ForgotPassword";
 import ContactUsPage from "./features/contactus/ContactUsPage";
 import CreatePaymentPage from "./features/payment/CreatePaymet";
+import Faq from "./features/faqs/Faq";
+import TermsAndConditions from "./features/termsconditions/TermsAndConditions";
+import PrivacyPolicy from "./features/privacypolicy/PrivacyPolicy";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -24,9 +27,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login />} /> 
             <Route path="/contactus" element={<ContactUsPage />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/faqs" element={<Faq />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
             <Route element={<ProtectedLayout />}>
               <Route path="/dashboard" element={<DashBoardMain />} />

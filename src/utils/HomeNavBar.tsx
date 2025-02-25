@@ -20,7 +20,9 @@ import {
 } from "@/utiles/appUtils";
 import Logo from "./Logo";
 import { TbHeartHandshake } from "react-icons/tb";
-import { MdDashboard, MdLockReset } from "react-icons/md";
+import { MdDashboard, MdLockReset, MdPrivacyTip } from "react-icons/md";
+import { FaQuestionCircle } from "react-icons/fa";
+import { LuListEnd } from "react-icons/lu";
 
 function HomeNavBar() {
   const navigate = useNavigate();
@@ -50,11 +52,19 @@ function HomeNavBar() {
         break;
     }
   }
-
-  // Helper for footer email click
-  function handleEmailClick() {
-    window.open(`mailto:${COMPANY_EMAIL}`);
+  function handleNavigation(path: string) {
+    navigate(path);
+    setMobileMenuOpen(false);
   }
+
+  const socialIcons = [
+    { Icon: IoMdMail, title: "Email", link: "mail" },
+    { Icon: FaFacebook, title: "Facebook", link: "facebook" },
+    { Icon: FaInstagram, title: "Instagram", link: "instagram" },
+    { Icon: FaXTwitter, title: "X", link: "x" },
+    { Icon: FaLinkedin, title: "LinkedIn", link: "linkedin" },
+    { Icon: FaPinterest, title: "Pinterest", link: "pinterest" },
+  ];
 
   return (
     <header className="relative bg-background shadow-md ">
@@ -73,201 +83,143 @@ function HomeNavBar() {
             <Logo />
           </div>
 
-          {/* LG Navbar - remains unchanged */}
-          <div className="items-center gap-5 lg:flex hidden">
-            <IoMdMail
-              title="Email"
-              onClick={() => handleOpenLinks("mail")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <FaFacebook
-              title="Facebook"
-              onClick={() => handleOpenLinks("facebook")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <FaInstagram
-              title="Instagram"
-              onClick={() => handleOpenLinks("instagram")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <FaXTwitter
-              title="X"
-              onClick={() => handleOpenLinks("x")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <FaLinkedin
-              title="LinkedIn"
-              onClick={() => handleOpenLinks("linkedin")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <FaPinterest
-              title="Pinterest"
-              onClick={() => handleOpenLinks("pinterest")}
-              className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-            />
-            <Button
-              onClick={() => {
-                navigate("/contactus");
-                setMobileMenuOpen(false);
-              }}
-            >
-              <div className="flex   gap-2">
-                <FiUserPlus className="w-6 h-6" />
-                <p>Contact Us</p>
-              </div>
-            </Button>
-          </div>
-
-          {/* Mobile Menu Icon */}
-          <div className="lg:hidden flex items-center">
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              {mobileMenuOpen ? (
-                <FiX className="w-6 h-6" />
-              ) : (
-                <FiMenu className="w-6 h-6" />
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Slide Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed  w-[80vw] top-0 h-[100vh]  justify-between bg-white shadow p-6 z-50 flex flex-col gap-6 ">
-          <div className="flex flex-col gap-10  ">
-            <Logo />
-            {/* Login & Sign Up Buttons */}
-            <div className="flex flex-col gap-6 px-3">
+          <div className="flex items-center gap-10">
+            {/* LG Navbar - remains unchanged */}
+            <div className="items-center gap-5 lg:flex hidden">
+              <IoMdMail
+                title="Email"
+                onClick={() => handleOpenLinks("mail")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
+              <FaFacebook
+                title="Facebook"
+                onClick={() => handleOpenLinks("facebook")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
+              <FaInstagram
+                title="Instagram"
+                onClick={() => handleOpenLinks("instagram")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
+              <FaXTwitter
+                title="X"
+                onClick={() => handleOpenLinks("x")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
+              <FaLinkedin
+                title="LinkedIn"
+                onClick={() => handleOpenLinks("linkedin")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
+              <FaPinterest
+                title="Pinterest"
+                onClick={() => handleOpenLinks("pinterest")}
+                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
+              />
               <Button
-                variant="default"
-                onClick={() => {
-                  navigate("/");
-                  setMobileMenuOpen(false);
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <MdDashboard className="w-6 h-6" />
-                  <p>Home</p>
-                </div>
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => {
-                  navigate("/login");
-                  setMobileMenuOpen(false);
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <FiUser className="w-6 h-6" />
-                  <p>Login</p>
-                </div>
-              </Button>
-              <Button
-                variant="default"
-                onClick={() => {
-                  navigate("/signup");
-                  setMobileMenuOpen(false);
-                }}
-              >
-                <div className="flex gap-2">
-                  <FiUserPlus className="w-6 h-6" />
-                  <p>Sign Up</p>
-                </div>
-              </Button>
-              <Button
-                variant="default"
                 onClick={() => {
                   navigate("/contactus");
                   setMobileMenuOpen(false);
                 }}
               >
                 <div className="flex   gap-2">
-                  <TbHeartHandshake className="w-6 h-6 mt-1" />
+                  <TbHeartHandshake className="w-6 h-6" />
                   <p>Contact Us</p>
                 </div>
               </Button>
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  navigate("/forgotpassword");
-                  setMobileMenuOpen(false);
-                }}
-              >
-                <div className="flex gap-2">
-                  <MdLockReset className="w-6 h-6" />
-                  <p>Reset Password</p>
-                </div>
-              </Button>
+              {/* Mobile Menu Icon */}
             </div>
+            <div className=" flex items-center">
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                {mobileMenuOpen ? (
+                  <FiX className="w-6 h-6" />
+                ) : (
+                  <FiMenu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Grid of Social Icons */}
+      {/* Mobile Slide Menu */}
+      {mobileMenuOpen && (
+        <div className="fixed lg:w-fit w-[80vw] top-0 h-full bg-white shadow-xl p-6 z-50 flex flex-col justify-between animate-slide-in">
+          {/* Logo & Menu Items */}
+          <div className="flex flex-col gap-8">
+            <Logo />
+
+            {/* Navigation Buttons */}
+            <div className="flex flex-col gap-4">
+              {[
+                { label: "Home", icon: <MdDashboard />, path: "/" },
+                { label: "Login", icon: <FiUser />, path: "/login" },
+                { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
+                {
+                  label: "Contact Us",
+                  icon: <TbHeartHandshake />,
+                  path: "/contactus",
+                },
+
+                {
+                  label: "Faqs",
+                  icon: <FaQuestionCircle />,
+                  path: "/faqs",
+                },
+                {
+                  label: "Terms and conditions",
+                  icon: <LuListEnd />,
+                  path: "/terms-and-conditions",
+                },
+                {
+                  label: "Privacy policy",
+                  icon: <MdPrivacyTip />,
+                  path: "/privacy-policy",
+                },
+
+                {
+                  label: "Reset Password",
+                  icon: <MdLockReset />,
+                  path: "/forgotpassword",
+                  variant: "destructive",
+                },
+              ].map(({ label, icon, path, variant }, index) => (
+                <button
+                  key={index}
+                  className={`flex items-center gap-3 px-5 py-2 rounded-lg lg:text-lg font-medium transition-all duration-200 
+                  ${
+                    variant === "destructive"
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "bg-gradient-to-r from-blue-600 to-purple-500 text-white hover:opacity-90"
+                  }`}
+                  onClick={() => handleNavigation(path)}
+                >
+                  {icon}
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="flex flex-col gap-10">
-            <div className="grid grid-cols-3 gap-4">
-              <IoMdMail
-                title="Email"
-                onClick={() => {
-                  handleOpenLinks("mail");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
-              <FaFacebook
-                title="Facebook"
-                onClick={() => {
-                  handleOpenLinks("facebook");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
-              <FaInstagram
-                title="Instagram"
-                onClick={() => {
-                  handleOpenLinks("instagram");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
-              <FaXTwitter
-                title="X"
-                onClick={() => {
-                  handleOpenLinks("x");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
-              <FaLinkedin
-                title="LinkedIn"
-                onClick={() => {
-                  handleOpenLinks("linkedin");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
-              <FaPinterest
-                title="Pinterest"
-                onClick={() => {
-                  handleOpenLinks("pinterest");
-                  setMobileMenuOpen(false);
-                }}
-                className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
-              />
+          {/* Social Icons */}
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-4 items-center justify-center  lg:grid-cols-6 gap-3">
+              {socialIcons.map(({ Icon, title, link }, index) => (
+                <Icon
+                  key={index}
+                  title={title}
+                  className="p-2 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 transition-all duration-200"
+                  onClick={() => handleNavigation(link)}
+                />
+              ))}
             </div>
-            {/* Mobile Footer */}
-            <div className="mt-4">
-              <div className=" mx-auto flex flex-col gap-4 items-center justify-between">
-                <p>© 2025 SkilloFin. All Rights Reserved.</p>
-                <div className="flex flex-col items-center gap-2">
-                  <p>North American Company</p>
-                  <div
-                    onClick={handleEmailClick}
-                    className="border-b text-primary border-primary cursor-pointer"
-                  >
-                    {COMPANY_EMAIL}
-                  </div>
-                </div>
-              </div>
+
+            {/* Footer */}
+            <div className="text-center text-gray-600 text-sm items-center flex flex-col w-full ">
+              <p>© 2025 SkilloFin. All Rights Reserved.</p>
+              <p className="text-primary cursor-pointer border-b border-primary mt-2 w-fit">
+                support@skillofin.com
+              </p>
             </div>
           </div>
         </div>
