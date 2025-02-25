@@ -118,11 +118,13 @@ function Home() {
                 </div>
               </div>
             </div>
-            <div>
-              <p className="text-4xl lg:pt-2 md:text-2xl lg:text-2xl">
-                Projects - Hiring - Funding - Networking - Empowrig work
-                ecosystem
-              </p>
+            <div className="flex ">
+              <div className="flex flex-col items-center w-fit gap-3">
+                <p className="text-4xl lg:pt-2 md:text-2xl lg:text-2xl">
+                  Projects - Hiring - Funding - Networking
+                </p>
+                <p className="text-2xl">( Empowering work ecosystem )</p>
+              </div>
             </div>
 
             {/* <div className="text-lg">
@@ -130,7 +132,7 @@ function Home() {
               Zero commission fees for first 100 freelancers in any category for
               one year !
             </div> */}
-            <div className=" hidden lg:flex justify-end -mt-8">
+            {/* <div className=" hidden lg:flex justify-end -mt-8">
               <svg
                 width="300"
                 height="8"
@@ -147,7 +149,7 @@ function Home() {
                 />
                 <polygon points="290,0 300,4 290,8" fill="black" />
               </svg>
-            </div>
+            </div> */}
             {/* <div className="w-fit flex flex-col lg:flex-row  items-center gap-2 lg:gap-10  mt-[5vw]">
               <Button
                 variant={"outline"}

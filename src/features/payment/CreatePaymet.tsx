@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
-import { NavLink, useLocation } from "react-router-dom";\
+import {  useLocation } from "react-router-dom";
 
 
 
