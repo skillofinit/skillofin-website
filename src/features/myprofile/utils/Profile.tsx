@@ -167,15 +167,15 @@ function Profile() {
               </p>
             </div>
             <div className="flex flex-col">
-              <h5 className="text-xl font-semibold">1</h5>
+              <h5 className="text-xl font-semibold">0</h5>
               <p className="text-lg text-foreground/70">Total jobs</p>
             </div>
           </div>
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
           {/* Connects */}
-          {/* {userRole !== "CLIENT" && (
+          {/* {userRole === "FREELANCER" && (
             <div className="p-5">
               <div className="p-5 gap-5 bg-background shadow-sm border rounded-lg flex flex-col">
                 <div className="text-xl ml-4 font-medium">
@@ -189,11 +189,11 @@ function Profile() {
               </div>
             </div>
           )} */}
-          {/* {userRole !== "CLIENT" && (
+          {/* {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )} */}
           {/* Cost per Hour */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="p-7 flex flex-col mt-5">
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Cost per hour</div>
@@ -209,11 +209,11 @@ function Profile() {
               </div>
             </div>
           )}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
           {/* Languages */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="p-7 flex flex-col mt-5 ">
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Languages</div>
@@ -278,12 +278,12 @@ function Profile() {
                 : "Add summary about yourself."}
             </p>
           </div>
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
 
           {/* Skills */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Skills</h3>
@@ -311,12 +311,12 @@ function Profile() {
               </div>
             </div>
           )}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
 
           {/* Portfolio */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Projects</h3>
@@ -356,11 +356,11 @@ function Profile() {
               </div>
             </div>
           )}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10 "></div>
           )}
           {/* Employment History */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Employment History</h3>
@@ -408,12 +408,12 @@ function Profile() {
               </div>
             </div>
           )}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
 
           {/* Education */}
-          {userRole !== "CLIENT" && (
+          {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Education</h3>
