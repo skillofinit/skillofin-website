@@ -5,10 +5,12 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();
 
   async function handleSubmit(event: any) {
     event.preventDefault();
@@ -20,9 +22,17 @@ function CheckoutForm() {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://example.com/order/123/complete",
+        return_url: `${window.location.origin}/verify`,
       },
+      redirect: "if_required",
     });
+    if (result?.paymentIntent?.status === "succeeded") {
+      navigate("/verify", {
+        state: {
+          paymentIntent: result.paymentIntent?.id,
+        },
+      });
+    }
 
     if (result.error) {
       console.log(result.error.message);

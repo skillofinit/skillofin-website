@@ -67,7 +67,7 @@ function HomeNavBar() {
   ];
 
   return (
-    <header className="relative bg-background shadow-md ">
+    <header className="relative bg-background shadow-md  ">
       {/* Navbar */}
       <div className="w-full flex h-fit px-4 lg:px-8 py-4 lg:py-3">
         <div className={`flex items-center w-full justify-between `}>
@@ -144,13 +144,13 @@ function HomeNavBar() {
 
       {/* Mobile Slide Menu */}
       {mobileMenuOpen && (
-        <div className="fixed lg:w-fit w-[80vw] top-0 h-full bg-white shadow-xl p-6 z-50 flex flex-col justify-between animate-slide-in">
+        <div className="fixed lg:w-fit w-[80vw]  top-0 h-full bg-white shadow-xl p-6 -mt-2 z-50 flex flex-col justify-between animate-slide-in">
           {/* Logo & Menu Items */}
           <div className="flex flex-col gap-8">
             <Logo />
 
             {/* Navigation Buttons */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {[
                 { label: "Home", icon: <FaHome />, path: "/" },
                 { label: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
@@ -187,7 +187,7 @@ function HomeNavBar() {
               ].map(({ label, icon, path, variant }, index) => (
                 <button
                   key={index}
-                  className={`flex items-center gap-3 px-5 py-2 rounded-lg lg:text-lg font-medium transition-all duration-200 
+                  className={`flex items-center gap-3 px-5 py-2 rounded-lg lg:text-[15px]  font-medium transition-all duration-200 
                   ${
                     variant === "destructive"
                       ? "bg-red-500 text-white hover:bg-red-600"

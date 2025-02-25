@@ -17,7 +17,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
   const { errors } = formState;
   const [step, setStep] = useState(0);
   const [country, setCountry] = useState({
-    alpha3: "USA",
+    alpha2: "US",
     currencies: "",
     name: "",
   });
@@ -40,7 +40,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
             : "freelancer",
         lastName: e.lastName,
         otp: e?.otp ?? null,
-        countryCode: country?.alpha3,
+        countryCode: country?.alpha2 ??"US",
         currency: country?.currencies[0],
         countryName: country?.name,
       },
@@ -119,7 +119,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
                     setCountry(e);
                   }}
                   placeholder="Select country"
-                  defaultValue={country?.alpha3}
+                  defaultValue={country?.alpha2}
                 />
               </div>{" "}
             </div>

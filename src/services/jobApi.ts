@@ -74,3 +74,15 @@ export async function createPaymentAPI(data: { amount: string }) {
   const serverData = await response.json();
   return serverData;
 }
+export async function verifyPaymentAPI(data: any) {
+  const response = await fetch(BASE_URL + "/verifypayment", {
+    method: "post",
+    credentials: "include",
+    body: JSON.stringify({
+      ...data,
+      emailId: localStorage.getItem("emailId"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}

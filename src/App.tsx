@@ -18,6 +18,7 @@ import CreatePaymentPage from "./features/payment/CreatePaymet";
 import Faq from "./features/faqs/Faq";
 import TermsAndConditions from "./features/termsconditions/TermsAndConditions";
 import PrivacyPolicy from "./features/privacypolicy/PrivacyPolicy";
+import VerifyPayment from "./features/verifypayment/VerifyPayemnt";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="/createpost" element={<CreatePost />} />
               <Route path="/myposts" element={<MyPosts />} />
               <Route path="/payment" element={<CreatePaymentPage />} />
+              <Route path="/verify" element={<VerifyPayment />} />
             </Route>
           </Routes>
         </BrowserRouter>

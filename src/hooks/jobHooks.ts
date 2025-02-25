@@ -7,6 +7,7 @@ import {
   getJobsAPI,
   postJobAPI,
   submitBidAPI,
+  verifyPaymentAPI,
 } from "@/services/jobApi";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -160,4 +161,21 @@ export function useCreatePayment() {
     },
   });
   return { isPending, createPayment };
+}
+export function useVerifyPayment() {
+  const { toast } = useToast();
+
+  const { mutate: verifyPayment, isPending } = useMutation({
+    mutationFn: (data: any) => verifyPaymentAPI(data),
+
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, verifyPayment };
 }

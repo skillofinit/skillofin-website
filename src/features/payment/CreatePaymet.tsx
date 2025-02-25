@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
 import {  useLocation } from "react-router-dom";
+import { useAppContext } from "@/utiles/AppContext";
 
 
 
@@ -15,9 +16,15 @@ function CreatePaymentPage() {
   const { isPending, createPayment } = useCreatePayment();
   const { state } = useLocation();
   const [loaded,setLoaded] = useState<boolean>(false)
+  const {dispatch} = useAppContext()
 
   useEffect(() => {
-    if (state?.amount && !loaded) {
+    if (state?.amount && !loaded && state?.emailId) {
+      dispatch({
+        type:"setPaymentEmailId",
+        payload:state?.emailId
+      })
+
       setLoaded(true)
       createPayment(
         {

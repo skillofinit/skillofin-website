@@ -12,6 +12,7 @@ export type contextType = {
   userRole: string | undefined;
   loggedIn: boolean;
   userData: any;
+  paymetEmailId: string;
 };
 
 const initState: contextType = {
@@ -20,6 +21,7 @@ const initState: contextType = {
   userRole: undefined,
   loggedIn: false,
   userData: undefined,
+  paymetEmailId: "",
 };
 
 const contextProvider = createContext(initState);
@@ -31,9 +33,14 @@ function reducer(state: contextType, action: dispatchDataType) {
         ...state,
         temp: action?.payload,
       };
-    case "setUser":
+    case "setPaymentEmailId":
       return {
         ...state,
+        paymetEmailId: action?.payload,
+      };
+    case "setUser":
+      return {
+      ...state,
         loggedIn: action?.payload?.loggedIn,
         userRole: action?.payload?.data?.userData?.role ?? undefined,
         userData: action.payload?.data ?? undefined,
@@ -74,10 +81,8 @@ function reducer(state: contextType, action: dispatchDataType) {
   }
 }
 export default function AppContext({ children }: { children: ReactNode }) {
-  const [{ temp, loggedIn, userData, userRole }, dispatch] = useReducer(
-    reducer,
-    initState
-  );
+  const [{ temp, loggedIn, userData, userRole, paymetEmailId }, dispatch] =
+    useReducer(reducer, initState);
 
   return (
     <contextProvider.Provider
@@ -86,6 +91,7 @@ export default function AppContext({ children }: { children: ReactNode }) {
         loggedIn,
         userData,
         userRole,
+        paymetEmailId,
         temp,
       }}
     >

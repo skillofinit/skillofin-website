@@ -558,6 +558,7 @@ function Messaging() {
                                         navigate("/payment", {
                                           state: {
                                             amount: milestone?.amount,
+                                            emailId:selectedMessageUser?.project?.assignedFreelancerEmail
                                           },
                                         });
                                       }}
