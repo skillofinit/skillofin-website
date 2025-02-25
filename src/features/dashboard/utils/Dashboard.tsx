@@ -6,9 +6,8 @@ function Dashboard() {
 
   return (
     <div className="w-full  h-full flex flex-col gap-10">
-    <div className="flex flex-row items-center px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-center">
+      <div className="flex flex-row items-center px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-center">
         <div className=" lg:w-fit   min-h-[75vh] flex flex-col gap-4">
-
           <div className="grid grid-cols-1 gap-5 ">
             {userData?.allPosts?.map(
               (
@@ -30,7 +29,7 @@ function Dashboard() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10  rounded-full">
                       <img
-                      className="rounded-full"
+                        className="rounded-full"
                         alt="profile"
                         src={post?.profile ? post?.profile : "no-user.png"}
                       />
@@ -46,12 +45,14 @@ function Dashboard() {
                   </div>
                   <div className="text-gray-600">{post.content}</div>
                   <div>
-                <img
-                  src={post.image}
-                  alt="post"
-                  className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
-                />
-                </div>
+                    {post.image && (
+                      <img
+                        src={post.image}
+                        alt="post"
+                        className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
+                      />
+                    )}
+                  </div>
 
                   {/* <div className="flex justify-between mt-2 text-gray-500">
                     <button className="flex items-center gap-1 hover:text-red-500">
@@ -69,8 +70,6 @@ function Dashboard() {
             )}
           </div>
         </div>
-
-        
       </div>
     </div>
   );
