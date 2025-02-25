@@ -8,9 +8,7 @@ import {  useLocation } from "react-router-dom";
 
 
 
-const env = await import.meta.env;
-
-const stripePromise = loadStripe(env?.VITE_STRIPE_KEY as string);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string);
 
 function CreatePaymentPage() {
   const [clientSecret, setClientSecret] = useState<string>("");
