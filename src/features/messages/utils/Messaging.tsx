@@ -318,9 +318,23 @@ function Messaging() {
                   className={`p-2 w-fit rounded-lg ${
                     msg?.sender?.replace(/\_/g, ".") ===
                     userData?.userData?.emailId
-                      ? "bg-primary text-white ml-auto"
-                      : "bg-foreground/5 text-gray-800"
-                  }`}
+                      ? `${
+                          msg.content.includes("New Milestone Created") ||
+                          msg.content.includes("Job Application Approved")
+                            ? "bg-constructive"
+                            : msg.content.includes("Milestone Removed")
+                            ? "bg-destructive"
+                            : "bg-primary"
+                        }  text-white ml-auto`
+                      : ` ${
+                          msg.content.includes("New Milestone Created") ||
+                          msg.content.includes("Job Application Approved")
+                            ? "bg-constructive"
+                            : msg.content.includes("Milestone Removed")
+                            ? "bg-destructive"
+                            : "bg-foreground/5"
+                        }  text-gray-800`
+                  }    `}
                 >
                   <p
                     className="text-sm"
@@ -387,7 +401,7 @@ function Messaging() {
         )}
       </div>
 
-      {selectedMessageUser && userRole === "CLIENT" && (
+      {selectedMessageUser && (
         <div
           className={` ${
             openProjectDetails
@@ -446,7 +460,7 @@ function Messaging() {
                   )}
                 </div>
 
-                <div className="">
+                <div className="mt-4">
                   Assiged to -{" "}
                   {truncateString(
                     selectedMessageUser?.project?.assignedFreelancerEmail,
@@ -459,18 +473,20 @@ function Messaging() {
                */}
 
               <div>
-                <div className="w-full flex justify-end mt-3">
-                  <Button
-                    onClick={() => {
-                      handleOpenCreateMilestoneDialog();
-                      setOpneDialog(true);
-                    }}
-                    className="text-xs"
-                    variant={"outline"}
-                  >
-                    Create Milestone
-                  </Button>
-                </div>
+                {userRole === "CLIENT" && (
+                  <div className="w-full flex justify-end mt-3">
+                    <Button
+                      onClick={() => {
+                        handleOpenCreateMilestoneDialog();
+                        setOpneDialog(true);
+                      }}
+                      className="text-xs"
+                      variant={"outline"}
+                    >
+                      Create Milestone
+                    </Button>
+                  </div>
+                )}
 
                 <div className="mt-5">
                   <div className="text-xl pb-2">Milestones</div>
@@ -484,7 +500,7 @@ function Messaging() {
                           <AccordionItem
                             value={index?.toString()}
                             key={index}
-                            className="border px-3 rounded-md bg-primary text-background "
+                            className="border px-3 rounded-md bg-gray-200"
                           >
                             <AccordionTrigger>
                               <div>
@@ -533,32 +549,34 @@ function Messaging() {
                                     {milestone?.status?.toLowerCase()}
                                   </span>
                                 </div>
-                                <div className="mt-5 w-full flex items-center justify-between gap-3">
-                                  <Button
-                                    className="   px-5"
-                                    variant={"constructive"}
-                                    onClick={() => {
-                                      navigate("/payment", {
-                                        state: {
-                                          amount: milestone?.amount,
-                                        },
-                                      });
-                                    }}
-                                  >
-                                    Relese
-                                  </Button>
+                                {userRole === "CLIENT" && (
+                                  <div className="mt-5 w-full flex items-center justify-between gap-3">
+                                    <Button
+                                      className="   px-5"
+                                      variant={"constructive"}
+                                      onClick={() => {
+                                        navigate("/payment", {
+                                          state: {
+                                            amount: milestone?.amount,
+                                          },
+                                        });
+                                      }}
+                                    >
+                                      Relese
+                                    </Button>
 
-                                  <Button
-                                    isPending={creatingMilestone}
-                                    className="  px-5"
-                                    variant={"destructive"}
-                                    onClick={() => {
-                                      deleteMileStore(milestone?._id);
-                                    }}
-                                  >
-                                    Delete
-                                  </Button>
-                                </div>
+                                    <Button
+                                      isPending={creatingMilestone}
+                                      className="  px-5"
+                                      variant={"destructive"}
+                                      onClick={() => {
+                                        deleteMileStore(milestone?._id);
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             </AccordionContent>
                           </AccordionItem>

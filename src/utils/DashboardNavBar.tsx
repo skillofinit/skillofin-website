@@ -63,84 +63,92 @@ function DashboardNavBar() {
           >
             <Logo />
           </div>
-          <div className="flex items-center gap-5">
-            <div>
-              <Popover>
-                <PopoverTrigger>
-                  <div className="flex items-center gap-1">
-                    <div className="text-[15px]">Manage finances</div>
-                    <FaAngleDown className="w-3 h-3 mt-1" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="p-0 mt-3">
-                  <div className="my-2">
-                    <div
-                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                      onClick={() => navigate("/reports")}
-                    >
-                      <TbReportSearch className="w-5 h-5 ml-1" />
-                      <p>Your reports</p>
-                    </div>
-                    <div
-                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                      onClick={() => navigate("/withdraw")}
-                    >
-                      <GiReceiveMoney className="w-5 h-5 ml-1" />
-                      <p>Withdraw earnings</p>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
+          <div className="flex items-center gap-3">
+            {userRole !== "BANK" && (
+              <div className="flex items-center gap-5">
+                <div>
+                  <Popover>
+                    <PopoverTrigger>
+                      <div className="flex items-center gap-1">
+                        <div className="text-[15px]">Manage finances</div>
+                        <FaAngleDown className="w-3 h-3 mt-1" />
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0 mt-3">
+                      <div className="my-2">
+                        <div
+                          className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                          onClick={() => navigate("/reports")}
+                        >
+                          <TbReportSearch className="w-5 h-5 ml-1" />
+                          <p>Your reports</p>
+                        </div>
+                        <div
+                          className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                          onClick={() => navigate("/withdraw")}
+                        >
+                          <GiReceiveMoney className="w-5 h-5 ml-1" />
+                          <p>Withdraw earnings</p>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div
+                  onClick={() => navigate("/messages")}
+                  className="text-[15px] cursor-pointer"
+                >
+                  Messages
+                </div>
+                <div
+                  onClick={() =>
+                    navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs")
+                  }
+                  className="text-[15px] cursor-pointer"
+                >
+                  {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
+                </div>
+              </div>
+            )}
             <div
-              onClick={() => navigate("/messages")}
+              onClick={() => navigate("/myposts")}
               className="text-[15px] cursor-pointer"
             >
-              Messages
+              My Posts
             </div>
-            <div
-              onClick={() =>
-                navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs")
-              }
-              className="text-[15px] cursor-pointer"
-            >
-              {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
-            </div>
-          </div>
-          <div
-            onClick={() => navigate("/myposts")}
-            className="text-[15px] cursor-pointer"
-          >
-            My Posts
           </div>
         </div>
 
         <div className="h-full flex gap-4 justify-center items-center">
-          {userRole === "CLIENT" ? (
-            <div
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <Button>Post Job</Button>
-            </div>
-          ) : (
-            <div className="flex items-center">
-              <div className="mt-4">
-                <Input
-                  value={inputValue}
-                  onChange={(e) => {
-                    const value = e?.target?.value;
-                    setInputValue(value ?? "");
+          {userRole !== "BANK" && (
+            <div>
+              {userRole === "CLIENT" ? (
+                <div
+                  onClick={() => {
+                    setOpen(true);
                   }}
-                  iconName="search"
-                  placeholder="Search Jobs"
-                  className="h-8 w-[20vw]"
-                />
-              </div>
-              <Button className="px-2 h-8" onClick={handleSearchJobClick}>
-                <FiSearch />
-              </Button>
+                >
+                  <Button>Post Job</Button>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <div className="mt-4">
+                    <Input
+                      value={inputValue}
+                      onChange={(e) => {
+                        const value = e?.target?.value;
+                        setInputValue(value ?? "");
+                      }}
+                      iconName="search"
+                      placeholder="Search Jobs"
+                      className="h-8 w-[20vw]"
+                    />
+                  </div>
+                  <Button className="px-2 h-8" onClick={handleSearchJobClick}>
+                    <FiSearch />
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 
@@ -200,33 +208,38 @@ function DashboardNavBar() {
                     <div className="w-full bg-foreground/10 h-[1px]"></div>
                   )}
 
-                  {userRole === "CLIENT" && (
-                    <div
-                      onClick={() => navigate("/myjobs")}
-                      className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                    >
-                      <BsPersonWorkspace className="w-5 h-5 ml-1" />
-                      <p>My jobs</p>
+                  {userRole !== "BANK" && (
+                    <div className="flex flex-col">
+                      {userRole === "CLIENT" && (
+                        <div
+                          onClick={() => navigate("/myjobs")}
+                          className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                        >
+                          <BsPersonWorkspace className="w-5 h-5 ml-1" />
+                          <p>My jobs</p>
+                        </div>
+                      )}
+                      <div className="w-full bg-foreground/10 h-[1px]"></div>
+
+                      <div
+                        onClick={() => navigate("/createpost")}
+                        className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      >
+                        <BsPostcardHeart className="w-5 h-5 ml-1" />
+                        <p>Create Post</p>
+                      </div>
+                      <div
+                        onClick={() => navigate("/myposts")}
+                        className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      >
+                        <FaSignsPost className="w-5 h-5 ml-1" />
+                        <p>My Posts</p>
+                      </div>
+
+                      <div className="w-full bg-foreground/10 h-[1px]"></div>
                     </div>
                   )}
-                  <div className="w-full bg-foreground/10 h-[1px]"></div>
 
-                  <div
-                    onClick={() => navigate("/createpost")}
-                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                  >
-                    <BsPostcardHeart className="w-5 h-5 ml-1" />
-                    <p>Create Post</p>
-                  </div>
-                  <div
-                    onClick={() => navigate("/myposts")}
-                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                  >
-                    <FaSignsPost className="w-5 h-5 ml-1" />
-                    <p>My Posts</p>
-                  </div>
-
-                  <div className="w-full bg-foreground/10 h-[1px]"></div>
                   <div
                     className="text-destructive mb-1 px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                     onClick={() => {
@@ -270,98 +283,97 @@ function DashboardNavBar() {
         {mobileMenuOpen && (
           <div className="bg-white shadow-md px-4 py-4 space-y-4 fixed top-14 w-full h-fit z-[998] ">
             {/* Search Bar */}
-            {userRole === "CLIENT" ? (
-              <div
-                onClick={() => {
-                  setOpen(true);
-                }}
-              >
-                <Button>Post Job</Button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Input
-                  value={inputValue}
-                  onChange={(e) => {
-                    const value = e?.target?.value;
-                    setInputValue(value ?? "");
-                  }}
-                  placeholder="Search Jobs"
-                  iconName="search"
-                  className="h-8 flex-1"
-                />
-                <Button className="px-2 h-8 -mt-4">
-                  <FiSearch onClick={handleSearchJobClick} />
-                </Button>
+            {userRole !== "BANK" && (
+              <div>
+                {userRole === "CLIENT" ? (
+                  <div
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    <Button>Post Job</Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      value={inputValue}
+                      onChange={(e) => {
+                        const value = e?.target?.value;
+                        setInputValue(value ?? "");
+                      }}
+                      placeholder="Search Jobs"
+                      iconName="search"
+                      className="h-8 flex-1"
+                    />
+                    <Button className="px-2 h-8 -mt-4">
+                      <FiSearch onClick={handleSearchJobClick} />
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
             {/* Navigation Links */}
             <div className="flex flex-col space-y-3">
               {/* Manage Finances with submenu */}
-              <div>
-                <div
-                  className="flex items-center justify-between cursor-pointer text-[15px]"
-                  onClick={() => setMobileFinanceOpen(!mobileFinanceOpen)}
-                >
-                  <span>Manage Finances</span>
-                  <FaAngleDown
-                    className={`w-3 h-3 mt-1 transform transition-transform duration-200 ${
-                      mobileFinanceOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
-                {mobileFinanceOpen && (
-                  <div className="mt-2 pl-4 space-y-2">
+              {userRole !== "BANK" && (
+                <div className="flex flex-col space-y-3">
+                  <div>
                     <div
-                      onClick={() => {
-                        navigate("/reports");
-                        setMobileMenuOpen(false);
-                      }}
-                      className="flex items-center gap-2 text-[15px] cursor-pointer"
+                      className="flex items-center justify-between cursor-pointer text-[15px]"
+                      onClick={() => setMobileFinanceOpen(!mobileFinanceOpen)}
                     >
-                      <TbReportSearch className="w-5 h-5" />
-                      <span>Your Reports</span>
+                      <span>Manage Finances</span>
+                      <FaAngleDown
+                        className={`w-3 h-3 mt-1 transform transition-transform duration-200 ${
+                          mobileFinanceOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </div>
-                    <div
-                      onClick={() => {
-                        navigate("/withdraw");
-                        setMobileMenuOpen(false);
-                      }}
-                      className="flex items-center gap-2 text-[15px] cursor-pointer"
-                    >
-                      <GiReceiveMoney className="w-5 h-5" />
-                      <span>Withdraw Earnings</span>
-                    </div>
+                    {mobileFinanceOpen && (
+                      <div className="mt-2 pl-4 space-y-2">
+                        <div
+                          onClick={() => {
+                            navigate("/reports");
+                            setMobileMenuOpen(false);
+                          }}
+                          className="flex items-center gap-2 text-[15px] cursor-pointer"
+                        >
+                          <TbReportSearch className="w-5 h-5" />
+                          <span>Your Reports</span>
+                        </div>
+                        <div
+                          onClick={() => {
+                            navigate("/withdraw");
+                            setMobileMenuOpen(false);
+                          }}
+                          className="flex items-center gap-2 text-[15px] cursor-pointer"
+                        >
+                          <GiReceiveMoney className="w-5 h-5" />
+                          <span>Withdraw Earnings</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              <div
-                onClick={() => {
-                  navigate("/messages");
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[15px] cursor-pointer"
-              >
-                Messages
-              </div>
-              <div
-                onClick={() => {
-                  navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs");
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[15px] cursor-pointer"
-              >
-                {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
-              </div>
-              <div
-                onClick={() => {
-                  navigate("/myposts");
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[15px] cursor-pointer"
-              >
-                My Posts
-              </div>
+                  <div
+                    onClick={() => {
+                      navigate("/messages");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-[15px] cursor-pointer"
+                  >
+                    Messages
+                  </div>
+                  <div
+                    onClick={() => {
+                      navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-[15px] cursor-pointer"
+                  >
+                    {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
+                  </div>
+                </div>
+              )}
             </div>
             {/* Notifications and Profile Section */}
             <div className="border-t pt-4">
