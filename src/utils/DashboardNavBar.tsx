@@ -346,7 +346,7 @@ function DashboardNavBar() {
               </div>
               <div
                 onClick={() => {
-                  navigate(userRole === "CLIET" ? "/myjobs" : "/jobs");
+                  navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs");
                   setMobileMenuOpen(false);
                 }}
                 className="text-[15px] cursor-pointer"
