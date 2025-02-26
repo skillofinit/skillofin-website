@@ -57,41 +57,36 @@ function DashboardNavBar() {
       {/* Desktop Navbar – visible on md and larger screens */}
       <div className="hidden md:flex justify-between items-center px-4 py-2">
         <div className="flex items-center gap-8">
-          <div
-            onClick={() => navigate("/dashboard")}
-            className="cursor-pointer"
-          >
+          <div onClick={() => navigate("/feed")} className="cursor-pointer">
             <Logo />
           </div>
           <div className="flex items-center gap-3">
             {userRole !== "BANK" && (
               <div className="flex items-center gap-5">
-                <div>
-                  <Popover>
-                    <PopoverTrigger>
-                      <div className="flex items-center gap-1">
-                        <div className="text-[15px]">Manage finances</div>
-                        <FaAngleDown className="w-3 h-3 mt-1" />
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="p-0 mt-3">
-                      <div className="my-2">
-                        <div
-                          className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                        >
-                          <TbReportSearch className="w-5 h-5 ml-1" />
-                          <p>Your reports</p>
+                {userRole !== "CLIENT" && (
+                  <div>
+                    <Popover>
+                      <PopoverTrigger>
+                        <div className="flex items-center gap-1">
+                          <div className="text-[15px]">Manage finances</div>
+                          <FaAngleDown className="w-3 h-3 mt-1" />
                         </div>
-                        <div
-                          className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                        >
-                          <GiReceiveMoney className="w-5 h-5 ml-1" />
-                          <p>Withdraw earnings</p>
+                      </PopoverTrigger>
+                      <PopoverContent className="p-0 mt-3">
+                        <div className="my-2">
+                          <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
+                            <TbReportSearch className="w-5 h-5 ml-1" />
+                            <p>Your reports</p>
+                          </div>
+                          <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
+                            <GiReceiveMoney className="w-5 h-5 ml-1" />
+                            <p>Withdraw earnings</p>
+                          </div>
                         </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
                 <div
                   onClick={() => navigate("/messages")}
                   className="text-[15px] cursor-pointer"
@@ -109,8 +104,8 @@ function DashboardNavBar() {
               </div>
             )}
             <div
-              onClick={() => navigate("/dashboard")}
-              className="text-[15px] cursor-pointer"
+              onClick={() => navigate("/feed")}
+              className="text-[15px] cursor-pointer ml-2"
             >
               Feed
             </div>
@@ -259,7 +254,7 @@ function DashboardNavBar() {
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
           <img
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/feed")}
             src="Skillofin-Logo.png"
             alt="Skillofin logo"
             className="cursor-pointer w-32"
@@ -367,6 +362,15 @@ function DashboardNavBar() {
                     className="text-[15px] cursor-pointer"
                   >
                     {userRole === "CLIENT" ? "My Jobs" : "Jobs"}
+                  </div>
+                  <div
+                    onClick={() => {
+                      navigate("/feed");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="text-[15px] cursor-pointer"
+                  >
+                    {"Feed"}
                   </div>
                 </div>
               )}

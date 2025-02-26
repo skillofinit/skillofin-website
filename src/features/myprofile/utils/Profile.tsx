@@ -45,7 +45,6 @@ function Profile() {
     if (myData && !state?.emailId) {
       setUserData(myData);
       setUserRole(myData?.userData?.role);
-
     }
   }, [myData]);
 
@@ -112,23 +111,25 @@ function Profile() {
               }`}
               className="h-20 w-20 lg:w-28 lg:h-28 rounded-full"
             />
-            {!state?.emailId && <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
-              <input
-                type="file"
-                className="hidden"
-                id="fileClick"
-                accept="image/*"
-                onChange={(e: any) => {
-                  if (e?.target?.files[0]) uploadImage(e?.target?.files[0]);
-                }}
-              />
-              <TbPhotoEdit
-                className="w-4 h-4"
-                onClick={() => {
-                  document.getElementById("fileClick")?.click();
-                }}
-              />
-            </div>}
+            {!state?.emailId && (
+              <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
+                <input
+                  type="file"
+                  className="hidden"
+                  id="fileClick"
+                  accept="image/*"
+                  onChange={(e: any) => {
+                    if (e?.target?.files[0]) uploadImage(e?.target?.files[0]);
+                  }}
+                />
+                <TbPhotoEdit
+                  className="w-4 h-4"
+                  onClick={() => {
+                    document.getElementById("fileClick")?.click();
+                  }}
+                />
+              </div>
+            )}
           </div>
           <div className="flex flex-col justify-center gap-1">
             <h3 className=" text-xl lg:text-4xl font-semibold">
@@ -197,12 +198,14 @@ function Profile() {
             <div className="p-7 flex flex-col mt-5">
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Cost per hour</div>
-                {!state?.emailId && <MdEditNote
-                  onClick={() => {
-                    handleConfigureClick("edit", "costPerHour");
-                  }}
-                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                />}
+                {!state?.emailId && (
+                  <MdEditNote
+                    onClick={() => {
+                      handleConfigureClick("edit", "costPerHour");
+                    }}
+                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                  />
+                )}
               </div>
               <div className="text-xl ml-1 font-medium mt-1">
                 ${userData?.userAccountData?.hourlyRate ?? 0}/hr
@@ -218,12 +221,14 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Languages</div>
                 <div className="flex gap-4">
-                {!state?.emailId &&  <FiPlus
-                    onClick={() => {
-                      handleConfigureClick("add", "languages");
-                    }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />}
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "languages");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
                 </div>
               </div>
               <div className="text-lg mt-4 flex flex-col gap-3">
@@ -249,6 +254,52 @@ function Profile() {
               </div>
             </div>
           )}
+          {userRole === "FREELANCER" && (
+            <div className="h-[1px] w-full bg-foreground/10"></div>
+          )}
+          {userRole === "FREELANCER" && (
+            <div className="p-7 flex flex-col mt-5 ">
+              <div className="flex items-center justify-between">
+                <div className="text-2xl">Bank account details</div>
+                <div className="flex gap-4">
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "bank");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="text-lg mt-4 flex flex-col gap-3">
+                {
+                  <div className="text-lg mt-4 flex flex-col gap-3">
+                    {Object.keys(
+                      userData?.userData?.bakAccountDetails || {}
+                    ).map((key) => {
+                      const value = userData?.userData?.bakAccountDetails[key];
+                      // Only show keys with non-empty values
+                      if (value) {
+                        return (
+                          <div key={key} className="flex items-center gap-4">
+                            <h5 className="text-xs w-36 justify-between flex items-center gap-3">
+                              {key
+                                ?.replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase
+                                .replace(/^./, (str) => str.toUpperCase())}{" "}
+                              <span>:</span>
+                            </h5>
+                            <p className="text-foreground/60 text-xs">{value}</p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })}
+                  </div>
+                }
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right Content */}
@@ -262,12 +313,14 @@ function Profile() {
                   : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
               <div>
-              {!state?.emailId && <MdEditNote
-                  onClick={() => {
-                    handleConfigureClick("edit", "title");
-                  }}
-                  className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                />}
+                {!state?.emailId && (
+                  <MdEditNote
+                    onClick={() => {
+                      handleConfigureClick("edit", "title");
+                    }}
+                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                  />
+                )}
               </div>
             </div>
             <p className="text-lg pr-5 mt-3">
@@ -289,12 +342,14 @@ function Profile() {
                 <h3 className="font-medium text-3xl">Skills</h3>
 
                 <div className="flex items-center gap-4">
-                {!state?.emailId &&  <FiPlus
-                    onClick={() => {
-                      handleConfigureClick("add", "skills");
-                    }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />}
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "skills");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 mt-3">
@@ -321,12 +376,14 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Projects</h3>
                 <div className="flex gap-4">
-                {!state?.emailId && <FiPlus
-                    onClick={() => {
-                      handleConfigureClick("add", "project");
-                    }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />}
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "project");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
                 </div>
               </div>
               <div className="mt-3 grid lg:grid-cols-2 gap-5">
@@ -365,12 +422,14 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-3xl">Employment History</h3>
                 <div className="flex gap-4">
-                {!state?.emailId && <FiPlus
-                    onClick={() => {
-                      handleConfigureClick("add", "employment");
-                    }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                  />}
+                  {!state?.emailId && (
+                    <FiPlus
+                      onClick={() => {
+                        handleConfigureClick("add", "employment");
+                      }}
+                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    />
+                  )}
                 </div>
               </div>
               <div className="mt-3 grid lg:grid-cols-2 gap-3">

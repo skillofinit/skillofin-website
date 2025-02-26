@@ -145,7 +145,7 @@ function HomeNavBar() {
                 {
                   label: "Dashboard",
                   icon: <MdDashboard />,
-                  path: "/dashboard",
+                  path: "/feed",
                 },
                 { label: "Login", icon: <FiUser />, path: "/login" },
                 { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },

@@ -38,7 +38,7 @@ function App() {
             <Route path="/blog" element={<Blog />} />
 
             <Route element={<ProtectedLayout />}>
-              <Route path="/dashboard" element={<DashBoardMain />} />
+              <Route path="/feed" element={<DashBoardMain />} />
               <Route path="/myprofile" element={<MyProfileMain />} />
               <Route path="/profile" element={<MyProfileMain />} />
               <Route path="/messages" element={<MessagesMain />} />

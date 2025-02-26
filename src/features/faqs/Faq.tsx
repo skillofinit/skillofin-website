@@ -81,7 +81,7 @@ function Faq() {
             <span>
               Go to your{" "}
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/feed")}
                 className="text-blue-500 underline"
               >
                 Dashboard

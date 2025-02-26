@@ -13,7 +13,7 @@ function MyProfileMain() {
 
   if (isPending) return <AppSpiner />;
   return (
-    <div className="w-full h-[80vh] flex flex-col overflow-auto">
+    <div className="w-full flex flex-col overflow-auto">
       <div className="flex items-center justify-center h-fit mt-10">
         <Profile />
       </div>

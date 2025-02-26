@@ -5,17 +5,21 @@ import {
   MdOutlineEmail,
   MdOutlinePhoneInTalk,
   MdFormatColorText,
+  MdAccountTree,
+  MdAccountBalance,
 } from "react-icons/md";
 import { IoKeyOutline, IoSchoolSharp } from "react-icons/io5";
 import { LiaUserSolid } from "react-icons/lia";
 import { RiLockPasswordLine, RiUserAddLine } from "react-icons/ri";
 import { TbPassword } from "react-icons/tb";
-import { CiSearch, CiCalendarDate } from "react-icons/ci";
+import { CiSearch, CiCalendarDate, CiCreditCard1 } from "react-icons/ci";
 import { FaDollarSign, FaAsterisk, FaRegBuilding } from "react-icons/fa";
 import { BiMinusBack } from "react-icons/bi";
 import { SiPolymerproject } from "react-icons/si";
 import { IoLanguage } from "react-icons/io5";
 import { X } from "lucide-react";
+import { LuBanknote } from "react-icons/lu";
+import { Bs123 } from "react-icons/bs";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -69,9 +73,33 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return <IoSchoolSharp className="w-4 h-4 text-foreground" />;
       } else if (iconName === "project") {
         return <SiPolymerproject className="w-4 h-4 text-foreground" />;
-      } else if (iconName === "language") {
+      }
+       else if (iconName === "language") {
         return <IoLanguage className="w-4 h-4 text-foreground" />;
       }
+      
+       else if (iconName === "routing") {
+        return <MdAccountTree className="w-4 h-4 text-foreground" />;
+      }
+      
+       else if (iconName === "bank") {
+        return <MdAccountBalance  className="w-4 h-4 text-foreground" />;
+      }
+       else if (iconName === "ifsc") {
+        return <LuBanknote   className="w-4 h-4 text-foreground" />;
+      }
+      
+       else if (iconName === "card") {
+        return <CiCreditCard1    className="w-4 h-4 text-foreground" />;
+      }
+      
+       else if (iconName === "cvc") {
+        return <Bs123     className="w-4 h-4 text-foreground" />;
+      }
+
+
+
+
     }
 
 

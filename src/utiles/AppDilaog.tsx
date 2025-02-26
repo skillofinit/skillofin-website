@@ -18,7 +18,7 @@ function AppDialog({
 }: AppdialogInterface) {
   return (
     <div
-      className={`w-[100vw] h-[100vh] fixed inset-0 z-[999] bg-foreground/40 backdrop-blur-md flex p-2  ${
+      className={`w-[100vw] h-[100vh] fixed inset-0 z-[1000] bg-foreground/40 backdrop-blur-md flex p-2  ${
         startFromRight
           ? "lg:items-center  lg:justify-end"
           : "justify-center  items-center "
