@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useEffect, useState } from "react";
@@ -42,7 +43,7 @@ function Blog() {
               Post
             </Button> */}
           </div>
-          {(allBlogs?.length === 0 || !allBlogs) && <div className="w-full flex items-center justify-center min-h-[60vh] text-2xl">No data!</div>}
+          {(allBlogs?.length === 0 || !allBlogs) && <div className="w-full flex items-center justify-center min-h-[60vh]  lg:text-xl text-center"> <p>No blogs available at the moment. Please check back later for updates!</p> </div>}
 
           <div className="flex flex-col  items-center justify-center  gap-5 ">
             {allBlogs?.map(
