@@ -8,7 +8,6 @@ import {
   FaFacebook,
 } from "react-icons/fa6";
 import { FiUser, FiUserPlus, FiMenu, FiX } from "react-icons/fi";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import {
   COMPANY_EMAIL,
@@ -116,17 +115,6 @@ function HomeNavBar() {
                 onClick={() => handleOpenLinks("pinterest")}
                 className="p-2 cursor-pointer hover:scale-125 rounded-full w-10 h-10"
               />
-              <Button
-                onClick={() => {
-                  navigate("/contactus");
-                  setMobileMenuOpen(false);
-                }}
-              >
-                <div className="flex   gap-2">
-                  <TbHeartHandshake className="w-6 h-6 mt-1" />
-                  <p>Contact Us</p>
-                </div>
-              </Button>
               {/* Mobile Menu Icon */}
             </div>
             <div className=" flex items-center">
@@ -153,7 +141,11 @@ function HomeNavBar() {
             <div className="flex flex-col gap-3">
               {[
                 { label: "Home", icon: <FaHome />, path: "/" },
-                { label: "Dashboard", icon: <MdDashboard />, path: "/dashboard" },
+                {
+                  label: "Dashboard",
+                  icon: <MdDashboard />,
+                  path: "/dashboard",
+                },
                 { label: "Login", icon: <FiUser />, path: "/login" },
                 { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
                 {

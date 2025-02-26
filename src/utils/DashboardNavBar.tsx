@@ -78,14 +78,12 @@ function DashboardNavBar() {
                       <div className="my-2">
                         <div
                           className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                          onClick={() => navigate("/reports")}
                         >
                           <TbReportSearch className="w-5 h-5 ml-1" />
                           <p>Your reports</p>
                         </div>
                         <div
                           className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                          onClick={() => navigate("/withdraw")}
                         >
                           <GiReceiveMoney className="w-5 h-5 ml-1" />
                           <p>Withdraw earnings</p>
@@ -111,10 +109,10 @@ function DashboardNavBar() {
               </div>
             )}
             <div
-              onClick={() => navigate("/myposts")}
+              onClick={() => navigate("/dashboard")}
               className="text-[15px] cursor-pointer"
             >
-              My Posts
+              Feed
             </div>
           </div>
         </div>
@@ -333,7 +331,6 @@ function DashboardNavBar() {
                       <div className="mt-2 pl-4 space-y-2">
                         <div
                           onClick={() => {
-                            navigate("/reports");
                             setMobileMenuOpen(false);
                           }}
                           className="flex items-center gap-2 text-[15px] cursor-pointer"
@@ -343,7 +340,6 @@ function DashboardNavBar() {
                         </div>
                         <div
                           onClick={() => {
-                            navigate("/withdraw");
                             setMobileMenuOpen(false);
                           }}
                           className="flex items-center gap-2 text-[15px] cursor-pointer"
