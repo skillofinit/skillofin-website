@@ -33,7 +33,7 @@ function Withdraw() {
             <label htmlFor="balance" className="font-medium text-lg">
               Available Balance
             </label>
-            <div className="text-lg text-gray-600">${1000}</div>
+            <div className="text-lg text-gray-600">${0}</div>
           </div>
 
           <div className="flex flex-col">
@@ -58,50 +58,61 @@ function Withdraw() {
                 })}
               />
               <div className="flex lg:-mt-4 justify-center ">
-                <Button type="submit" className="py-6 px-6">
+                <Button type="submit" disabled className="py-6 px-6">
                   Withdraw
                 </Button>
               </div>
             </form>
           </div>
 
-          <div className="flex flex-col mt-6">
-            <label className="font-medium text-lg ">
-              Transfer to Account Details
-            </label>
-            <div className="flex gap-6 mt-2">
-              <div
-                className={`flex items-center gap-2 cursor-pointer p-2 border rounded-md 
+          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length >
+            0 && (
+            <div className="flex flex-col mt-6">
+              <label className="font-medium text-lg ">
+                Transfer to Account Details
+              </label>
+              <div className="flex gap-6 mt-2">
+                <div
+                  className={`flex items-center gap-2 cursor-pointer p-2 border rounded-md 
                     bg-primary/5 border-primary
             `}
-              >
-                <FaRegBuilding className="w-5 h-5 text-primary" />
-                <span className="">Bank Account</span>
+                >
+                  <FaRegBuilding className="w-5 h-5 text-primary" />
+                  <span className="">Bank Account</span>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="text-lg flex flex-col gap-3">
-            {Object.keys(userData?.userData?.bakAccountDetails || {}).map(
-              (key) => {
-                const value = userData?.userData?.bakAccountDetails[key];
-                if (value) {
-                  return (
-                    <div key={key} className="flex items-center gap-4">
-                      <h5 className="text-xs w-36 justify-between flex items-center gap-3">
-                        {key
-                          ?.replace(/([a-z])([A-Z])/g, "$1 $2")
-                          .replace(/^./, (str) => str.toUpperCase())}{" "}
-                        <span>:</span>
-                      </h5>
-                      <p className="text-foreground/60 text-xs">{value}</p>
-                    </div>
-                  );
+          )}
+          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length >
+            0 && (
+            <div className="text-lg flex flex-col gap-3">
+              {Object.keys(userData?.userData?.bakAccountDetails || {}).map(
+                (key) => {
+                  const value = userData?.userData?.bakAccountDetails[key];
+                  if (value) {
+                    return (
+                      <div key={key} className="flex items-center gap-4">
+                        <h5 className="text-xs w-36 justify-between flex items-center gap-3">
+                          {key
+                            ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                            .replace(/^./, (str) => str.toUpperCase())}{" "}
+                          <span>:</span>
+                        </h5>
+                        <p className="text-foreground/60 text-xs">{value}</p>
+                      </div>
+                    );
+                  }
+                  return null;
                 }
-                return null;
-              }
-            )}
-          </div>
+              )}
+            </div>
+          )}
+          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length ===
+            0 && (
+            <div className="text-destructive">
+              Please add bank account details to withdray
+            </div>
+          )}
         </div>
       </div>
     </div>
