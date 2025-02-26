@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  blogsAPI,
   getMeAPI,
   logoutAPI,
   resetPasswordAPI,
@@ -163,4 +164,12 @@ export function useResetPassword() {
     },
   });
   return { isPending, resetPassword };
+}
+export function useBlogs() {
+
+  const { mutate: blog, isPending } = useMutation({
+    mutationFn: (data?: any) => blogsAPI(data),
+
+  });
+  return { isPending, blog };
 }

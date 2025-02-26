@@ -22,6 +22,7 @@ import { TbHeartHandshake } from "react-icons/tb";
 import { MdDashboard, MdLockReset, MdPrivacyTip } from "react-icons/md";
 import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { LuListEnd } from "react-icons/lu";
+import { BsCardList } from "react-icons/bs";
 
 function HomeNavBar() {
   const navigate = useNavigate();
@@ -169,6 +170,13 @@ function HomeNavBar() {
                   icon: <MdPrivacyTip />,
                   path: "/privacy-policy",
                 },
+                
+                {
+                  label: "Blog",
+                  icon: <BsCardList  />,
+                  path: "/blog",
+                },
+
 
                 {
                   label: "Reset Password",

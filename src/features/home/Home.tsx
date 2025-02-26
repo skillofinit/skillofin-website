@@ -119,7 +119,7 @@ function Home() {
               </div>
             </div>
             <div className="flex ">
-              <div className="flex flex-col items-center w-fit gap-3">
+              <div className="flex flex-col lg:items-center w-fit gap-3">
                 <p className="text-4xl lg:pt-2 md:text-2xl lg:text-2xl">
                   Projects - Hiring - Funding - Networking
                 </p>

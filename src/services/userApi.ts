@@ -64,3 +64,15 @@ export async function resetPasswordAPI(data: any) {
   const serverData = await response.json();
   return serverData;
 }
+
+export async function blogsAPI(data:any) {
+  const response = await fetch(BASE_URL + "/blogs", {
+    method: "POST",
+    body: JSON.stringify({
+      ...data,
+      emailId: data ? localStorage.getItem("emailId") : null,
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}

@@ -19,6 +19,7 @@ import Faq from "./features/faqs/Faq";
 import TermsAndConditions from "./features/termsconditions/TermsAndConditions";
 import PrivacyPolicy from "./features/privacypolicy/PrivacyPolicy";
 import VerifyPayment from "./features/verifypayment/VerifyPayemnt";
+import Blog from "./features/blog/Blog";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/faqs" element={<Faq />} />
             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/blog" element={<Blog />} />
 
             <Route element={<ProtectedLayout />}>
               <Route path="/dashboard" element={<DashBoardMain />} />
