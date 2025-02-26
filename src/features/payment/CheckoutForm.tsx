@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import {
   useStripe,
   useElements,
@@ -11,6 +12,7 @@ function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   async function handleSubmit(event: any) {
     event.preventDefault();
@@ -35,7 +37,13 @@ function CheckoutForm() {
     }
 
     if (result.error) {
-      console.log(result.error.message);
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Payment failed",
+        description: result.error.message,
+      });
+      console.log();
     }
   }
 

@@ -20,6 +20,7 @@ import TermsAndConditions from "./features/termsconditions/TermsAndConditions";
 import PrivacyPolicy from "./features/privacypolicy/PrivacyPolicy";
 import VerifyPayment from "./features/verifypayment/VerifyPayemnt";
 import Blog from "./features/blog/Blog";
+import Withdraw from "./features/withdraw/Withdraw";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -29,11 +30,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} /> 
+            <Route path="/login" element={<Login />} />
             <Route path="/contactus" element={<ContactUsPage />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/faqs" element={<Faq />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route
+              path="/terms-and-conditions"
+              element={<TermsAndConditions />}
+            />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/blog" element={<Blog />} />
 
@@ -48,6 +52,7 @@ function App() {
               <Route path="/myposts" element={<MyPosts />} />
               <Route path="/payment" element={<CreatePaymentPage />} />
               <Route path="/verify" element={<VerifyPayment />} />
+              <Route path="/withdraw" element={<Withdraw />} />
             </Route>
           </Routes>
         </BrowserRouter>

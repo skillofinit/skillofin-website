@@ -12,6 +12,7 @@ import { useAppContext } from "@/utiles/AppContext";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string);
 
 function CreatePaymentPage() {
+
   const [clientSecret, setClientSecret] = useState<string>("");
   const { isPending, createPayment } = useCreatePayment();
   const { state } = useLocation();

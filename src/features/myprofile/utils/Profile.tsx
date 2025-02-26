@@ -279,13 +279,12 @@ function Profile() {
                       userData?.userData?.bakAccountDetails || {}
                     ).map((key) => {
                       const value = userData?.userData?.bakAccountDetails[key];
-                      // Only show keys with non-empty values
                       if (value) {
                         return (
                           <div key={key} className="flex items-center gap-4">
                             <h5 className="text-xs w-36 justify-between flex items-center gap-3">
                               {key
-                                ?.replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase
+                                ?.replace(/([a-z])([A-Z])/g, "$1 $2") 
                                 .replace(/^./, (str) => str.toUpperCase())}{" "}
                               <span>:</span>
                             </h5>

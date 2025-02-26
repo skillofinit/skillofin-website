@@ -12,7 +12,6 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
 import { GiReceiveMoney } from "react-icons/gi";
-import { TbReportSearch } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
 import { useLogout } from "@/hooks/userHooks";
@@ -73,12 +72,13 @@ function DashboardNavBar() {
                         </div>
                       </PopoverTrigger>
                       <PopoverContent className="p-0 mt-3">
-                        <div className="my-2">
-                          <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
-                            <TbReportSearch className="w-5 h-5 ml-1" />
-                            <p>Your reports</p>
-                          </div>
-                          <div className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center">
+                        <div className="">
+                          <div
+                            onClick={() => {
+                              navigate("/withdraw");
+                            }}
+                            className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                          >
                             <GiReceiveMoney className="w-5 h-5 ml-1" />
                             <p>Withdraw earnings</p>
                           </div>
@@ -327,15 +327,7 @@ function DashboardNavBar() {
                         <div
                           onClick={() => {
                             setMobileMenuOpen(false);
-                          }}
-                          className="flex items-center gap-2 text-[15px] cursor-pointer"
-                        >
-                          <TbReportSearch className="w-5 h-5" />
-                          <span>Your Reports</span>
-                        </div>
-                        <div
-                          onClick={() => {
-                            setMobileMenuOpen(false);
+                            navigate("/withdraw");
                           }}
                           className="flex items-center gap-2 text-[15px] cursor-pointer"
                         >
