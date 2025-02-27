@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useToast } from "@/components/ui/use-toast";
 import { createPostAPI } from "@/services/postApi";
 import { useMutation } from "@tanstack/react-query";

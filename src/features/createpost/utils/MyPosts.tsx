@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import AppSpiner from "@/utiles/AppSpiner";
 import { timeAgo } from "@/utiles/appUtils";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEditNote } from "react-icons/md";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,7 @@ function MyPosts() {
 
   function handleDeleteJob(id: string) {
     deletePosted(
-      {  method: "post",credentials:"include", id },
+      { method: "post", credentials: "include", id },
       {
         onSettled(data) {
           if (data?.message === "SUCCESS") {
@@ -25,6 +26,13 @@ function MyPosts() {
         },
       }
     );
+  }
+  function handleeditPostClick(post: any) {
+    navigate("/createPost", {
+      state: {
+        post,
+      },
+    });
   }
 
   return (
@@ -86,7 +94,13 @@ function MyPosts() {
                     • {timeAgo(post?.createdAt)}
                   </div>
                 </div>
-                <div>
+                <div className="flex gap-4">
+                  <MdEditNote
+                    onClick={() => {
+                      handleeditPostClick(post);
+                    }}
+                    className="h-8 cursor-pointer w-8 p-1 rounded-full bg-primary text-background"
+                  />
                   <MdDelete
                     onClick={() => {
                       handleDeleteJob(post?.id);
