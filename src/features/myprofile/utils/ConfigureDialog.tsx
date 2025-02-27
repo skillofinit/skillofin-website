@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { FaAsterisk } from "react-icons/fa";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { useGetMe, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
@@ -23,9 +23,17 @@ interface ConfigureDialoginterface {
   method: "add" | "edit";
   comp: string;
   onClose: () => void;
+  userData: any;
+  userRole: string;
 }
 
-function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
+function ConfigureDialog({
+  userData,
+  comp,
+  method,
+  onClose,
+  userRole,
+}: ConfigureDialoginterface) {
   const {
     register,
     handleSubmit,
@@ -41,6 +49,19 @@ function ConfigureDialog({ comp, method, onClose }: ConfigureDialoginterface) {
 
   const { isPending, updateProfile } = useUpdateProfile();
   const { getMe, isPending: isLoading } = useGetMe();
+
+  useEffect(() => {
+    if (userData) {
+      setValue(
+        "headline",
+        userRole === "CLIENT"
+          ? userData?.userAccountData?.companyName
+          : userData?.userAccountData?.title
+      );
+      setValue("summary", userData?.userAccountData?.description);
+      setValue("costPerHour", userData?.userAccountData?.hourlyRate ?? 0);
+    }
+  }, [userData]);
 
   function getTitle(): string {
     switch (comp) {

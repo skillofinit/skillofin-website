@@ -284,11 +284,13 @@ function Profile() {
                           <div key={key} className="flex items-center gap-4">
                             <h5 className="text-xs w-36 justify-between flex items-center gap-3">
                               {key
-                                ?.replace(/([a-z])([A-Z])/g, "$1 $2") 
+                                ?.replace(/([a-z])([A-Z])/g, "$1 $2")
                                 .replace(/^./, (str) => str.toUpperCase())}{" "}
                               <span>:</span>
                             </h5>
-                            <p className="text-foreground/60 text-xs">{value}</p>
+                            <p className="text-foreground/60 text-xs">
+                              {value}
+                            </p>
                           </div>
                         );
                       }
@@ -517,7 +519,13 @@ function Profile() {
         </div>
       </div>
       {openDialog && comp && method && (
-        <ConfigureDialog method={method} comp={comp} onClose={handleOnClose} />
+        <ConfigureDialog
+          userRole={userRole}
+          userData={userData}
+          method={method}
+          comp={comp}
+          onClose={handleOnClose}
+        />
       )}
     </div>
   );
