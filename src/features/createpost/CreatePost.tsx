@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -70,7 +70,10 @@ function CreatePost() {
         },
       });
     } else {
-      createPost(data, {
+      createPost({
+        ...data,
+
+      }, {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
             getMe(undefined, {

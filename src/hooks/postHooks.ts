@@ -8,16 +8,7 @@ export function useCreatePost() {
 
   const { mutate: createPost, isPending } = useMutation({
     mutationFn: (data: any) => createPostAPI(data),
-    onSuccess(data) {
-      if (data?.message === "SUCCESS") {
-        toast({
-          duration: 3000,
-          variant: "constructive",
-          title: "Success",
-          description: "Successfully uploaded post",
-        });
-      }
-    },
+    
     onError() {
       toast({
         duration: 3000,

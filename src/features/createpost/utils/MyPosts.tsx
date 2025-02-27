@@ -8,6 +8,8 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { usePostedDelete } from "@/hooks/jobHooks";
+import { FaHeart } from "react-icons/fa6";
+import { MessageCircle } from "lucide-react";
 
 function MyPosts() {
   const { userData } = useAppContext();
@@ -66,14 +68,21 @@ function MyPosts() {
         {userData?.userData?.posts?.map(
           (
             post: {
+              id:string,
               profile: string;
               title: string;
               content: string;
               createdAt: string;
               emailId: string;
-              id: string;
               name: string;
               image: string;
+              likes: [string];
+              comments: {
+                name: string;
+                commentText: string;
+                profile: string;
+                emailId: string;
+              }[];
             },
             index: number
           ) => (
@@ -121,18 +130,65 @@ function MyPosts() {
                   className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
                 />
               </div>
+              <div className="flex justify-between mt-2 text-gray-500 px-3 lg:px-10">
+                <div className="flex items-center gap-1 hover:scale-105 cursor-pointer">
+                  <FaHeart
+                    size={18}
+                    className={`${
+                      post?.likes?.includes(userData?.userData?.emailId)
+                        ? "text-destructive"
+                        : ""
+                    }`}
+                  />{" "}
+                  Likes{` (${post?.likes?.length})`}
+                </div>
+                <div
+                  className={`flex items-center gap-1 hover:scale-105 cursor-pointer `}
+                >
+                  <MessageCircle size={18} /> Comments
+                  {` (${post?.comments?.length})`}
+                </div>
+              </div>
+              {true && (
+                <div className="mt-4">
+                  <div className="text-foreground/80 font-medium">
+                    Comments:
+                  </div>
+                  {post.comments?.length === 0 && (
+                    <div className="mt-2">No comemnts Yet!</div>
+                  )}
+                  <div className="space-y-2 mt-2  max-h-[20vh] overflow-auto">
+                    {post.comments?.map((comment, idx) => (
+                      <div
+                        key={idx}
+                        className="text-sm flex  text-left items- gap-3 text-foreground/60  p-3 rounded-md border"
+                      >
+                        <div className="h-10  w-10">
+                          <img
+                            alt="profile"
+                            src={`${
+                              comment?.profile
+                                ? comment?.profile
+                                : "no-user.png"
+                            }`}
+                            className="h-8 w-8 lg:w-8 lg:h-8 rounded-full border"
+                          />
+                        </div>
 
-              {/* <div className="flex justify-between mt-2 text-gray-500">
-                          <button className="flex items-center gap-1 hover:text-red-500">
-                            <Heart size={18} /> Like
-                          </button>
-                          <button className="flex items-center gap-1 hover:text-blue-500">
-                            <MessageCircle size={18} /> Comment
-                          </button>
-                          <button className="flex items-center gap-1 hover:text-green-500">
-                            <Repeat2 size={18} /> Share
-                          </button>
-                        </div> */}
+                        <div className="flex w-full justify-between">
+                          <div className="flex flex-col lg:w-[20vw] ">
+                            <p className="text-foreground text-nowrap w-full">
+                              {comment.name}
+                            </p>
+                            {comment.commentText}
+                          </div>
+                         
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )
         )}

@@ -6,6 +6,7 @@ import { timeAgo } from "@/utiles/appUtils";
 import { MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 
 function Dashboard() {
   const { userData } = useAppContext();
@@ -21,53 +22,93 @@ function Dashboard() {
   }, [userData]);
 
   function handleLikePost(index: number) {
-    setAllPosts((prevPosts: any) => {
-      if (!prevPosts) return prevPosts;
-      const updatedPosts = [...prevPosts];
-      const userFullName =
-        userData?.userData?.firstName +
-        " " +
-        (userData?.userData?.lastName ?? "");
-      const isLiked = updatedPosts[index]?.likes?.includes(userFullName);
-      if (isLiked) {
-        updatedPosts[index].likes = updatedPosts[index]?.likes?.filter(
-          (like: string) => like !== userFullName
-        );
-      } else {
-        updatedPosts[index].likes = [
-          ...(updatedPosts[index]?.likes ?? []),
-          userFullName,
-        ];
+    createPost(
+      {
+        id: allPosts[index]?.id,
+        userEmail: userData?.userData?.emailId,
+        like: true,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            setAllPosts((prevPosts: any) => {
+              if (!prevPosts) return prevPosts;
+              const updatedPosts = [...prevPosts];
+              const userEmailId = userData?.userData?.emailId;
+              const isLiked = updatedPosts[index]?.likes?.includes(userEmailId);
+              if (isLiked) {
+                updatedPosts[index].likes = updatedPosts[index]?.likes?.filter(
+                  (like: string) => like !== userEmailId
+                );
+              } else {
+                updatedPosts[index].likes = [
+                  ...(updatedPosts[index]?.likes ?? []),
+                  userEmailId,
+                ];
+              }
+              return updatedPosts;
+            });
+          }
+        },
       }
-      return updatedPosts;
-    });
+    );
   }
 
-  function handleAddComment(index: number) {
-    if (commentInput.trim() === "") return;
-    setAllPosts((prevPosts: any) => {
-      if (!prevPosts) return prevPosts;
-      const updatedPosts = [...prevPosts];
-      const newComment = {
-        name:
-          userData?.userData?.firstName + " " + userData?.userData?.lastName,
-        commentText: commentInput,
-      };
-      updatedPosts[index].comments = [
-        ...(updatedPosts[index]?.comments ?? []),
-        newComment,
-      ];
-      return updatedPosts;
-    });
+  function handleAddComment(
+    index: number,
+    deletePost?: boolean,
+    commentIndex?: number
+  ) {
+    if (!deletePost && commentInput.trim() === "") return; // Don't proceed if it's an add and input is empty
 
-    setCommentInput("");
+    const commentData = {
+      id: allPosts[index]?.id,
+      name: `${userData?.userData?.firstName} ${
+        userData?.userData?.lastName ?? ""
+      }`,
+      commentText: deletePost ? "" : commentInput, // Empty string for delete
+      profile: userData?.userData?.profile,
+      userEmail: userData?.userData?.emailId,
+      comment: true,
+      deleteComment: deletePost,
+      commentIndex: deletePost ? commentIndex : undefined, // Only include index if deleting
+    };
+
+    createPost(commentData, {
+      onSuccess(data) {
+        if (data?.message === "SUCCESS") {
+          setAllPosts((prevPosts: any) => {
+            if (!prevPosts) return prevPosts;
+            const updatedPosts = [...prevPosts];
+
+            if (deletePost && commentIndex !== undefined) {
+              updatedPosts[index].comments = updatedPosts[
+                index
+              ].comments.filter((_: any, idx: number) => idx !== commentIndex);
+            } else {
+              const newComment = {
+                name: commentData.name,
+                commentText: commentInput,
+                profile: commentData.profile,
+              };
+              updatedPosts[index].comments = [
+                ...(updatedPosts[index]?.comments ?? []),
+                newComment,
+              ];
+            }
+
+            return updatedPosts;
+          });
+
+          if (!deletePost) setCommentInput("");
+        }
+      },
+    });
   }
 
   return (
     <div className="w-full h-full flex flex-col gap-10">
-      {
-        isPending && <AppSpiner bgColor="bg-foreground/50" />
-      }
+      {isPending && <AppSpiner bgColor="bg-foreground/50" />}
       <div className="flex flex-row items-center px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-center">
         <div className="lg:w-fit min-h-[75vh] flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-5">
@@ -86,6 +127,7 @@ function Dashboard() {
                     name: string;
                     commentText: string;
                     profile: string;
+                    emailId: string;
                   }[];
                 },
                 index: number
@@ -121,7 +163,7 @@ function Dashboard() {
                     />
                   )}
 
-                  <div className="flex justify-between mt-2 text-gray-500 px-10">
+                  <div className="flex justify-between mt-2 text-gray-500 px-3 lg:px-10">
                     <div
                       className="flex items-center gap-1 hover:scale-105 cursor-pointer"
                       onClick={() => {
@@ -131,14 +173,12 @@ function Dashboard() {
                       <FaHeart
                         size={18}
                         className={`${
-                          post?.likes?.filter((name) =>
-                            name.includes(userData?.userData?.firstName)
-                          )?.length > 0
+                          post?.likes?.includes(userData?.userData?.emailId)
                             ? "text-destructive"
                             : ""
                         }`}
                       />{" "}
-                      Like{` (${post?.likes?.length})`}
+                      Likes{` (${post?.likes?.length})`}
                     </div>
                     <div
                       className={`flex items-center gap-1 hover:scale-105 cursor-pointer ${
@@ -152,7 +192,8 @@ function Dashboard() {
                         }
                       }}
                     >
-                      <MessageCircle size={18} /> Comment
+                      <MessageCircle size={18} /> Comments
+                      {` (${post?.comments?.length})`}
                     </div>
                   </div>
 
@@ -183,11 +224,24 @@ function Dashboard() {
                               />
                             </div>
 
-                            <div className="flex flex-col w-[20vw]">
-                              <p className="text-foreground text-nowrap">
-                                {comment.name}
-                              </p>
-                              {comment.commentText}
+                            <div className="flex w-full justify-between">
+                              <div className="flex flex-col lg:w-[20vw] ">
+                                <p className="text-foreground text-nowrap w-full">
+                                  {comment.name}
+                                </p>
+                                {comment.commentText}
+                              </div>
+                              {(comment?.emailId ===
+                                userData?.userData?.emailId ||
+                                post?.emailId ===
+                                  userData?.userData?.emailId) && (
+                                <MdDelete
+                                  onClick={() => {
+                                    handleAddComment(index, true, idx);
+                                  }}
+                                  className="text-destructive w-6 h-6 bg-foreground/5 cursor-pointer p-1 rounded-full"
+                                />
+                              )}
                             </div>
                           </div>
                         ))}
@@ -195,6 +249,7 @@ function Dashboard() {
 
                       <div className="mt-4 flex items-center gap-2">
                         <input
+                          value={commentInput}
                           type="text"
                           onChange={(e) => setCommentInput(e.target.value)}
                           placeholder="Write a comment..."
