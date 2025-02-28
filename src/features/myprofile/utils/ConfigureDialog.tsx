@@ -63,7 +63,48 @@ function ConfigureDialog({
       );
       setValue("summary", userData?.userAccountData?.description);
       setValue("costPerHour", userData?.userAccountData?.hourlyRate ?? 0);
+      setValue("firstName", userData?.userData?.firstName);
+      setValue("lastName", userData?.userData?.lastName);
       setSkills(userData?.userAccountData?.skills);
+      if (comp === "bank") {
+        setValue(
+          "accountType",
+          userData?.userData?.bakAccountDetails?.accountType
+        );
+
+        setValue(
+          "accountHolderName",
+          userData?.userData?.bakAccountDetails?.accountHolderName
+        );
+        setValue(
+          "bankAccountType",
+          userData?.userData?.bakAccountDetails?.bankAccountType
+        );
+        setValue(
+          "routingNumber",
+          userData?.userData?.bakAccountDetails?.routingNumber
+        );
+        setValue(
+          "accountNumber",
+          userData?.userData?.bakAccountDetails?.accountNumber
+        );
+
+        setValue(
+          "accountHolderName",
+          userData?.userData?.bakAccountDetails?.accountHolderName
+        );
+        setValue("ifscCode", userData?.userData?.bakAccountDetails?.ifscCode);
+        setValue(
+          "cardHolderName",
+          userData?.userData?.bakAccountDetails?.cardHolderName
+        );
+        setValue(
+          "expirationDate",
+          userData?.userData?.bakAccountDetails?.cardExpiry
+        );
+
+        setValue("cvc", userData?.userData?.bakAccountDetails?.cvc);
+      }
 
       if (index !== undefined) {
         if (comp === "project") {
@@ -117,6 +158,15 @@ function ConfigureDialog({
             "description",
             userData?.userAccountData?.educationHistory[index]?.description
           );
+        } else if (comp === "languages") {
+          setValue("_id", userData?.userAccountData?.languages[index]?._id);
+
+          setValue(
+            "language",
+            userData?.userAccountData?.languages[index]?.name
+          );
+          console.log(userData?.userAccountData?.languages[index])
+          setValue("level", userData?.userAccountData?.languages[index]?.level?.toLowerCase());
         }
       }
     }
@@ -147,6 +197,9 @@ function ConfigureDialog({
 
       case "bank":
         return `Add bank details`;
+
+      case "name":
+        return `Edit full name`;
 
       default:
         return "";
@@ -200,6 +253,37 @@ function ConfigureDialog({
                   })}
                   mandatory
                   errorMessage={errors?.costPerHour?.message}
+                />
+              </div>
+              <Button isPending={isPending} className="h-11 px-5   ">
+                <div className="flex  gap-3 items-center">
+                  {" "}
+                  <h4>Save</h4>
+                  <IoCloudDoneOutline />
+                </div>
+              </Button>
+            </div>
+          )}
+          {comp === "name" && (
+            <div className="flex  flex-col items-center gap-4">
+              <div className=" w-full flex flex-col">
+                <Input
+                  placeholder="First name"
+                  iconName="firstName"
+                  {...register("firstName", {
+                    required: "Please enter First name",
+                  })}
+                  mandatory
+                  errorMessage={errors?.firstName?.message}
+                />
+
+                <Input
+                  placeholder="Last name"
+                  iconName="lastName"
+                  {...register("lastName", {
+                    required: false,
+                  })}
+                  errorMessage={errors?.lastName?.message}
                 />
               </div>
               <Button isPending={isPending} className="h-11 px-5   ">
@@ -532,6 +616,7 @@ function ConfigureDialog({
                 <div className="flex flex-col gap- w-full">
                   <div className="flex items-center gap-2 w-full">
                     <Select
+                      value={watch("level") ?? ""}
                       onValueChange={(value) => {
                         clearErrors("level");
                         setValue("level", value);
@@ -579,6 +664,7 @@ function ConfigureDialog({
                 <div className="flex flex-col gap-2 w-full">
                   <div className="flex items-center gap-2 w-full">
                     <Select
+                      value={watch("accountType") ?? ""}
                       onValueChange={(value) => {
                         reset();
                         setTimeout(() => {
@@ -699,6 +785,7 @@ function ConfigureDialog({
                     <div className="flex flex-col w-full">
                       <div className="flex items-center gap-1 w-full">
                         <Select
+                          value={watch("accountHolderType") ?? ""}
                           onValueChange={(value) => {
                             clearErrors("accountHolderType");
                             setValue("accountHolderType", value);
@@ -759,6 +846,7 @@ function ConfigureDialog({
                     <div className="flex flex-col w-full">
                       <div className="flex items-center gap-1 w-full">
                         <Select
+                          value={watch("bankAccountType") ?? ""}
                           onValueChange={(value) => {
                             clearErrors("bankAccountType");
                             setValue("bankAccountType", value);

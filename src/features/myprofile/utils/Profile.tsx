@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MdEditNote, MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineLocationOn } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import AppSpiner from "@/utiles/AppSpiner";
 
 import { useLocation } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
+import { CiEdit } from "react-icons/ci";
 
 function Profile() {
   const [openDialog, setOpendilog] = useState<boolean>(false);
@@ -134,11 +135,21 @@ function Profile() {
             )}
           </div>
           <div className="flex flex-col justify-center gap-1">
-            <h3 className=" text-xl lg:text-4xl font-semibold">
-              {userData?.userData?.firstName +
-                " " +
-                userData?.userData?.lastName}
-            </h3>
+            <div className="flex items-center gap-3">
+              <h3 className=" text-xl lg:text-4xl font-semibold">
+                {userData?.userData?.firstName +
+                  " " +
+                  userData?.userData?.lastName}
+              </h3>
+              {!state?.emailId && (
+                <CiEdit
+                  onClick={() => {
+                    handleConfigureClick("edit", "name");
+                  }}
+                  className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
+                />
+              )}
+            </div>
             <p className="ml-1 text-foreground/60 text-lg">
               {userData?.userData?.role?.charAt(0).toUpperCase() +
                 userData?.userData?.role?.slice(1).toLowerCase()}
@@ -201,11 +212,11 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Cost per hour</div>
                 {!state?.emailId && (
-                  <MdEditNote
+                  <CiEdit
                     onClick={() => {
                       handleConfigureClick("edit", "costPerHour");
                     }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                   />
                 )}
               </div>
@@ -228,7 +239,7 @@ function Profile() {
                       onClick={() => {
                         handleConfigureClick("add", "languages");
                       }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                     />
                   )}
                 </div>
@@ -242,14 +253,27 @@ function Profile() {
                     },
                     index: number
                   ) => (
-                    <div key={index} className="flex items-center gap-4">
-                      <h5 className="w-20 flex items-center gap-3">
-                        {lang.name} <span>:</span>
-                      </h5>
-                      <p className="text-foreground/60">
-                        {lang.level?.charAt(0).toUpperCase() +
-                          lang.level?.slice(1).toLowerCase()}
-                      </p>
+                    <div className="w-full flex justify-between items-center gap-4">
+                      <div key={index} className="flex items-center gap-4">
+                        <h5 className="w-20 flex items-center gap-3">
+                          {lang.name} <span>:</span>
+                        </h5>
+                        <p className="text-foreground/60">
+                          {lang.level?.charAt(0).toUpperCase() +
+                            lang.level?.slice(1).toLowerCase()}
+                        </p>
+                      </div>
+                      {!state?.emailId && (
+                        <CiEdit
+                          onClick={() => {
+                            setEditIndex(index);
+                            setTimeout(() => {
+                              handleConfigureClick("edit", "languages");
+                            }, 50);
+                          }}
+                          className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
+                        />
+                      )}
                     </div>
                   )
                 )}
@@ -261,7 +285,7 @@ function Profile() {
           )}
           {userRole === "FREELANCER" && (
             <div className="p-7 flex flex-col mt-5 ">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <div className="text-2xl">Bank account details</div>
                 <div className="flex gap-4">
                   {!state?.emailId && (
@@ -269,7 +293,7 @@ function Profile() {
                       onClick={() => {
                         handleConfigureClick("add", "bank");
                       }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                     />
                   )}
                 </div>
@@ -309,7 +333,7 @@ function Profile() {
         <div className="flex flex-col gap-7 w-full">
           {/* Title & Summary */}
           <div className="px-7 py-5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <h3 className="font-medium text-3xl ">
                 {userRole === "CLIENT"
                   ? userData?.userAccountData?.companyName ?? "Add company name"
@@ -317,11 +341,11 @@ function Profile() {
               </h3>
               <div>
                 {!state?.emailId && (
-                  <MdEditNote
+                  <CiEdit
                     onClick={() => {
                       handleConfigureClick("edit", "title");
                     }}
-                    className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                    className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                   />
                 )}
               </div>
@@ -341,7 +365,7 @@ function Profile() {
           {/* Skills */}
           {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Skills</h3>
 
                 <div className="flex items-center gap-4">
@@ -351,16 +375,16 @@ function Profile() {
                         onClick={() => {
                           handleConfigureClick("add", "skills");
                         }}
-                        className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                        className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                       />
                     )}
                   {!state?.emailId &&
                     userData?.userAccountData?.skills?.length > 0 && (
-                      <MdEditNote
+                      <CiEdit
                         onClick={() => {
                           handleConfigureClick("edit", "skills");
                         }}
-                        className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                        className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                       />
                     )}
                 </div>
@@ -386,7 +410,7 @@ function Profile() {
           {/* Projects */}
           {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Projects</h3>
                 <div className="flex gap-4">
                   {!state?.emailId && (
@@ -394,7 +418,7 @@ function Profile() {
                       onClick={() => {
                         handleConfigureClick("add", "project");
                       }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                     />
                   )}
                 </div>
@@ -419,14 +443,14 @@ function Profile() {
                           </h4>
                           <div className="w-10 h-10">
                             {!state?.emailId && (
-                              <MdEditNote
+                              <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);
                                   setTimeout(() => {
                                     handleConfigureClick("edit", "project");
                                   }, 50);
                                 }}
-                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                                className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                               />
                             )}
                           </div>
@@ -447,7 +471,7 @@ function Profile() {
           {/* Employment History */}
           {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Employment History</h3>
                 <div className="flex gap-4">
                   {!state?.emailId && (
@@ -455,7 +479,7 @@ function Profile() {
                       onClick={() => {
                         handleConfigureClick("add", "employment");
                       }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                     />
                   )}
                 </div>
@@ -482,14 +506,14 @@ function Profile() {
                           </h4>
                           <div className="w-10 h-10">
                             {!state?.emailId && (
-                              <MdEditNote
+                              <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);
                                   setTimeout(() => {
                                     handleConfigureClick("edit", "employment");
                                   }, 50);
                                 }}
-                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                                className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                               />
                             )}
                           </div>
@@ -516,7 +540,7 @@ function Profile() {
           {/* Education */}
           {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Education</h3>
                 <div className="flex gap-4">
                   {!state?.emailId && (
@@ -524,7 +548,7 @@ function Profile() {
                       onClick={() => {
                         handleConfigureClick("add", "education");
                       }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                     />
                   )}
                 </div>
@@ -551,14 +575,14 @@ function Profile() {
                           </h4>
                           <div className="w-10 h-10">
                             {!state?.emailId && (
-                              <MdEditNote
+                              <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);
                                   setTimeout(() => {
                                     handleConfigureClick("edit", "education");
                                   }, 50);
                                 }}
-                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                                className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                               />
                             )}
                           </div>
