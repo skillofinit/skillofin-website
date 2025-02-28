@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import { useGetMe, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
+import { X } from "lucide-react";
 
 interface ConfigureDialoginterface {
   method: "add" | "edit";
@@ -25,6 +26,7 @@ interface ConfigureDialoginterface {
   onClose: () => void;
   userData: any;
   userRole: string;
+  index?: number;
 }
 
 function ConfigureDialog({
@@ -33,6 +35,7 @@ function ConfigureDialog({
   method,
   onClose,
   userRole,
+  index,
 }: ConfigureDialoginterface) {
   const {
     register,
@@ -60,8 +63,42 @@ function ConfigureDialog({
       );
       setValue("summary", userData?.userAccountData?.description);
       setValue("costPerHour", userData?.userAccountData?.hourlyRate ?? 0);
+      setSkills(userData?.userAccountData?.skills);
+
+      if (index !== undefined) {
+        if (comp === "project") {
+          setValue("title", userData?.userAccountData?.projects[index]?.title);
+          setValue("_id", userData?.userAccountData?.projects[index]?._id);
+          setValue(
+            "description",
+            userData?.userAccountData?.projects[index]?.description
+          );
+        } else if (comp === "employment") {
+          setValue(
+            "name",
+            userData?.userAccountData?.employmentHistory[index]?.companyName
+          );
+
+          setValue(
+            "fromDate",
+            userData?.userAccountData?.employmentHistory[index]?.startDate
+          );
+          setValue(
+            "toDate",
+            userData?.userAccountData?.employmentHistory[index]?.endDate
+          );
+          setValue(
+            "_id",
+            userData?.userAccountData?.employmentHistory[index]?._id
+          );
+          setValue(
+            "description",
+            userData?.userAccountData?.employmentHistory[index]?.description
+          );
+        }
+      }
     }
-  }, [userData]);
+  }, [userData, index]);
 
   function getTitle(): string {
     switch (comp) {
@@ -95,9 +132,11 @@ function ConfigureDialog({
   }
 
   function onSubmit(e: any) {
+    console.log(e);
     updateProfile(
       {
         method: comp,
+        edit: index !== undefined ? true : false,
         data:
           comp === "skills"
             ? {
@@ -360,7 +399,7 @@ function ConfigureDialog({
                   />
                 )}
               </div>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                 {skills?.map(
                   (
                     skill: {
@@ -370,10 +409,20 @@ function ConfigureDialog({
                   ) => {
                     return (
                       <div
-                        className="border  shadow-sm px-3 py-1 rounded-full flex items-center justify-center text-center"
+                        className="border  shadow-sm px-3 py-1 rounded-full flex items-center justify-center  text-center  text-wrap break-words justify-between"
                         key={index}
                       >
-                        {skill.name}
+                        <div className=""> {skill.name}</div>
+                        <div className="w-4 h-4">
+                          <X
+                            className="w-4 h-4 ml-1 cursor-pointer lg:hover:scale-105"
+                            onClick={() => {
+                              setSkills(
+                                skills?.filter((_, idx) => idx !== index)
+                              );
+                            }}
+                          />
+                        </div>
                       </div>
                     );
                   }

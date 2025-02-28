@@ -26,6 +26,7 @@ function Profile() {
   const { getMe, isPending: gettingUserDetails } = useGetMe();
   const [loadedFromState, setLaodedFromState] = useState<boolean>(false);
   const { userData: myData } = useAppContext();
+  const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     if (state?.emailId && !loadedFromState) {
@@ -57,6 +58,7 @@ function Profile() {
     setOpendilog(false);
     setComp(undefined);
     setMethod(undefined);
+    setEditIndex(undefined);
   }
 
   async function uploadImage(img: any) {
@@ -343,22 +345,32 @@ function Profile() {
                 <h3 className="font-medium text-3xl">Skills</h3>
 
                 <div className="flex items-center gap-4">
-                  {!state?.emailId && (
-                    <FiPlus
-                      onClick={() => {
-                        handleConfigureClick("add", "skills");
-                      }}
-                      className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
-                    />
-                  )}
+                  {!state?.emailId &&
+                    userData?.userAccountData?.skills?.length === 0 && (
+                      <FiPlus
+                        onClick={() => {
+                          handleConfigureClick("add", "skills");
+                        }}
+                        className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      />
+                    )}
+                  {!state?.emailId &&
+                    userData?.userAccountData?.skills?.length > 0 && (
+                      <MdEditNote
+                        onClick={() => {
+                          handleConfigureClick("edit", "skills");
+                        }}
+                        className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                      />
+                    )}
                 </div>
               </div>
-              <div className="grid grid-cols-2  lg:grid-cols-4 gap-2 mt-3">
+              <div className="grid grid-cols-1  lg:grid-cols-4 gap-2 mt-3">
                 {userData?.userAccountData?.skills?.map(
                   (skill: { name: string }, index: number) => (
                     <div
                       key={index}
-                      className="px-5 py-1 rounded-full  border bg-background shadow-sm text-lg h-fit max-h-20 lg:w-[9vw] text-wrap break-words"
+                      className="px-5 py-1 rounded-full  border bg-background shadow text-lg h-fit max-h-20 lg:w-fit lg:max-w-[12vw] text-wrap break-words"
                     >
                       {skill?.name}
                     </div>
@@ -371,7 +383,7 @@ function Profile() {
             <div className="h-[1px] w-full bg-foreground/10"></div>
           )}
 
-          {/* Portfolio */}
+          {/* Projects */}
           {userRole === "FREELANCER" && (
             <div className="px-7 pb-5">
               <div className="flex items-center justify-between">
@@ -401,9 +413,24 @@ function Profile() {
                         key={index}
                         className="border rounded-lg p-4  bg-background shadow-sm lg:w-[25vw]"
                       >
-                        <h4 className="font-semibold text-lg ">
-                          {project.title}
-                        </h4>
+                        <div className="w-full flex items-center justify-between">
+                          <h4 className="font-semibold text-lg ">
+                            {project.title}
+                          </h4>
+                          <div className="w-10 h-10">
+                            {!state?.emailId && (
+                              <MdEditNote
+                                onClick={() => {
+                                  setEditIndex(index);
+                                  setTimeout(() => {
+                                    handleConfigureClick("edit", "project");
+                                  }, 50);
+                                }}
+                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                              />
+                            )}
+                          </div>
+                        </div>
                         <p className=" text-foreground/70 mt-2">
                           {project.description}
                         </p>
@@ -449,12 +476,26 @@ function Profile() {
                         key={index}
                         className=" border rounded-lg p-4 bg-background shadow-sm lg:w-[25vw]"
                       >
-                        <h4 className="font-semibold text-xl">
-                          {company?.companyName}
-                        </h4>
+                        <div className="flex items-center w-full justify-between">
+                          <h4 className="font-semibold text-xl ">
+                            {company?.companyName}
+                          </h4>
+                          <div className="w-10 h-10">
+                            {!state?.emailId && (
+                              <MdEditNote
+                                onClick={() => {
+                                  setEditIndex(index);
+                                  setTimeout(() => {
+                                    handleConfigureClick("edit", "employment");
+                                  }, 50);
+                                }}
+                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                              />
+                            )}
+                          </div>
+                        </div>
                         <p className=" text-foreground/80">
-                          Jan 2022 - Present{" "}
-                          {`${company?.startDate} - ${
+                          {`From : ${company?.startDate}   -  To : ${
                             company.endDate ?? "Present"
                           }`}
                         </p>
@@ -525,6 +566,7 @@ function Profile() {
           method={method}
           comp={comp}
           onClose={handleOnClose}
+          index={editIndex}
         />
       )}
     </div>
