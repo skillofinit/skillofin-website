@@ -167,14 +167,14 @@ function DashboardNavBar() {
                     onClick={() => navigate("/myprofile")}
                   >
                     <img
-                      alt="profile"
-                      src={
-                        userData?.userData?.profile
-                          ? userData?.userData?.profile
-                          : "no-user.png"
-                      }
-                      className="rounded-full h-10 w-10"
-                    />
+                    alt="profile"
+                    src={
+                      userData?.userData?.profile
+                        ? userData?.userData?.profile
+                        : "no-user.png"
+                    }
+                    className="rounded-full h-10 w-10"
+                  />
                     <div className="flex flex-col">
                       <h5 className="text-lg">
                         {userData?.userData?.firstName +

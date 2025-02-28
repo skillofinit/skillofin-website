@@ -73,7 +73,7 @@ function Home() {
             x2="100"
             y2="40"
             stroke="rgba(0, 0, 0, 0.5)"
-            stroke-width="2"
+            strokeWidth="2"
           />
           <line
             x1="100"
@@ -81,7 +81,7 @@ function Home() {
             x2="160"
             y2="40"
             stroke="rgba(0, 0, 0, 0.5)"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </svg>
       </div>
@@ -145,7 +145,7 @@ function Home() {
                   x2="290"
                   y2="4"
                   stroke="black"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
                 <polygon points="290,0 300,4 290,8" fill="black" />
               </svg>

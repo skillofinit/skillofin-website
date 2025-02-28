@@ -96,6 +96,7 @@ function Profile() {
       setUploading(false);
     }
   }
+  if(!userData) return <AppSpiner/>
 
   return (
     <div className="border  w-[95vw] lg:w-[80vw] rounded-lg h-full">
@@ -289,7 +290,7 @@ function Profile() {
                 <div className="text-2xl">Bank account details</div>
                 <div className="flex gap-4">
                   {!state?.emailId && (
-                    <FiPlus
+                    <CiEdit
                       onClick={() => {
                         handleConfigureClick("add", "bank");
                       }}
