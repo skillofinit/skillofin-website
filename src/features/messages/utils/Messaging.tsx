@@ -201,7 +201,7 @@ function Messaging() {
   }
 
   return (
-    <div className="h-[80vh]   lg:min-w-[70vw] flex  lg:border lg:shadow-lg">
+    <div className="h-[75vh]   lg:min-w-[70vw] flex  lg:border lg:shadow-lg">
       {isLoading && <AppSpiner />}
       <div
         className={`lg:w-[25vw] w-full lg:border-r ${
@@ -407,7 +407,7 @@ function Messaging() {
             openProjectDetails
               ? "absolute bg-background lg:relative"
               : "hidden lg:relative"
-          } lg:w-[30vw]  lg:flex h-full overflow-auto`}
+          } lg:w-[30vw] w-full  lg:flex h-full overflow-auto`}
         >
           <div className="flex flex-col w-full">
             <div className="border h-16 py-4 text-lg px-6 w-full shadow-md flex items-center gap-4">
