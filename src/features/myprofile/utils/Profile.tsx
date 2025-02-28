@@ -545,7 +545,24 @@ function Profile() {
                         key={index}
                         className="border lg:w-[25vw] rounded-lg p-4  bg-background shadow-sm"
                       >
-                        <h4 className="font-semibold text-xl">{item?.name}</h4>
+                        <div className="w-full flex items-center justify-between">
+                          <h4 className="font-semibold text-xl">
+                            {item?.name}
+                          </h4>
+                          <div className="w-10 h-10">
+                            {!state?.emailId && (
+                              <MdEditNote
+                                onClick={() => {
+                                  setEditIndex(index);
+                                  setTimeout(() => {
+                                    handleConfigureClick("edit", "education");
+                                  }, 50);
+                                }}
+                                className="h-10 cursor-pointer w-10 p-2 rounded-full bg-primary text-background"
+                              />
+                            )}
+                          </div>
+                        </div>
                         <p className=" text-foreground/80">{`${item?.startDate} - ${item.endDate} `}</p>
                         <p className=" text-foreground/80 mt-2">
                           {item?.description}

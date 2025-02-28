@@ -95,6 +95,28 @@ function ConfigureDialog({
             "description",
             userData?.userAccountData?.employmentHistory[index]?.description
           );
+        } else if (comp === "education") {
+          setValue(
+            "name",
+            userData?.userAccountData?.educationHistory[index]?.name
+          );
+
+          setValue(
+            "fromDate",
+            userData?.userAccountData?.educationHistory[index]?.startDate
+          );
+          setValue(
+            "toDate",
+            userData?.userAccountData?.educationHistory[index]?.endDate
+          );
+          setValue(
+            "_id",
+            userData?.userAccountData?.educationHistory[index]?._id
+          );
+          setValue(
+            "description",
+            userData?.userAccountData?.educationHistory[index]?.description
+          );
         }
       }
     }
@@ -430,7 +452,7 @@ function ConfigureDialog({
               </div>
               <Button
                 isPending={isPending}
-                disabled={skills?.length === 0}
+                disabled={skills?.length === 0 || isPending}
                 className="h-11 px-5"
                 onClick={() => {
                   if (skills?.length > 0) {
