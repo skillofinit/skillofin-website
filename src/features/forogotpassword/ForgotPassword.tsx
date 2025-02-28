@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -21,7 +22,6 @@ function ForgotPassword() {
   function handleResetPassword(e: any) {
     resetPassword(e, {
       onSuccess(data) {
-        console.log("hello")
         if (data?.message === "OTP_SUCCESS" || data?.message === "SUCCESS") {
           if (step === 0) {
             setStep(1);
@@ -62,7 +62,6 @@ function ForgotPassword() {
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
     if (regex.test(password)) {
-      console.log("hey!");
       clearErrors("passwordOne");
     } else {
       setTimeout(() => {

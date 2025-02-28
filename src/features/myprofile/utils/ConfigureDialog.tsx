@@ -165,7 +165,6 @@ function ConfigureDialog({
             "language",
             userData?.userAccountData?.languages[index]?.name
           );
-          console.log(userData?.userAccountData?.languages[index])
           setValue("level", userData?.userAccountData?.languages[index]?.level?.toLowerCase());
         }
       }
@@ -207,7 +206,6 @@ function ConfigureDialog({
   }
 
   function onSubmit(e: any) {
-    console.log(e);
     updateProfile(
       {
         method: comp,

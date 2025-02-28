@@ -43,7 +43,6 @@ function CheckoutForm() {
         title: "Payment failed",
         description: result.error.message,
       });
-      console.log();
     }
   }
 

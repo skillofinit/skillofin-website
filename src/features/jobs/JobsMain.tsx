@@ -99,7 +99,6 @@ function FreelancerJobs() {
     setJobs(temp);
   }
 
-  console.log(jobs);
 
   return (
     <div className="w-full">

@@ -17,7 +17,6 @@ function Blog() {
     blog(undefined, {
       onSuccess(data) {
         if (data?.message === "SUCCESS") {
-          console.log(data?.data);
           setAllBlogs(data?.data ?? []);
         }
       },
