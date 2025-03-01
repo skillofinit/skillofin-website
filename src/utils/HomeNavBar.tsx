@@ -19,7 +19,7 @@ import {
 } from "@/utiles/appUtils";
 import Logo from "./Logo";
 import { TbHeartHandshake } from "react-icons/tb";
-import { MdDashboard, MdLockReset, MdPrivacyTip } from "react-icons/md";
+import { MdLockReset, MdPrivacyTip } from "react-icons/md";
 import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { LuListEnd } from "react-icons/lu";
 import { BsCardList } from "react-icons/bs";
@@ -142,11 +142,6 @@ function HomeNavBar() {
             <div className="flex flex-col gap-3">
               {[
                 { label: "Home", icon: <FaHome />, path: "/" },
-                {
-                  label: "Dashboard",
-                  icon: <MdDashboard />,
-                  path: "/feed",
-                },
                 { label: "Login", icon: <FiUser />, path: "/login" },
                 { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
                 {
@@ -170,13 +165,12 @@ function HomeNavBar() {
                   icon: <MdPrivacyTip />,
                   path: "/privacy-policy",
                 },
-                
+
                 {
                   label: "Blog",
-                  icon: <BsCardList  />,
+                  icon: <BsCardList />,
                   path: "/blog",
                 },
-
 
                 {
                   label: "Reset Password",

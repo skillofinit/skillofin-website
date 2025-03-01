@@ -69,7 +69,7 @@ function PostBlog({ onClose, refresh }: PostBlogDialogInterface) {
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 p-4 h-[92vh] w-[80vw] lg:w-[25vw] "
+        className="flex flex-col gap-4 p-4   w-[80vw] lg:w-[25vw] "
       >
         {/* Title Input */}
         <div className="flex flex-col gap-1">
