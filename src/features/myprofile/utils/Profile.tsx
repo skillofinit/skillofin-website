@@ -9,7 +9,6 @@ import { useGetMe, useUplaodProfileImage } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 
 import { useLocation } from "react-router-dom";
-import { useAppContext } from "@/utiles/AppContext";
 import { CiEdit } from "react-icons/ci";
 
 function Profile() {
@@ -23,17 +22,35 @@ function Profile() {
   const [userData, setUserData] = useState<any>();
   const [userRole, setUserRole] = useState<any>();
 
-  const { state } = useLocation();
+  const { state, pathname } = useLocation();
   const { getMe, isPending: gettingUserDetails } = useGetMe();
-  const [loadedFromState, setLaodedFromState] = useState<boolean>(false);
-  const { userData: myData } = useAppContext();
   const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
+  const [stateEmailId, setStateEmailId] = useState<string>("null");
 
   useEffect(() => {
-    if (state?.emailId && !loadedFromState) {
-      getMe(state?.emailId, {
+    if (state?.emailId) {
+      setStateEmailId(state?.emailId);
+    }
+    if (pathname === "/myprofile") {
+      setStateEmailId("null");
+    }
+  }, [state, pathname]);
+
+  useEffect(() => {
+    if (pathname === "/profile" && stateEmailId !== "null") {
+      console.log(stateEmailId);
+
+      getMe(stateEmailId, {
         onSuccess(data) {
-          setLaodedFromState(true);
+          if (data?.message === "SUCCESS") {
+            setUserData(data?.data);
+            setUserRole(data?.data?.userData?.role);
+          }
+        },
+      });
+    } else {
+      getMe(undefined, {
+        onSuccess(data) {
           if (data?.message === "SUCCESS") {
             setUserData(data?.data);
             setUserRole(data?.data?.userData?.role);
@@ -41,14 +58,7 @@ function Profile() {
         },
       });
     }
-  }, [state]);
-
-  useEffect(() => {
-    if (myData && !state?.emailId) {
-      setUserData(myData);
-      setUserRole(myData?.userData?.role);
-    }
-  }, [myData]);
+  }, [stateEmailId]);
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -96,7 +106,7 @@ function Profile() {
       setUploading(false);
     }
   }
-  if(!userData) return <AppSpiner/>
+  if (!userData) return <AppSpiner />;
 
   return (
     <div className="border  w-[95vw] lg:w-[80vw] rounded-lg h-full">
@@ -115,7 +125,7 @@ function Profile() {
               }`}
               className="h-20 w-20 lg:w-28 lg:h-28 rounded-full"
             />
-            {!state?.emailId && (
+            {stateEmailId === "null" && (
               <div className="absolute rounded-full w-7 h-7 flex items-center justify-center bottom-1 right-2 bg-primary text-background cursor-pointer">
                 <input
                   type="file"
@@ -142,7 +152,7 @@ function Profile() {
                   " " +
                   userData?.userData?.lastName}
               </h3>
-              {!state?.emailId && (
+              {stateEmailId === "null" && (
                 <CiEdit
                   onClick={() => {
                     handleConfigureClick("edit", "name");
@@ -212,7 +222,7 @@ function Profile() {
             <div className="p-7 flex flex-col mt-5">
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Cost per hour</div>
-                {!state?.emailId && (
+                {stateEmailId === "null" && (
                   <CiEdit
                     onClick={() => {
                       handleConfigureClick("edit", "costPerHour");
@@ -235,7 +245,7 @@ function Profile() {
               <div className="flex items-center justify-between">
                 <div className="text-2xl">Languages</div>
                 <div className="flex gap-4">
-                  {!state?.emailId && (
+                  {stateEmailId === "null" && (
                     <FiPlus
                       onClick={() => {
                         handleConfigureClick("add", "languages");
@@ -254,7 +264,10 @@ function Profile() {
                     },
                     index: number
                   ) => (
-                    <div className="w-full flex justify-between items-center gap-4">
+                    <div
+                      key={index}
+                      className="w-full flex justify-between items-center gap-4"
+                    >
                       <div key={index} className="flex items-center gap-4">
                         <h5 className="w-20 flex items-center gap-3">
                           {lang.name} <span>:</span>
@@ -264,7 +277,7 @@ function Profile() {
                             lang.level?.slice(1).toLowerCase()}
                         </p>
                       </div>
-                      {!state?.emailId && (
+                      {stateEmailId === "null" && (
                         <CiEdit
                           onClick={() => {
                             setEditIndex(index);
@@ -289,7 +302,7 @@ function Profile() {
               <div className="flex items-center justify-between gap-3">
                 <div className="text-2xl">Bank account details</div>
                 <div className="flex gap-4">
-                  {!state?.emailId && (
+                  {stateEmailId === "null" && (
                     <CiEdit
                       onClick={() => {
                         handleConfigureClick("add", "bank");
@@ -341,7 +354,7 @@ function Profile() {
                   : userData?.userAccountData?.title ?? "Add a headline"}
               </h3>
               <div>
-                {!state?.emailId && (
+                {stateEmailId === "null" && (
                   <CiEdit
                     onClick={() => {
                       handleConfigureClick("edit", "title");
@@ -370,7 +383,7 @@ function Profile() {
                 <h3 className="font-medium text-3xl">Skills</h3>
 
                 <div className="flex items-center gap-4">
-                  {!state?.emailId &&
+                  {stateEmailId === "null" &&
                     userData?.userAccountData?.skills?.length === 0 && (
                       <FiPlus
                         onClick={() => {
@@ -379,7 +392,7 @@ function Profile() {
                         className="h-6 lg:w-7 lg:h-7 cursor-pointer w-6 p-1 rounded-full  border border-primary shadow-xl drop-shadow-md bg-background"
                       />
                     )}
-                  {!state?.emailId &&
+                  {stateEmailId === "null" &&
                     userData?.userAccountData?.skills?.length > 0 && (
                       <CiEdit
                         onClick={() => {
@@ -414,7 +427,7 @@ function Profile() {
               <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Projects</h3>
                 <div className="flex gap-4">
-                  {!state?.emailId && (
+                  {stateEmailId === "null" && (
                     <FiPlus
                       onClick={() => {
                         handleConfigureClick("add", "project");
@@ -443,7 +456,7 @@ function Profile() {
                             {project.title}
                           </h4>
                           <div className="w-10 h-10">
-                            {!state?.emailId && (
+                            {stateEmailId === "null" && (
                               <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);
@@ -475,7 +488,7 @@ function Profile() {
               <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Employment History</h3>
                 <div className="flex gap-4">
-                  {!state?.emailId && (
+                  {stateEmailId === "null" && (
                     <FiPlus
                       onClick={() => {
                         handleConfigureClick("add", "employment");
@@ -506,7 +519,7 @@ function Profile() {
                             {company?.companyName}
                           </h4>
                           <div className="w-10 h-10">
-                            {!state?.emailId && (
+                            {stateEmailId === "null" && (
                               <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);
@@ -544,7 +557,7 @@ function Profile() {
               <div className="flex items-center justify-between gap-3">
                 <h3 className="font-medium text-3xl">Education</h3>
                 <div className="flex gap-4">
-                  {!state?.emailId && (
+                  {stateEmailId === "null" && (
                     <FiPlus
                       onClick={() => {
                         handleConfigureClick("add", "education");
@@ -575,7 +588,7 @@ function Profile() {
                             {item?.name}
                           </h4>
                           <div className="w-10 h-10">
-                            {!state?.emailId && (
+                            {stateEmailId === "null" && (
                               <CiEdit
                                 onClick={() => {
                                   setEditIndex(index);

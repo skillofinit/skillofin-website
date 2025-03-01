@@ -23,6 +23,7 @@ import { MdLockReset, MdPrivacyTip } from "react-icons/md";
 import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { LuListEnd } from "react-icons/lu";
 import { BsCardList } from "react-icons/bs";
+import { IoPricetagsOutline } from "react-icons/io5";
 
 function HomeNavBar() {
   const navigate = useNavigate();
@@ -171,6 +172,13 @@ function HomeNavBar() {
                   icon: <BsCardList />,
                   path: "/blog",
                 },
+                
+                {
+                  label: "Pricing",
+                  icon: <IoPricetagsOutline  />,
+                  path: "/pricing",
+                },
+
 
                 {
                   label: "Reset Password",

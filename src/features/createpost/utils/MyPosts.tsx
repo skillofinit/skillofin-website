@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-binary-expression */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
@@ -123,13 +124,19 @@ function MyPosts() {
                 {post.title}
               </div>
               <div className="text-gray-600">{post.content}</div>
-              <div>
+              {
+                
+              }
+              {
+                post?.image?.length > 0 && <div>
                 <img
                   src={post.image}
                   alt="post"
                   className=" h-fit max-h-[50vh] w-full object-fill rounded-lg"
                 />
               </div>
+              
+              }
               <div className="flex justify-between mt-2 text-gray-500 px-3 lg:px-10">
                 <div className="flex items-center gap-1 hover:scale-105 cursor-pointer">
                   <FaHeart

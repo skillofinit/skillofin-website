@@ -31,6 +31,7 @@ function DashboardNavBar() {
   const { isPending: isLoading, logout } = useLogout();
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [popOverOpen, setPopOverOpen] = useState<boolean>(false);
 
   function handleLogoutClick() {
     logout();
@@ -146,8 +147,17 @@ function DashboardNavBar() {
           )}
 
           <div>
-            <Popover>
-              <PopoverTrigger>
+            <Popover
+              open={popOverOpen}
+              onOpenChange={(value) => {
+                setPopOverOpen(value);
+              }}
+            >
+              <PopoverTrigger
+                onClick={() => {
+                  setPopOverOpen(true);
+                }}
+              >
                 <div className="cursor-pointer rounded-full h-10 w-10 flex items-center justify-center border">
                   <img
                     alt="profile"
@@ -164,17 +174,20 @@ function DashboardNavBar() {
                 <div className="flex flex-col gap-1">
                   <div
                     className="flex p-2 lg:hover:bg-foreground/5 items-center gap-4 cursor-pointer mt-3"
-                    onClick={() => navigate("/myprofile")}
+                    onClick={() => {
+                      setPopOverOpen(false);
+                      navigate("/myprofile");
+                    }}
                   >
                     <img
-                    alt="profile"
-                    src={
-                      userData?.userData?.profile
-                        ? userData?.userData?.profile
-                        : "no-user.png"
-                    }
-                    className="rounded-full h-10 w-10"
-                  />
+                      alt="profile"
+                      src={
+                        userData?.userData?.profile
+                          ? userData?.userData?.profile
+                          : "no-user.png"
+                      }
+                      className="rounded-full h-10 w-10"
+                    />
                     <div className="flex flex-col">
                       <h5 className="text-lg">
                         {userData?.userData?.firstName +
@@ -191,7 +204,10 @@ function DashboardNavBar() {
                   <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
                   <div
-                    onClick={() => navigate("/myprofile")}
+                    onClick={() => {
+                      navigate("/myprofile");
+                      setPopOverOpen(false);
+                    }}
                     className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                   >
                     <FaRegUserCircle className="w-5 h-5 ml-1" />
@@ -205,7 +221,10 @@ function DashboardNavBar() {
                     <div className="flex flex-col">
                       {userRole === "CLIENT" && (
                         <div
-                          onClick={() => navigate("/myjobs")}
+                          onClick={() => {
+                            navigate("/myjobs");
+                            setPopOverOpen(false);
+                          }}
                           className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                         >
                           <BsPersonWorkspace className="w-5 h-5 ml-1" />
@@ -215,14 +234,20 @@ function DashboardNavBar() {
                       <div className="w-full bg-foreground/10 h-[1px]"></div>
 
                       <div
-                        onClick={() => navigate("/createpost")}
+                        onClick={() => {
+                          navigate("/createpost");
+                          setPopOverOpen(false);
+                        }}
                         className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                       >
                         <BsPostcardHeart className="w-5 h-5 ml-1" />
                         <p>Create Post</p>
                       </div>
                       <div
-                        onClick={() => navigate("/myposts")}
+                        onClick={() => {
+                          navigate("/myposts");
+                          setPopOverOpen(false);
+                        }}
                         className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                       >
                         <FaSignsPost className="w-5 h-5 ml-1" />
@@ -237,6 +262,7 @@ function DashboardNavBar() {
                     className="text-destructive mb-1 px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                     onClick={() => {
                       handleLogoutClick();
+                      setPopOverOpen(false);
                     }}
                   >
                     <RiLogoutCircleLine className="w-5 h-5 ml-1" />

@@ -21,6 +21,7 @@ import PrivacyPolicy from "./features/privacypolicy/PrivacyPolicy";
 import VerifyPayment from "./features/verifypayment/VerifyPayemnt";
 import Blog from "./features/blog/Blog";
 import Withdraw from "./features/withdraw/Withdraw";
+import Pricing from "./features/pricing/Pricing";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/pricing" element={<Pricing />} />
 
             <Route element={<ProtectedLayout />}>
               <Route path="/feed" element={<DashBoardMain />} />
