@@ -12,36 +12,55 @@ import { FaRegFolderOpen, FaDollarSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 function LikedProjectsCard() {
-  const { jobs, userRole } = useAppContext();
+  const { jobs, userRole, userData } = useAppContext();
   const navigate = useNavigate();
 
-  function checkEmptyProjects(): boolean {
-    const filterJobs = jobs?.filter(
-      (job: any) => job?.status === "OPEN" && job?.projectType === "PROJECT"
-    );
-
-    if (userRole === "CLIENT" && filterJobs?.length > 0) {
-      return true;
-    }
-
-    return false;
-  }
   function getProjects() {
-    const filterJobs = jobs?.filter(
+    const filterProjects = jobs?.filter(
       (job: any) => job?.status === "OPEN" && job?.projectType === "PROJECT"
     );
-    return filterJobs;
+
+    if (userRole === "CLIENT" || userRole === "BANK") {
+      return filterProjects;
+    } else {
+      if (
+        !userData?.userAccountData?.skills ||
+        userData?.userAccountData?.skills?.length === 0
+      ) {
+        return filterProjects;
+      }
+      return filterProjects?.filter((project: any) => {
+        const projectContent = (project?.title + " " + project?.description)
+          ?.toLowerCase()
+          ?.trim();
+
+        const hasMatchingSkill = userData?.userAccountData?.skills?.some(
+          (skill: any) => {
+            const skillName = skill?.name?.toLowerCase()?.trim();
+
+            const skillWords = skillName.split(" ");
+
+            return skillWords.some((skillWord: any) => {
+              const found = projectContent.includes(skillWord.toLowerCase());
+              return found;
+            });
+          }
+        );
+
+        return hasMatchingSkill;
+      });
+    }
   }
 
   return (
-    <div className="w-[32vw] h-[43vh] text-white border  rounded-xl overflow-auto shadow-lg transition-all hover:shadow-purple-500/50 ">
-      <div className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center gap-3 text-white rounded-t-xl text-xl font-semibold px-6 py-3">
+    <div className="w-full h-[43vh] text-white border  rounded-xl overflow-auto shadow-md transition-all hover:shadow-purple-500/50 ">
+      <div className="w-full bg-gradient-to-r from-green-100 to-teal-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
         <FaRegFolderOpen className="text-2xl" />
-        Projects for you
+        {userRole === "FREELANCER" ? "Projects for you" : "Recent Projects"}
       </div>
-      {!checkEmptyProjects() && (
+      {(getProjects()?.length === 0 || !getProjects()) && (
         <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-constructive w-10 h-10" />
+          <BsEmojiSmile className="text-primary  w-10 h-10" />
           No projects found
         </div>
       )}
@@ -53,7 +72,7 @@ function LikedProjectsCard() {
             className="border-b border-gray-600"
           >
             <AccordionTrigger className="px-5 flex justify-between items-center text-foreground ">
-              <div className="flex items-center gap-2 w-[20vw]">
+              <div className="flex items-center gap-2">
                 <FaRegFolderOpen className="text-indigo-400 text-xl" />
                 <h4 className="truncate text-foreground">{job?.title}</h4>
               </div>

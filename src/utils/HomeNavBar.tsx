@@ -134,97 +134,111 @@ function HomeNavBar() {
 
       {/* Mobile Slide Menu */}
       {mobileMenuOpen && (
-        <div className="fixed lg:w-fit w-[80vw]  top-0 h-full bg-white shadow-xl p-6 -mt-2 z-50 flex flex-col justify-between animate-slide-in">
-          {/* Logo & Menu Items */}
-          <div className="flex flex-col gap-8">
-            <Logo />
+        <div className="fixed inset-0 z-50 flex ">
+          <div className="fixed lg:w-fit w-[80vw]  top-0 h-full bg-white shadow-xl p-6 -mt-2 z-50 flex flex-col justify-between animate-slide-in">
+            {/* Logo & Menu Items */}
+            <div className="flex flex-col gap-8 cursor-pointer">
+              <div
+                className=""
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                <Logo />
+              </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex flex-col gap-3">
-              {[
-                { label: "Home", icon: <FaHome />, path: "/" },
-                { label: "Login", icon: <FiUser />, path: "/login" },
-                { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
-                {
-                  label: "Contact Us",
-                  icon: <TbHeartHandshake />,
-                  path: "/contactus",
-                },
+              {/* Navigation Buttons */}
+              <div className="flex flex-col gap-3">
+                {[
+                  { label: "Home", icon: <FaHome />, path: "/" },
+                  { label: "Login", icon: <FiUser />, path: "/login" },
+                  { label: "Sign Up", icon: <FiUserPlus />, path: "/signup" },
+                  {
+                    label: "Contact Us",
+                    icon: <TbHeartHandshake />,
+                    path: "/contactus",
+                  },
 
-                {
-                  label: "Faqs",
-                  icon: <FaQuestionCircle />,
-                  path: "/faqs",
-                },
-                {
-                  label: "Terms and conditions",
-                  icon: <LuListEnd />,
-                  path: "/terms-and-conditions",
-                },
-                {
-                  label: "Privacy policy",
-                  icon: <MdPrivacyTip />,
-                  path: "/privacy-policy",
-                },
+                  {
+                    label: "Faqs",
+                    icon: <FaQuestionCircle />,
+                    path: "/faqs",
+                  },
+                  {
+                    label: "Terms and conditions",
+                    icon: <LuListEnd />,
+                    path: "/terms-and-conditions",
+                  },
+                  {
+                    label: "Privacy policy",
+                    icon: <MdPrivacyTip />,
+                    path: "/privacy-policy",
+                  },
 
-                {
-                  label: "Blog",
-                  icon: <BsCardList />,
-                  path: "/blog",
-                },
-                
-                {
-                  label: "Pricing",
-                  icon: <IoPricetagsOutline  />,
-                  path: "/pricing",
-                },
+                  {
+                    label: "Blog",
+                    icon: <BsCardList />,
+                    path: "/blog",
+                  },
 
+                  {
+                    label: "Pricing",
+                    icon: <IoPricetagsOutline />,
+                    path: "/pricing",
+                  },
 
-                {
-                  label: "Reset Password",
-                  icon: <MdLockReset />,
-                  path: "/forgotpassword",
-                  variant: "destructive",
-                },
-              ].map(({ label, icon, path, variant }, index) => (
-                <button
-                  key={index}
-                  className={`flex items-center gap-3 px-5 py-2 rounded-lg lg:text-[15px]  font-medium transition-all duration-200 
+                  {
+                    label: "Reset Password",
+                    icon: <MdLockReset />,
+                    path: "/forgotpassword",
+                    variant: "destructive",
+                  },
+                ].map(({ label, icon, path, variant }, index) => (
+                  <button
+                    key={index}
+                    className={`flex items-center gap-3 px-5 py-2 rounded-lg lg:text-[15px]  font-medium transition-all duration-200 
                   ${
                     variant === "destructive"
                       ? "bg-red-500 text-white hover:bg-red-600"
                       : "bg-gradient-to-r from-blue-600 to-purple-500 text-white hover:opacity-90"
                   }`}
-                  onClick={() => handleNavigation(path)}
-                >
-                  {icon}
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Social Icons */}
-          <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-4 items-center justify-center  lg:grid-cols-6 gap-3">
-              {socialIcons.map(({ Icon, title, link }, index) => (
-                <Icon
-                  key={index}
-                  title={title}
-                  className="p-2 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 transition-all duration-200"
-                  onClick={() => handleNavigation(link)}
-                />
-              ))}
+                    onClick={() => handleNavigation(path)}
+                  >
+                    {icon}
+                    {label}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Footer */}
-            <div className="text-center text-gray-600 text-sm items-center flex flex-col w-full ">
-              <p>© 2025 SkilloFin. All Rights Reserved.</p>
-              <p className="text-primary cursor-pointer border-b border-primary mt-2 w-fit">
-                support@skillofin.com
-              </p>
+            {/* Social Icons */}
+            <div className="flex flex-col gap-6">
+              <div className="grid grid-cols-4 items-center justify-center  lg:grid-cols-6 gap-3">
+                {socialIcons.map(({ Icon, title, link }, index) => (
+                  <Icon
+                    key={index}
+                    title={title}
+                    className="p-2 cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 transition-all duration-200"
+                    onClick={() => handleNavigation(link)}
+                  />
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="text-center text-gray-600 text-sm items-center flex flex-col w-full ">
+                <p>© 2025 SkilloFin. All Rights Reserved.</p>
+                <p className="text-primary cursor-pointer border-b border-primary mt-2 w-fit">
+                  support@skillofin.com
+                </p>
+              </div>
             </div>
           </div>
+          <div
+            className="w-full h-full z-10"
+            onClick={() => {
+              setMobileMenuOpen(false);
+            }}
+          ></div>
         </div>
       )}
     </header>

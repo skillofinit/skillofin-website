@@ -210,23 +210,25 @@ function SkilloFinPricing() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-full bg-gradient-to-br overflow-x-hidden">
       <HomeNavBar />
       <main className="flex-grow px-4 py-5 md:px-12 ">
         <div className="text-center mb-12 flex  flex-col items-center">
-          <h1 className="text-2xl lg:text-4xl sm:text-3xl font-semibold text-white drop-shadow-xl animate-fadeIn">
+          <h1 className="text-2xl lg:text-4xl sm:text-3xl font-semibold text-foreground drop-shadow-xl animate-fadeIn">
             SkilloFin: A Better Pricing Model
           </h1>
-          <p className="text-white lg:text-lg lg:w-[80vw] mt-4 animate-fadeIn delay-200">
-          Outperforming  every other platform by lowering upfront costs, incentivizing early adopters, ensuring long-term revenue stability, and encouraging financial institutions to invest more.
+          <p className="text-foreground lg:text-lg lg:w-[80vw] mt-4 animate-fadeIn delay-200">
+            Outperforming every other platform by lowering upfront costs,
+            incentivizing early adopters, ensuring long-term revenue stability,
+            and encouraging financial institutions to invest more.
           </p>
         </div>
         {/* Early Adopter Deal */}
-        <div className="my-4 p-5 bg-green-50 border border-green-200 rounded-lg text-center">
+        <div className="my-4 p-5 bg-green-50 border  border-green-200 rounded-lg text-center">
           <h3 className="text-2xl font-bold text-green-700 mb-2">
             Special Early Adopter Deals
           </h3>
-          <p className="text-green-600">{earlyDeals[activeTab]}</p>
+          <p className="text-green-600 font-medium">{earlyDeals[activeTab]}</p>
         </div>
         {/* Tab Navigation */}
         <div className="flex justify-center gap-4 mb-10">
@@ -235,10 +237,10 @@ function SkilloFinPricing() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2 rounded-full font-semibold transition-colors ${
+                className={`px-6 py-2 rounded-full border border-primary font-semibold transition-colors ${
                   activeTab === tab
-                    ? "bg-green-600 text-white"
-                    : "bg-white text-green-600 border border-green-600"
+                    ? "bg-primary text-white"
+                    : "bg-white "
                 }`}
               >
                 {tab}
@@ -251,15 +253,15 @@ function SkilloFinPricing() {
           {getPlans().map((plan) => (
             <div
               key={plan.plan}
-              className="relative bg-white text-gray-800 border border-gray-200 rounded-tl-md rounded-b-md p-6 sm:p-8 shadow-2xl backdrop-blur-md transform hover:scale-105 transition duration-500 ease-in-out w-full md:max-w-sm"
+              className="relative bg-white text-gray-800 border border-gray-200 rounded-tl-md rounded-b-md p-6 sm:p-8 shadow-2xl transform hover:scale-105 transition duration-500 ease-in-out w-full md:max-w-sm"
             >
               {/* Decorative Ribbon */}
-              <div className="absolute -top-0 right-0 bg-gradient-to-br from-green-600 to-blue-600 text-white font-semibold px-3 sm:px-4 py-1 rounded-bl-xl shadow-lg">
+              <div className="absolute -top-0 right-0 bg-gradient-to-r from-primary to-blue-500 text-white font-semibold px-3 sm:px-4 py-1 rounded-bl-xl shadow-lg">
                 {plan.plan}
               </div>
               {/* Price Section */}
               <div className="mb-6">
-                <h2 className="text-3xl font-extrabold text-green-600">
+                <h2 className="text-3xl font-extrabold text-primary">
                   {plan.monthlyFee}
                   <span className="text-base font-normal text-gray-500 ml-2">
                     /user/month
@@ -279,12 +281,12 @@ function SkilloFinPricing() {
               </ul>
               {/* Action Buttons */}
               <div className="flex flex-col gap-4">
-                <Button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded shadow-lg">
+                <Button className="w-full  text-white py-3 rounded shadow-lg">
                   Choose Plan
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-green-600 text-green-600 hover:bg-green-50 py-3 rounded shadow-lg"
+                  className="w-full py-3 rounded shadow-lg"
                   onClick={() => navigate("/contactus")}
                 >
                   Learn More

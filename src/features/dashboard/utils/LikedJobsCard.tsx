@@ -13,37 +13,59 @@ import { FaBlackTie } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 function LikedJobsCard() {
-  const { jobs, userRole } = useAppContext();
+  const { jobs, userRole, userData } = useAppContext();
   const navigate = useNavigate();
 
-  function checkEmptyJobs(): boolean {
+  function getJobs() {
     const filterJobs = jobs?.filter(
       (job: any) => job?.status === "OPEN" && job?.projectType === "JOB"
     );
 
-    if (userRole === "CLIENT" && filterJobs?.length > 0) {
-      return true;
-    }
-    return false;
-  }
+    if (userRole === "CLIENT" || userRole === "BANK") {
+      return filterJobs;
+    } else {
+      if (
+        !userData?.userAccountData?.skills ||
+        userData?.userAccountData?.skills?.length === 0
+      ) {
+        return filterJobs;
+      }
+      return filterJobs?.filter((job: any) => {
+        const jobContent = (job?.title + " " + job?.description)
+          ?.toLowerCase()
+          ?.trim();
 
-  function getJobs() {
-    const filterJobs = jobs?.filter((job: any) => job?.status === "OPEN" && job?.projectType === 'JOB');
-    return filterJobs;
+        const hasMatchingSkill = userData?.userAccountData?.skills?.some(
+          (skill: any) => {
+            const skillName = skill?.name?.toLowerCase()?.trim();
+
+            const skillWords = skillName.split(" ");
+
+            return skillWords.some((skillWord: any) => {
+              const found = jobContent.includes(skillWord.toLowerCase());
+
+              return found;
+            });
+          }
+        );
+
+        return hasMatchingSkill;
+      });
+    }
   }
 
   return (
-    <div className="w-[32vw] h-[43vh] text-white border  rounded-xl overflow-auto shadow-lg transition-all hover:shadow-purple-600/50  ">
-      <div className="w-full bg-gradient-to-r from-purple-700 to-pink-500 flex items-center gap-3 text-white rounded-t-xl text-xl font-semibold px-6 py-3">
-        <FaRegBookmark className="text-2xl" /> Jobs for you
+    <div className="w-full h-[43vh] text-white border  rounded-xl overflow-auto shadow-md  transition-all hover:shadow-purple-600/50  ">
+      <div className="w-full bg-gradient-to-r from-pink-100 to-purple-200  flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
+        <FaRegBookmark className="text-2xl" />
+        {userRole === "FREELANCER" ? "Jobs for you" : "Recent Jobs"}
       </div>
-      {!checkEmptyJobs() && (
+      {(getJobs()?.length === 0 || !getJobs()) && (
         <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-constructive w-10 h-10" />
+          <BsEmojiSmile className="text-primary  w-10 h-10" />
           No jobs found
         </div>
       )}
-
 
       <Accordion type="single" collapsible className="p-3">
         {getJobs()?.map((job: any, index: number) => (
@@ -53,7 +75,7 @@ function LikedJobsCard() {
             className="border-b border-gray-700"
           >
             <AccordionTrigger className="px-5 flex text-foreground ">
-              <div className="flex items-center gap-2 w-[20vw] ">
+              <div className="flex items-center gap-2 ">
                 <FaBlackTie className="text-pink-400 text-xl" />
                 <h4 className="truncate text-foreground">{job?.title}</h4>
               </div>

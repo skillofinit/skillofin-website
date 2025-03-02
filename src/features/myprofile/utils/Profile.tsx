@@ -48,7 +48,7 @@ function Profile() {
           }
         },
       });
-    } else {
+    } else  {
       getMe(undefined, {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {

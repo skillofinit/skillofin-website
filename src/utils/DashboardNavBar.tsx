@@ -8,7 +8,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { FaRegUserCircle } from "react-icons/fa";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
 import { GiReceiveMoney } from "react-icons/gi";
@@ -18,9 +17,11 @@ import { useLogout } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import PostJobDialog from "../features/jobs/utils/PostJobDialog";
-import { BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
+import { BsCardList, BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
 import { FaSignsPost } from "react-icons/fa6";
 import Logo from "./Logo";
+import { TbHeartHandshake } from "react-icons/tb";
+import { FaQuestionCircle } from "react-icons/fa";
 
 function DashboardNavBar() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function DashboardNavBar() {
   }
 
   return (
-    <div className="w-full relative  pl-3">
+    <div className="w-full relative  ">
       {open && <PostJobDialog onClose={onClose} />}
       {isLoading && <AppSpiner bgColor="bg-foreground/40" />}
 
@@ -109,6 +110,13 @@ function DashboardNavBar() {
               className="text-[15px] cursor-pointer ml-2"
             >
               Feed
+            </div>
+
+            <div
+              onClick={() => navigate("/pricing")}
+              className="text-[15px] cursor-pointer border-2 border-constructive px-2 py-1  rounded-full "
+            >
+              Upgarde
             </div>
           </div>
         </div>
@@ -201,18 +209,6 @@ function DashboardNavBar() {
                     </div>
                   </div>
 
-                  <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
-
-                  <div
-                    onClick={() => {
-                      navigate("/myprofile");
-                      setPopOverOpen(false);
-                    }}
-                    className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
-                  >
-                    <FaRegUserCircle className="w-5 h-5 ml-1" />
-                    <p>Your profile</p>
-                  </div>
                   {userRole === "CLIENT" && (
                     <div className="w-full bg-foreground/10 h-[1px]"></div>
                   )}
@@ -252,6 +248,38 @@ function DashboardNavBar() {
                       >
                         <FaSignsPost className="w-5 h-5 ml-1" />
                         <p>My Posts</p>
+                      </div>
+
+                      <div className="w-full bg-foreground/10 h-[1px]"></div>
+                      <div
+                        onClick={() => {
+                          navigate("/contactus");
+                          setPopOverOpen(false);
+                        }}
+                        className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      >
+                        <TbHeartHandshake className="w-5 h-5 ml-1" />
+                        <p>Contact Us</p>
+                      </div>
+                      <div
+                        onClick={() => {
+                          navigate("/faqs");
+                          setPopOverOpen(false);
+                        }}
+                        className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      >
+                        <FaQuestionCircle className="w-5 h-5 ml-1" />
+                        <p>faqs</p>
+                      </div>
+                      <div
+                        onClick={() => {
+                          navigate("/blog");
+                          setPopOverOpen(false);
+                        }}
+                        className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                      >
+                        <BsCardList className="w-5 h-5 ml-1" />
+                        <p>Blog</p>
                       </div>
 
                       <div className="w-full bg-foreground/10 h-[1px]"></div>
@@ -392,6 +420,15 @@ function DashboardNavBar() {
                   </div>
                 </div>
               )}
+              <div
+                onClick={() => {
+                  navigate("/pricing");
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[15px] cursor-pointer"
+              >
+                {"Upgarde"}
+              </div>
             </div>
             {/* Notifications and Profile Section */}
             <div className="border-t pt-4">
@@ -424,18 +461,7 @@ function DashboardNavBar() {
                     </p>
                   </div>
                 </div>
-                <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
 
-                <div
-                  onClick={() => {
-                    navigate("/myprofile");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-2 text-[15px] cursor-pointer"
-                >
-                  <FaRegUserCircle className="w-5 h-5" />
-                  <span>Your Profile</span>
-                </div>
                 {userRole === "CLIENT" && (
                   <div className="w-full bg-foreground/10 h-[1px]"></div>
                 )}
@@ -465,6 +491,29 @@ function DashboardNavBar() {
                 >
                   <FaSignsPost className="w-5 h-5 " />
                   <p>My Posts</p>
+                </div>
+
+                <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
+                <div
+                  onClick={() => navigate("/contactus")}
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
+                >
+                  <TbHeartHandshake className="w-5 h-5 " />
+                  <p>Contact Us</p>
+                </div>
+                <div
+                  onClick={() => navigate("/faqs")}
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
+                >
+                  <FaQuestionCircle className="w-5 h-5 " />
+                  <p>faqs</p>
+                </div>
+                <div
+                  onClick={() => navigate("/blog")}
+                  className="flex items-center gap-2 text-[15px] cursor-pointer"
+                >
+                  <BsCardList className="w-5 h-5 " />
+                  <p>Blog</p>
                 </div>
 
                 <div className="w-full bg-foreground/10 h-[1px] mt-3"></div>
