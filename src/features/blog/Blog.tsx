@@ -119,7 +119,10 @@ function Blog() {
                   <div className="text-lg font-medium text-foreground">
                     {post.title}
                   </div>
-                  <div className="text-gray-600">{post.content}</div>
+                  <div className="custom-blog-content ">
+                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                  </div>
+
                   <div>
                     {post.image && (
                       <img
