@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 function ForgotPassword() {
   const [step, setStep] = useState<number>(0);
 
-  const { register, formState, handleSubmit, setError, clearErrors, watch } =
+  const { register, formState, handleSubmit, setError, clearErrors, watch,reset } =
     useForm();
   const { errors } = formState;
   const { isPending, resetPassword } = useResetPassword();
@@ -54,9 +54,9 @@ function ForgotPassword() {
             duration: 3000,
             variant: "destructive",
             title: "User not found",
-            description: `User doest exists with provided Email id!`,
+            description: `User not found with provided Email id!`,
           });
-
+reset()
 
         }
       },
