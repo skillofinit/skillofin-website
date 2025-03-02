@@ -18,7 +18,7 @@ function DashBoardMain() {
     <div className="w-full flex lg:px-10 flex-col  ">
       {isPending && <AppSpiner />}
       <div className="flex gap-3">
-        <div className="hidden   gap-3 h-[90vh] justify-between lg:flex flex-col">
+        <div className="hidden   gap-3 h-[90vh]  lg:flex flex-col">
           <LikedJobsCard />
           <LikedProjectsCard />
         </div>
