@@ -49,6 +49,16 @@ function ForgotPassword() {
             navigate("/login");
           }
         }
+        else if(data?.message === "USER_NOT_FOUND"){
+          toast({
+            duration: 3000,
+            variant: "destructive",
+            title: "User not found",
+            description: `User doest exists with provided Email id!`,
+          });
+
+
+        }
       },
     });
 
