@@ -5,12 +5,27 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 import { useAppContext } from "@/utiles/AppContext";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaRegFolderOpen, FaDollarSign } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function LikedProjectsCard() {
-  const { jobs } = useAppContext();
+  const { jobs, userRole } = useAppContext();
+  const navigate = useNavigate();
+
+  function checkEmptyProjects(): boolean {
+    const filterJobs = jobs?.filter(
+      (job: any) => job?.status === "OPEN" && job?.projectType === "PROJECT"
+    );
+
+    if (userRole === "CLIENT" && filterJobs?.length > 0) {
+      return true;
+    }
+
+    return false;
+  }
 
   return (
     <div className="w-[32vw] h-[43vh] text-white border  rounded-xl overflow-auto shadow-lg transition-all hover:shadow-purple-500/50 ">
@@ -18,9 +33,7 @@ function LikedProjectsCard() {
         <FaRegFolderOpen className="text-2xl" />
         Projects for you
       </div>
-      {jobs?.filter(
-        (job: any) => job?.status === "OPEN" && job?.projectType === "PROJECT"
-      )?.length === 0 && (
+      {!checkEmptyProjects() && (
         <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
           <BsEmojiSmile className="text-constructive w-10 h-10" />
           No projects found
@@ -48,8 +61,25 @@ function LikedProjectsCard() {
                   {job?.budget !== 0 ? job?.budget : job?.costPerHour}
                 </p>
               </AccordionTrigger>
-              <AccordionContent className="pb-3 px-5 text-gray-400  text-sm">
+              <AccordionContent className="pb-3 flex flex-col gap-2 px-5 text-gray-400 text-sm">
                 <p className="max-h-[20vh] overflow-auto">{job?.description}</p>
+                {userRole === "FREELANCER" && (
+                  <div>
+                    <Button
+                      onClick={() => {
+                        navigate("/jobs", {
+                          state: {
+                            value: job?.title,
+                          },
+                        });
+                      }}
+                      className="w-fit h-7"
+                      variant={"outline"}
+                    >
+                      View details
+                    </Button>
+                  </div>
+                )}
               </AccordionContent>
             </AccordionItem>
           ))}

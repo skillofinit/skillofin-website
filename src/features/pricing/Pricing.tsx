@@ -218,9 +218,7 @@ function SkilloFinPricing() {
             SkilloFin: A Better Pricing Model
           </h1>
           <p className="text-white lg:text-lg lg:w-[80vw] mt-4 animate-fadeIn delay-200">
-            Outperforming Upwork and LinkedIn by lowering upfront costs,
-            incentivizing early adopters, ensuring long-term revenue stability,
-            and encouraging financial institutions to invest more.
+          Outperforming  every other platform by lowering upfront costs, incentivizing early adopters, ensuring long-term revenue stability, and encouraging financial institutions to invest more.
           </p>
         </div>
         {/* Early Adopter Deal */}
