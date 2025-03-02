@@ -109,7 +109,7 @@ function Dashboard() {
   return (
     <div className="w-full h-full flex flex-col gap-10">
       {isPending && <AppSpiner bgColor="bg-foreground/50" />}
-      <div className="flex flex-row items-center px-4 mt-10 lg:mt-0 lg:px-20 gap-10 justify-center">
+      <div className="flex flex-row items-center px-4 mt-10 lg:mt-0  gap-10 justify-center">
         <div className="lg:w-fit min-h-[75vh] flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-5">
             {allPosts?.map(

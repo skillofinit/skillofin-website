@@ -13,6 +13,8 @@ export type contextType = {
   loggedIn: boolean;
   userData: any;
   paymetEmailId: string;
+  posts: any;
+  jobs: any;
 };
 
 const initState: contextType = {
@@ -22,6 +24,8 @@ const initState: contextType = {
   loggedIn: false,
   userData: undefined,
   paymetEmailId: "",
+  jobs: undefined,
+  posts: undefined,
 };
 
 const contextProvider = createContext(initState);
@@ -40,11 +44,12 @@ function reducer(state: contextType, action: dispatchDataType) {
       };
     case "setUser":
       return {
-      ...state,
+        ...state,
         loggedIn: action?.payload?.loggedIn,
         userRole: action?.payload?.data?.userData?.role ?? undefined,
         userData: action.payload?.data ?? undefined,
-        posts: action?.payload?.posts,
+        posts: action?.payload?.data?.allPosts  ,
+        jobs: action?.payload?.data?.jobs,
       };
 
     case "addMessages": {
@@ -81,8 +86,10 @@ function reducer(state: contextType, action: dispatchDataType) {
   }
 }
 export default function AppContext({ children }: { children: ReactNode }) {
-  const [{ temp, loggedIn, userData, userRole, paymetEmailId }, dispatch] =
-    useReducer(reducer, initState);
+  const [
+    { temp, loggedIn, userData, userRole, posts, jobs, paymetEmailId },
+    dispatch,
+  ] = useReducer(reducer, initState);
 
   return (
     <contextProvider.Provider
@@ -92,7 +99,9 @@ export default function AppContext({ children }: { children: ReactNode }) {
         userData,
         userRole,
         paymetEmailId,
+        jobs,
         temp,
+        posts,
       }}
     >
       {children}
