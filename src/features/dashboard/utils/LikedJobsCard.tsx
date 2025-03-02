@@ -24,8 +24,12 @@ function LikedJobsCard() {
     if (userRole === "CLIENT" && filterJobs?.length > 0) {
       return true;
     }
-
     return false;
+  }
+
+  function getJobs() {
+    const filterJobs = jobs?.filter((job: any) => job?.status === "OPEN" && job?.projectType === 'JOB');
+    return filterJobs;
   }
 
   return (
@@ -39,51 +43,47 @@ function LikedJobsCard() {
           No jobs found
         </div>
       )}
-      {jobs?.filter(
-        (job: any) => job?.status === "OPEN" && job?.projectType === "JOB"
-      )?.length === 0 && <div>No jobs found</div>}
+
 
       <Accordion type="single" collapsible className="p-3">
-        {jobs
-          ?.filter((job: any) => job?.status === "OPEN")
-          ?.map((job: any, index: number) => (
-            <AccordionItem
-              key={index}
-              value={index.toString()}
-              className="border-b border-gray-700"
-            >
-              <AccordionTrigger className="px-5 flex text-foreground ">
-                <div className="flex items-center gap-2 w-[20vw] ">
-                  <FaBlackTie className="text-pink-400 text-xl" />
-                  <h4 className="truncate text-foreground">{job?.title}</h4>
+        {getJobs()?.map((job: any, index: number) => (
+          <AccordionItem
+            key={index}
+            value={index.toString()}
+            className="border-b border-gray-700"
+          >
+            <AccordionTrigger className="px-5 flex text-foreground ">
+              <div className="flex items-center gap-2 w-[20vw] ">
+                <FaBlackTie className="text-pink-400 text-xl" />
+                <h4 className="truncate text-foreground">{job?.title}</h4>
+              </div>
+              <p className="text-green-400 flex items-center w-20   gap-1">
+                <FaRegMoneyBillAlt className="text-lg" />$
+                {job?.budget !== 0 ? job?.budget : job?.costPerHour}
+              </p>
+            </AccordionTrigger>
+            <AccordionContent className="pb-3 flex flex-col gap-2 px-5 text-gray-400 text-sm">
+              <p className="max-h-[20vh] overflow-auto">{job?.description}</p>
+              {userRole === "FREELANCER" && (
+                <div>
+                  <Button
+                    onClick={() => {
+                      navigate("/jobs", {
+                        state: {
+                          value: job?.title,
+                        },
+                      });
+                    }}
+                    className="w-fit h-7"
+                    variant={"outline"}
+                  >
+                    View details
+                  </Button>
                 </div>
-                <p className="text-green-400 flex items-center w-20   gap-1">
-                  <FaRegMoneyBillAlt className="text-lg" />$
-                  {job?.budget !== 0 ? job?.budget : job?.costPerHour}
-                </p>
-              </AccordionTrigger>
-              <AccordionContent className="pb-3 flex flex-col gap-2 px-5 text-gray-400 text-sm">
-                <p className="max-h-[20vh] overflow-auto">{job?.description}</p>
-                {userRole === "FREELANCER" && (
-                  <div>
-                    <Button
-                      onClick={() => {
-                        navigate("/jobs", {
-                          state: {
-                            value: job?.title,
-                          },
-                        });
-                      }}
-                      className="w-fit h-7"
-                      variant={"outline"}
-                    >
-                      View details
-                    </Button>
-                  </div>
-                )}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
+              )}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   );
