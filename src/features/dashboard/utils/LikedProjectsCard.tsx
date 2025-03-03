@@ -11,7 +11,11 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { FaRegFolderOpen, FaDollarSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-function LikedProjectsCard() {
+interface LikedProjectsCardInterface{
+  seeAllClick:()=>void
+}
+
+function LikedProjectsCard({seeAllClick}:LikedProjectsCardInterface) {
   const { jobs, userRole, userData } = useAppContext();
   const navigate = useNavigate();
 
@@ -66,7 +70,7 @@ function LikedProjectsCard() {
           </div>
           {getProjects()?.length > 0 && getProjects() && (
             <div>
-              <Button className="h-7">See all</Button>
+              <Button className="h-7" onClick={seeAllClick}>See all</Button>
             </div>
           )}
         </div>

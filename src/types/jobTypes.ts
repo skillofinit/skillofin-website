@@ -1,4 +1,3 @@
-
 export enum PROJECT_STATUS_ENUM {
   OPEN = "OPEN",
   IN_PROGRESS = "IN_PROGRESS",
@@ -24,9 +23,9 @@ export interface IBid {
   coverLetter: string;
   status: BID_STATUS_ENUM;
   bidDate: Date;
-  name:string,
-  profile:string,
-  read:number
+  name: string;
+  profile: string;
+  read: number;
 }
 
 export interface IMilestone {
@@ -43,7 +42,7 @@ export interface IPayment {
   paymentDate: Date | null;
 }
 
-export interface jobPostType  {
+export interface jobPostType {
   id: string;
   clientEmail: string;
   title: string;
@@ -60,4 +59,5 @@ export interface jobPostType  {
   totalPaid: number;
   createdAt: Date;
   lastUpdatedAt: Date;
+  projectType: "JOB" | "PROJECT";
 }

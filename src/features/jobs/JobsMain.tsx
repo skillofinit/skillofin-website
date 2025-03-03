@@ -99,7 +99,6 @@ function FreelancerJobs() {
     setJobs(temp);
   }
 
-
   return (
     <div className="w-full">
       {isPending && <AppSpiner />}
@@ -125,7 +124,7 @@ function FreelancerJobs() {
               <Input
                 iconName="search"
                 placeholder="Search"
-                className="w-[80vw] lg:w-[30vw]"
+                className="w-[80vw] lg:w-[20vw]"
                 value={searchedValue}
                 onChange={(e) => {
                   setSearchedValue(e?.target?.value);
@@ -185,13 +184,21 @@ function FreelancerJobs() {
               ?.map((job: jobPostType) => (
                 <Card
                   key={job.id}
-                  className="hover:shadow-xl transition-shadow duration-300 cursor-pointer w-[90vw] lg:w-[50vw]"
+                  className="hover:shadow-xl transition-shadow duration-300 cursor-pointer w-[90vw] lg:w-[40vw]"
                   onClick={() => setSelectedJob(job)}
                 >
                   <CardHeader className="flex  justify-between">
-                    <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                      <FiBriefcase className="w-5 h-5" />
-                      {job.title}
+                    <CardTitle className=" font-semibold justify-between flex items-center gap-2">
+                      <div className="flex items-center gap-2 text-lg">
+                        <FiBriefcase className="w-5 h-5" />
+                        {job.title}
+                      </div>
+                      <div className=" flex items-center gap-2">
+                        <p className="text-foreground/70 font-medium">
+                          {`Project Type :`}
+                        </p>
+                        <p>{job.projectType}</p>
+                      </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">

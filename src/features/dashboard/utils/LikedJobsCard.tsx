@@ -12,7 +12,11 @@ import { FaRegBookmark, FaRegMoneyBillAlt } from "react-icons/fa";
 import { FaBlackTie } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
-function LikedJobsCard() {
+interface LikedJobsCardInterface {
+  seeAllClick: () => void;
+}
+
+function LikedJobsCard({ seeAllClick }: LikedJobsCardInterface) {
   const { jobs, userRole, userData } = useAppContext();
   const navigate = useNavigate();
 
@@ -65,13 +69,15 @@ function LikedJobsCard() {
         </div>
         {getJobs()?.length > 0 && getJobs() && (
           <div>
-            <Button className="h-7">See all</Button>
+            <Button className="h-7" onClick={seeAllClick}>
+              See all
+            </Button>
           </div>
         )}
       </div>
       {(getJobs()?.length === 0 || !getJobs()) && (
         <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-primary  w-10 h-10  h-[30vh] justify-center" />
+          <BsEmojiSmile className="text-primary  w-10   h-[30vh] justify-center" />
           No jobs found
         </div>
       )}
