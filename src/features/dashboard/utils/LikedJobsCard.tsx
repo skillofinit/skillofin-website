@@ -76,8 +76,8 @@ function LikedJobsCard({ seeAllClick }: LikedJobsCardInterface) {
         )}
       </div>
       {(getJobs()?.length === 0 || !getJobs()) && (
-        <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-primary  w-10   h-[30vh] justify-center" />
+        <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg  h-[30vh]">
+          <BsEmojiSmile className="text-primary  w-10  h-10 justify-center" />
           No jobs found
         </div>
       )}

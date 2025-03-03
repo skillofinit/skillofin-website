@@ -8,6 +8,7 @@ import Courses from "./utils/Courses";
 import Loans from "./utils/Loans";
 import { X } from "lucide-react";
 import AllJobsOrProjects from "./utils/AllJobsOrProjects";
+import { FaRegBookmark, FaRegFolderOpen } from "react-icons/fa6";
 
 function DashBoardMain() {
   const { getMe, isPending, data } = useGetMe();
@@ -48,7 +49,11 @@ function DashBoardMain() {
           {step === 1 && (
             <div className="flex flex-col gap-3">
               <div className="text-xl bg-primary text-background pl-4 flex items-center gap-2 justify-between p-2 rounded-md">
-                <h4>Jobs for you</h4>
+                <h4 className="flex items-center gap-2">
+                  {" "}
+                  <FaRegBookmark />
+                  Jobs for you
+                </h4>
                 <X
                   onClick={() => {
                     setStep(0);
@@ -62,7 +67,10 @@ function DashBoardMain() {
           {step === 2 && (
             <div className="flex flex-col gap-3">
               <div className="text-xl bg-primary text-background pl-4 flex items-center gap-2 justify-between p-2 rounded-md">
-                <h4>Projects for you</h4>
+                <h4 className="flex items-center gap-2">
+                  {<FaRegFolderOpen />}
+                  Projects for you
+                </h4>
                 <X
                   onClick={() => {
                     setStep(0);

@@ -11,11 +11,11 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { FaRegFolderOpen, FaDollarSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-interface LikedProjectsCardInterface{
-  seeAllClick:()=>void
+interface LikedProjectsCardInterface {
+  seeAllClick: () => void;
 }
 
-function LikedProjectsCard({seeAllClick}:LikedProjectsCardInterface) {
+function LikedProjectsCard({ seeAllClick }: LikedProjectsCardInterface) {
   const { jobs, userRole, userData } = useAppContext();
   const navigate = useNavigate();
 
@@ -58,21 +58,26 @@ function LikedProjectsCard({seeAllClick}:LikedProjectsCardInterface) {
 
   return (
     <div className="w-full h-[43vh] text-white border  rounded-xl overflow-auto shadow-md transition-all hover:shadow-purple-500/50 ">
-      <div className="w-full bg-gradient-to-r from-green-100 to-teal-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
-        <FaRegFolderOpen className="text-2xl" />
-        {userRole === "FREELANCER" ? "Projects for you" : "Recent Projects"}
+      <div className="w-full bg-gradient-to-r from-green-100 to-teal-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3 justify-between ">
+        <div className="flex items-center gap-2">
+          <FaRegFolderOpen className="text-2xl" />
+          {userRole === "FREELANCER" ? "Projects for you" : "Recent Projects"}
+        </div>
+
+        {getProjects()?.length > 0 && getProjects() && (
+          <div>
+            <Button className="h-7" onClick={seeAllClick}>
+              See all
+            </Button>
+          </div>
+        )}
       </div>
       {(getProjects()?.length === 0 || !getProjects()) && (
         <div className="text-foreground flex flex-col items-center  mt-4 text-lg justify-between">
-          <div className="flex items-center gap-2 h-[30vh] justify-center">
+          <div className=" items-center flex flex-col  gap-2 h-[30vh] justify-center">
             <BsEmojiSmile className="text-primary  w-10 h-10" />
             No projects found
           </div>
-          {getProjects()?.length > 0 && getProjects() && (
-            <div>
-              <Button className="h-7" onClick={seeAllClick}>See all</Button>
-            </div>
-          )}
         </div>
       )}
       <Accordion type="single" collapsible className="p-3">
@@ -82,7 +87,7 @@ function LikedProjectsCard({seeAllClick}:LikedProjectsCardInterface) {
             value={index.toString()}
             className="border-b border-gray-600"
           >
-            <AccordionTrigger className="px-5 flex justify-between items-center text-foreground ">
+            <AccordionTrigger className="px-5 w-full  flex justify-between items-center text-foreground ">
               <div className="flex items-center gap-2">
                 <FaRegFolderOpen className="text-indigo-400 text-xl" />
                 <h4 className="truncate text-foreground">{job?.title}</h4>
