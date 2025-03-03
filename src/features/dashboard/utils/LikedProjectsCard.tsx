@@ -59,9 +59,16 @@ function LikedProjectsCard() {
         {userRole === "FREELANCER" ? "Projects for you" : "Recent Projects"}
       </div>
       {(getProjects()?.length === 0 || !getProjects()) && (
-        <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-primary  w-10 h-10" />
-          No projects found
+        <div className="text-foreground flex flex-col items-center  mt-4 text-lg justify-between">
+          <div className="flex items-center gap-2 h-[30vh] justify-center">
+            <BsEmojiSmile className="text-primary  w-10 h-10" />
+            No projects found
+          </div>
+          {getProjects()?.length > 0 && getProjects() && (
+            <div>
+              <Button className="h-7">See all</Button>
+            </div>
+          )}
         </div>
       )}
       <Accordion type="single" collapsible className="p-3">

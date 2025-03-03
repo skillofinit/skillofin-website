@@ -10,7 +10,7 @@ function Courses() {
         <BicepsFlexed className="text-2xl" />
         {userRole === "FREELANCER" ? "Courses for you" : "Recent courses"}
       </div>
-      <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
+      <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg  h-[30vh] ">
         <BsEmojiSmile className="text-primary w-10 h-10" />
         Courses are coming soon...
       </div>

@@ -8,7 +8,12 @@ import {
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 
-function CheckoutForm() {
+interface CheckoutFormInterface {
+  pricing?: boolean | undefined;
+  plan?: string | undefined;
+}
+
+function CheckoutForm({ pricing, plan }: CheckoutFormInterface) {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -32,6 +37,8 @@ function CheckoutForm() {
       navigate("/verify", {
         state: {
           paymentIntent: result.paymentIntent?.id,
+          pricing,
+          plan,
         },
       });
     }

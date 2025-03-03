@@ -2,12 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/authHooks";
-import AppSpiner from "@/utiles/AppSpiner";
 import HomeFooter from "@/utils/HomeFooter";
 import HomeNavBar from "@/utils/HomeNavBar";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Login() {
   const { register, handleSubmit, formState } = useForm();
@@ -15,13 +14,14 @@ function Login() {
   const [step, setStep] = useState<number>(0);
   const { isPending, login } = useLogin();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const { state } = useLocation();
+  const [stateNavigateTo, setStateNavigateTo] = useState<any>();
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
-  }, []);
+    if (state) {
+      setStateNavigateTo(state);
+    }
+  }, [state]);
 
   function handleLoginClick(e: any) {
     login(
@@ -34,6 +34,16 @@ function Login() {
         onSuccess(data) {
           if (data?.message === "OTP_SUCCESS") {
             setStep(1);
+          } else if (data?.message === "SUCCESS") {
+            if (stateNavigateTo?.navigateTo) {
+              navigate(stateNavigateTo?.navigateTo, {
+                state: {
+                  pricing: stateNavigateTo?.pricing,
+                  amount: stateNavigateTo?.amount,
+                  plan: stateNavigateTo?.plan,
+                },
+              });
+            } else navigate("/feed");
           }
         },
       }
@@ -43,8 +53,7 @@ function Login() {
   return (
     <div className="w-full h-full   flex flex-col justify-between">
       <div className="flex flex-col h-full gap-5  w-full ">
-        <HomeNavBar  />
-        {isLoading && <AppSpiner />}
+        <HomeNavBar />
 
         <div className="w-full h-full flex  lg:flex-row flex-col items-center justify-center lg:gap-10 p-4 lg:p-0 ">
           <div className="lg:h-[40vh] lg:w-[30vw]">
@@ -76,7 +85,7 @@ function Login() {
                   />
 
                   <Input
-                  type="password"
+                    type="password"
                     iconName="password"
                     placeholder="Password"
                     mandatory
@@ -123,7 +132,13 @@ function Login() {
             </form>
 
             <div className="flex items-center">
-              Forgot your password? <Button variant={"link"}  onClick={()=>navigate("/forgotpassword")} >Reset here</Button>
+              Forgot your password?{" "}
+              <Button
+                variant={"link"}
+                onClick={() => navigate("/forgotpassword")}
+              >
+                Reset here
+              </Button>
             </div>
           </div>
         </div>

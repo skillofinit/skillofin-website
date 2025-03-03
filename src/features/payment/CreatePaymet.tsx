@@ -4,35 +4,46 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import CheckoutForm from "./CheckoutForm";
-import {  useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppContext } from "@/utiles/AppContext";
-
-
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string);
 
 function CreatePaymentPage() {
-
   const [clientSecret, setClientSecret] = useState<string>("");
   const { isPending, createPayment } = useCreatePayment();
   const { state } = useLocation();
-  const [loaded,setLoaded] = useState<boolean>(false)
-  const {dispatch} = useAppContext()
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const { dispatch } = useAppContext();
+  const [pricing, setPricing] = useState<boolean>(false);
+  const [plan, setPlan] = useState<boolean>();
 
   useEffect(() => {
-    if (state?.amount && !loaded && state?.emailId) {
-      dispatch({
-        type:"setPaymentEmailId",
-        payload:state?.emailId
-      })
+    if (state?.pricing) {
+      setPricing(true);
+    }
+    if (state?.plan) {
+      setPlan(state?.plan);
+    }
+    console.log(state);
 
-      setLoaded(true)
+    if (
+      state?.amount !== undefined &&
+      !loaded &&
+      (state?.emailId || state?.pricing)
+    ) {
+      dispatch({
+        type: "setPaymentEmailId",
+        payload: state?.emailId ?? undefined,
+      });
+      setLoaded(true);
+
       createPayment(
         {
           amount: state?.amount,
         },
         {
-          onSettled(data) {
+          onSuccess(data) {
             if (data?.clientSecret) {
               setClientSecret(data?.clientSecret);
             }
@@ -40,7 +51,7 @@ function CreatePaymentPage() {
         }
       );
     }
-  }, [state,loaded]);
+  }, [state, loaded]);
 
   if (isPending) return <AppSpiner />;
 
@@ -54,7 +65,7 @@ function CreatePaymentPage() {
               clientSecret,
             }}
           >
-            <CheckoutForm />
+            <CheckoutForm pricing={pricing} plan={plan as unknown as string} />
           </Elements>
         </div>
       )}

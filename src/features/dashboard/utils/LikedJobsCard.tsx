@@ -20,6 +20,8 @@ function LikedJobsCard() {
     const filterJobs = jobs?.filter(
       (job: any) => job?.status === "OPEN" && job?.projectType === "JOB"
     );
+    console.log(filterJobs);
+    console.log(jobs);
 
     if (userRole === "CLIENT" || userRole === "BANK") {
       return filterJobs;
@@ -56,13 +58,20 @@ function LikedJobsCard() {
 
   return (
     <div className="w-full h-[43vh] text-white border  rounded-xl overflow-auto shadow-md  transition-all hover:shadow-purple-600/50  ">
-      <div className="w-full bg-gradient-to-r from-pink-100 to-purple-200  flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
-        <FaRegBookmark className="text-2xl" />
-        {userRole === "FREELANCER" ? "Jobs for you" : "Recent Jobs"}
+      <div className="w-full bg-gradient-to-r from-pink-100 to-purple-200  flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3 justify-between">
+        <div className="flex items-center gap-2">
+          <FaRegBookmark className="text-2xl" />
+          {userRole === "FREELANCER" ? "Jobs for you" : "Recent Jobs"}
+        </div>
+        {getJobs()?.length > 0 && getJobs() && (
+          <div>
+            <Button className="h-7">See all</Button>
+          </div>
+        )}
       </div>
       {(getJobs()?.length === 0 || !getJobs()) && (
         <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg">
-          <BsEmojiSmile className="text-primary  w-10 h-10" />
+          <BsEmojiSmile className="text-primary  w-10 h-10  h-[30vh] justify-center" />
           No jobs found
         </div>
       )}

@@ -60,7 +60,6 @@ export function useSignup() {
 
 export function useLogin() {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const {
     mutate: login,
     isPending,
@@ -78,8 +77,7 @@ export function useLogin() {
         });
       } else if (data?.message === "SUCCESS") {
         localStorage.setItem("emailId", data?.emailId);
-
-        navigate("/feed");
+        
       } else if (data?.message === "USER_NOT_FOUND") {
         toast({
           duration: 3000,

@@ -14,7 +14,7 @@ function SkilloFinPricing() {
   const freelancerPlans = [
     {
       plan: "Free",
-      monthlyFee: "$0",
+      monthlyFee: "0",
       features: [
         { label: "Service Fee (Commission on Earnings)", value: "10%" },
         { label: "# of Proposals Allowed", value: "20/month" },
@@ -29,7 +29,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Pro",
-      monthlyFee: "$7.99",
+      monthlyFee: "7.99",
       features: [
         { label: "Service Fee (Commission on Earnings)", value: "5%" },
         { label: "# of Proposals Allowed", value: "50/month" },
@@ -44,7 +44,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Elite",
-      monthlyFee: "$14.99",
+      monthlyFee: "14.99",
       features: [
         { label: "Service Fee (Commission on Earnings)", value: "3%" },
         { label: "# of Proposals Allowed", value: "Unlimited" },
@@ -59,7 +59,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "VIP Exclusive",
-      monthlyFee: "$49.99",
+      monthlyFee: "49.99",
       features: [
         { label: "Service Fee (Commission on Earnings)", value: "0%" },
         { label: "# of Proposals Allowed", value: "Unlimited" },
@@ -78,7 +78,7 @@ function SkilloFinPricing() {
   const businessPlans = [
     {
       plan: "Free",
-      monthlyFee: "$0",
+      monthlyFee: "0",
       features: [
         { label: "Job Posting Limit", value: "2 jobs/month" },
         { label: "Freelancer Bidding Fees", value: "3%" },
@@ -92,7 +92,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Growth",
-      monthlyFee: "$19.99",
+      monthlyFee: "19.99",
       features: [
         { label: "Job Posting Limit", value: "10 jobs/month" },
         { label: "Freelancer Bidding Fees", value: "2%" },
@@ -106,7 +106,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Enterprise",
-      monthlyFee: "$59.99",
+      monthlyFee: "59.99",
       features: [
         { label: "Job Posting Limit", value: "Unlimited" },
         { label: "Freelancer Bidding Fees", value: "1%" },
@@ -118,27 +118,27 @@ function SkilloFinPricing() {
         { label: "Hiring Analytics & Reports", value: "Yes" },
       ],
     },
-    {
-      plan: "VIP Corporate",
-      monthlyFee: "Custom",
-      features: [
-        { label: "Job Posting Limit", value: "Unlimited" },
-        { label: "Freelancer Bidding Fees", value: "0%" },
-        { label: "AI-Powered Matching", value: "Yes" },
-        { label: "Access to Verified Talent", value: "Yes" },
-        { label: "Bulk Hiring Features", value: "Yes" },
-        { label: "Priority Support", value: "Yes" },
-        { label: "Financial Institution Partnership Access", value: "Yes" },
-        { label: "Hiring Analytics & Reports", value: "Yes" },
-      ],
-    },
+    // {
+    //   plan: "VIP Corporate",
+    //   monthlyFee: "Custom",
+    //   features: [
+    //     { label: "Job Posting Limit", value: "Unlimited" },
+    //     { label: "Freelancer Bidding Fees", value: "0%" },
+    //     { label: "AI-Powered Matching", value: "Yes" },
+    //     { label: "Access to Verified Talent", value: "Yes" },
+    //     { label: "Bulk Hiring Features", value: "Yes" },
+    //     { label: "Priority Support", value: "Yes" },
+    //     { label: "Financial Institution Partnership Access", value: "Yes" },
+    //     { label: "Hiring Analytics & Reports", value: "Yes" },
+    //   ],
+    // },
   ];
 
   // Financial Institutions Plans Data
   const institutionPlans = [
     {
       plan: "Basic",
-      monthlyFee: "$999",
+      monthlyFee: "999",
       features: [
         { label: "Access to Business Hiring Data", value: "Yes" },
         { label: "Freelancer Loan Matching System", value: "Yes" },
@@ -153,7 +153,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Premium",
-      monthlyFee: "$2,499",
+      monthlyFee: "2499",
       features: [
         { label: "Access to Business Hiring Data", value: "Yes" },
         { label: "Freelancer Loan Matching System", value: "Yes" },
@@ -168,7 +168,7 @@ function SkilloFinPricing() {
     },
     {
       plan: "Enterprise",
-      monthlyFee: "$4,999",
+      monthlyFee: "4999",
       features: [
         { label: "Access to Business Hiring Data", value: "Yes" },
         { label: "Freelancer Loan Matching System", value: "Yes" },
@@ -238,9 +238,7 @@ function SkilloFinPricing() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-6 py-2 rounded-full border border-primary font-semibold transition-colors ${
-                  activeTab === tab
-                    ? "bg-primary text-white"
-                    : "bg-white "
+                  activeTab === tab ? "bg-primary text-white" : "bg-white "
                 }`}
               >
                 {tab}
@@ -262,7 +260,7 @@ function SkilloFinPricing() {
               {/* Price Section */}
               <div className="mb-6">
                 <h2 className="text-3xl font-extrabold text-primary">
-                  {plan.monthlyFee}
+                  ${plan.monthlyFee}
                   <span className="text-base font-normal text-gray-500 ml-2">
                     /user/month
                   </span>
@@ -279,9 +277,31 @@ function SkilloFinPricing() {
                   </li>
                 ))}
               </ul>
-              {/* Action Buttons */}
               <div className="flex flex-col gap-4">
-                <Button className="w-full  text-white py-3 rounded shadow-lg">
+                <Button
+                disabled = {plan?.plan === 'Free'}
+                  onClick={() => {
+                    if (!localStorage.getItem("emailId")) {
+                      navigate("/login", {
+                        state: {
+                          navigateTo: "/payment",
+                          pricing: true,
+                          amount: parseFloat(plan.monthlyFee),
+                          plan: plan?.plan,
+                        },
+                      });
+                    } else {
+                      navigate("/payment", {
+                        state: {
+                          amount: parseFloat(plan.monthlyFee),
+                          pricing: true,
+                          plan: plan?.plan,
+                        },
+                      });
+                    }
+                  }}
+                  className="w-full  text-white py-3 rounded shadow-lg"
+                >
                   Choose Plan
                 </Button>
                 <Button
