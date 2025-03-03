@@ -12,7 +12,7 @@
     
           images.forEach((img) => {
             if (img.complete) {
-              img.classList.add("loaded"); // If already loaded
+              img.classList.add("loaded"); 
             } else {
               img.addEventListener("load", () => {
                 img.classList.add("loaded");
@@ -21,10 +21,8 @@
           });
         }
     
-        // Run initially
         applyImageLoadAnimations();
     
-        // Watch for new images (React renders dynamically)
         const observer = new MutationObserver(applyImageLoadAnimations);
         observer.observe(document.getElementById("root"), { childList: true, subtree: true });
       });
