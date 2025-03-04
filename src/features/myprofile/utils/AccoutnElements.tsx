@@ -94,6 +94,7 @@ function AccountElement() {
         onClick={onSubmit}
         isPending={isPending}
         className="h-11 px-5 w-fit"
+        type="button"
       >
         <div className="flex gap-3 items-center w-fit">
           <h4>Save</h4>

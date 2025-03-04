@@ -25,7 +25,6 @@ function CreatePaymentPage() {
     if (state?.plan) {
       setPlan(state?.plan);
     }
-    console.log(state);
 
     if (
       state?.amount !== undefined &&
