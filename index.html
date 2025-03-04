@@ -1,10 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-   
-<script src="https://js.stripe.com/v3/"></script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-ZCZHFFQ4VF"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-ZCZHFFQ4VF");
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skillofin</title>
@@ -12,10 +26,10 @@
       document.addEventListener("DOMContentLoaded", function () {
         function applyImageLoadAnimations() {
           const images = document.querySelectorAll("img");
-    
+
           images.forEach((img) => {
             if (img.complete) {
-              img.classList.add("loaded"); 
+              img.classList.add("loaded");
             } else {
               img.addEventListener("load", () => {
                 img.classList.add("loaded");
@@ -23,11 +37,14 @@
             }
           });
         }
-    
+
         applyImageLoadAnimations();
-    
+
         const observer = new MutationObserver(applyImageLoadAnimations);
-        observer.observe(document.getElementById("root"), { childList: true, subtree: true });
+        observer.observe(document.getElementById("root"), {
+          childList: true,
+          subtree: true,
+        });
       });
     </script>
   </head>
