@@ -34,7 +34,7 @@ function JoinCard({ desc, type, selectedType, ontrigger }: JoinCardInterface) {
   return (
     <div
       onClick={handleValueChange}
-      className="rounded-md lg:hover:bg-gray-50 p-5 border-gray-800  border min-w-[90vw] lg:min-w-[19vw] cursor-pointer lg:hover:border-2 w-fit h-fit flex flex-col gap-3"
+      className="rounded-md lg:hover:bg-gray-50 p-5 border-gray-800  border w-[80vw] lg:w-[25vw] cursor-pointer lg:hover:border-2  h-fit flex flex-col gap-3"
     >
       <div className="flex items-center justify-between">
         {type === "Client" ? (

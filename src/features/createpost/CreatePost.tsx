@@ -31,7 +31,7 @@ function CreatePost() {
   const { createPost, isPending } = useCreatePost();
   const { isPending: uplaodingImage, uploadImage } = useUplaodImage();
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
-  const { getMe, isPending: gettingMyDetails } = useGetMe();
+  const { getMe, } = useGetMe();
   const { state } = useLocation();
   const [edit, setEdit] = useState<boolean>(false);
 
@@ -168,7 +168,7 @@ function CreatePost() {
 
         {/* Submit Button */}
         <Button
-          isPending={uplaodingImage || isPending || gettingMyDetails}
+          isPending={uplaodingImage || isPending }
           type="submit"
           className="w-full"
         >

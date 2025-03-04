@@ -15,7 +15,7 @@ function SelectAccountType({
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center  mt-10 p-4 lg:p-0">
+    <div className=" flex flex-col items-center  mt-10 p-4 lg:p-0">
       <h3 className="text-4xl font-medium  font-serif">
         Join as a client,freelancer or bank
       </h3>
@@ -54,7 +54,7 @@ function SelectAccountType({
             : "Create Account"}
         </Button>
       </div>
-      <div className="flex items-center ml-4">
+      <div className="flex items-center pl-4">
         <p className="text">Already have an account?</p>
         <Button
           onClick={() => {

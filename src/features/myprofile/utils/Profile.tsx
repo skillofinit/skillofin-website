@@ -38,8 +38,6 @@ function Profile() {
 
   useEffect(() => {
     if (pathname === "/profile" && stateEmailId !== "null") {
-      console.log(stateEmailId);
-
       getMe(stateEmailId, {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
@@ -49,16 +47,21 @@ function Profile() {
         },
       });
     } else {
-      getMe(undefined, {
-        onSuccess(data) {
-          if (data?.message === "SUCCESS") {
-            setUserData(data?.data);
-            setUserRole(data?.data?.userData?.role);
-          }
-        },
-      });
+      handleGetMeCallBack()
     }
   }, [stateEmailId]);
+
+  function handleGetMeCallBack(){
+    getMe(undefined, {
+      onSuccess(data) {
+        if (data?.message === "SUCCESS") {
+          setUserData(data?.data);
+          setUserRole(data?.data?.userData?.role);
+        }
+      },
+    });
+
+  }
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
     setMethod(method);
@@ -622,6 +625,7 @@ function Profile() {
           comp={comp}
           onClose={handleOnClose}
           index={editIndex}
+          handleGetMeCallBack={handleGetMeCallBack}
         />
       )}
     </div>

@@ -64,7 +64,7 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
       <div className="w-fit">
         <form
           onSubmit={handleSubmit(handleSignUp)}
-          className="lg:w-[30vw] mt-10 flex flex-col gap-5 items-center"
+          className="w-[80vw] lg:w-[30vw] mt-10 flex flex-col gap-5 items-center"
         >
           {step === 0 ? (
             <div className="w-full flex flex-col lg:gap-5 gap-2">

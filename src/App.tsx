@@ -24,6 +24,7 @@ import Withdraw from "./features/withdraw/Withdraw";
 import Pricing from "./features/pricing/Pricing";
 const queryClient = new QueryClient();
 function App() {
+
   return (
     <div className="w-[100vw] h-[100vh] flex bg-background ">
       <QueryClientProvider client={queryClient}>

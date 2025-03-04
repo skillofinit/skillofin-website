@@ -70,7 +70,7 @@ function Login() {
             </h3>
             <form
               onSubmit={handleSubmit(handleLoginClick)}
-              className="flex flex-col gap-3  lg:w-[25vw] items-center lg:mt-6"
+              className="flex flex-col gap-3 w-[80vw] lg:w-[25vw] items-center lg:mt-6"
             >
               {step === 0 ? (
                 <div className="flex flex-col w-full">

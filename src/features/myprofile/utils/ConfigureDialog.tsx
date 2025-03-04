@@ -16,8 +16,7 @@ import { FaAsterisk } from "react-icons/fa";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
-import { useGetMe, useUpdateProfile } from "@/hooks/userHooks";
-import AppSpiner from "@/utiles/AppSpiner";
+import { useUpdateProfile } from "@/hooks/userHooks";
 import { X } from "lucide-react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -31,6 +30,7 @@ interface ConfigureDialoginterface {
   userData: any;
   userRole: string;
   index?: number;
+  handleGetMeCallBack: () => void;
 }
 
 function ConfigureDialog({
@@ -40,6 +40,7 @@ function ConfigureDialog({
   onClose,
   userRole,
   index,
+  handleGetMeCallBack,
 }: ConfigureDialoginterface) {
   const {
     register,
@@ -54,7 +55,6 @@ function ConfigureDialog({
   const [skills, setSkills] = useState<{ name: string }[]>([]);
 
   const { isPending, updateProfile } = useUpdateProfile();
-  const { getMe, isPending: isLoading } = useGetMe();
 
   useEffect(() => {
     if (userData) {
@@ -218,7 +218,6 @@ function ConfigureDialog({
   }
 
   async function onSubmit(e: any) {
-    e.preventDefault();
     updateProfile(
       {
         method: comp,
@@ -233,11 +232,8 @@ function ConfigureDialog({
       {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
-            getMe(undefined, {
-              onSuccess(data) {
-                if (data?.message === "SUCCESS") onClose();
-              },
-            });
+            handleGetMeCallBack();
+            onClose()
           }
         },
       }
@@ -246,7 +242,6 @@ function ConfigureDialog({
 
   return (
     <div>
-      {isLoading && <AppSpiner bgColor="bg-foreground/50" />}
       <AppDialog onClose={onClose} title={getTitle()}>
         <form
           onSubmit={handleSubmit(onSubmit)}

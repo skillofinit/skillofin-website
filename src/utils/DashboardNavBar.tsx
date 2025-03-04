@@ -307,12 +307,9 @@ function DashboardNavBar() {
       <div className="flex md:hidden flex-col">
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
-          <img
-            onClick={() => navigate("/feed")}
-            src="Skillofin-Logo.png"
-            alt="Skillofin logo"
-            className="cursor-pointer w-32"
-          />
+        <div onClick={() => navigate("/feed")} className="cursor-pointer">
+            <Logo />
+          </div>
 
           <div className="items-center flex gap-3">
             <button

@@ -25,7 +25,7 @@ function AppDialog({
       }`}
     >
       <div
-        className={`min-w-[25vw] min-h-[30vh] ${
+        className={` min-w-[90vw] lg:min-w-[25vw] min-h-[30vh] ${
           startFromRight && "h-full"
         } bg-background  rounded-lg fex flex-col gap-2 `}
       >

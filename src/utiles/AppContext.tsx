@@ -15,6 +15,7 @@ export type contextType = {
   paymetEmailId: string;
   posts: any;
   jobs: any;
+  mobileBottomMenu:number
 };
 
 const initState: contextType = {
@@ -26,6 +27,7 @@ const initState: contextType = {
   paymetEmailId: "",
   jobs: undefined,
   posts: undefined,
+  mobileBottomMenu:0
 };
 
 const contextProvider = createContext(initState);
@@ -37,6 +39,13 @@ function reducer(state: contextType, action: dispatchDataType) {
         ...state,
         temp: action?.payload,
       };
+      
+    case "setMobileBottomMenu":
+      return {
+        ...state,
+        mobileBottomMenu: action?.payload,
+      };
+
     case "setPaymentEmailId":
       return {
         ...state,
@@ -87,7 +96,7 @@ function reducer(state: contextType, action: dispatchDataType) {
 }
 export default function AppContext({ children }: { children: ReactNode }) {
   const [
-    { temp, loggedIn, userData, userRole, posts, jobs, paymetEmailId },
+    { temp, loggedIn, userData, userRole, posts, jobs, paymetEmailId,mobileBottomMenu },
     dispatch,
   ] = useReducer(reducer, initState);
 
@@ -102,6 +111,7 @@ export default function AppContext({ children }: { children: ReactNode }) {
         jobs,
         temp,
         posts,
+        mobileBottomMenu
       }}
     >
       {children}

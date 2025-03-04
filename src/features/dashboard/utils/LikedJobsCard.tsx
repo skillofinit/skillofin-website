@@ -24,8 +24,6 @@ function LikedJobsCard({ seeAllClick }: LikedJobsCardInterface) {
     const filterJobs = jobs?.filter(
       (job: any) => job?.status === "OPEN" && job?.projectType === "JOB"
     );
-    console.log(filterJobs);
-    console.log(jobs);
 
     if (userRole === "CLIENT" || userRole === "BANK") {
       return filterJobs;
