@@ -13,16 +13,29 @@ const VerifyPayment = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-
   useEffect(() => {
+    //     emailId
+    // :
+    // "MzY5YWZyaWRAZ21haWwuY29t"
+    // freelancerEmailId
+    // :
+    // "afridayan01@gmail.com"
+    // paymentIntent
+    // :
+    // "pi_3QynX7FeVzoi0Hhn13Y5qpQo"
+    // pricing
+    // :
+    // false
     const paymentIntent = state?.paymentIntent;
     const pricing = state?.pricing;
     const plan = state?.plan;
 
     verifyPayment(
       {
+        // paymentIntent:"pi_3QynX7FeVzoi0Hhn13Y5qpQo",
         paymentIntent,
         freelancerEmailId: paymetEmailId,
+        // freelancerEmailId: "afridayan01@gmail.com",
         pricing,
         plan,
       },
@@ -37,7 +50,7 @@ const VerifyPayment = () => {
             } else {
               setTimeout(() => {
                 navigate("/messages");
-              }, 1000);
+              }, 6000);
             }
             toast({
               duration: 3000,

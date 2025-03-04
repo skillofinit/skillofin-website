@@ -4,7 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import {
   useStripe,
   useElements,
-  PaymentElement,
+  PaymentElement
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 

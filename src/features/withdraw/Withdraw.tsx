@@ -65,7 +65,7 @@ function Withdraw() {
             </form>
           </div>
 
-          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length >
+          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length >
             0 && (
             <div className="flex flex-col mt-6">
               <label className="font-medium text-lg ">
@@ -83,12 +83,12 @@ function Withdraw() {
               </div>
             </div>
           )}
-          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length >
+          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length >
             0 && (
             <div className="text-lg flex flex-col gap-3">
-              {Object.keys(userData?.userData?.bakAccountDetails || {}).map(
+              {Object.keys(userData?.userData?.bankAccountDetails || {}).map(
                 (key) => {
-                  const value = userData?.userData?.bakAccountDetails[key];
+                  const value = userData?.userData?.bankAccountDetails[key];
                   if (value) {
                     return (
                       <div key={key} className="flex items-center gap-4">
@@ -107,7 +107,7 @@ function Withdraw() {
               )}
             </div>
           )}
-          {Object.keys(userData?.userData?.bakAccountDetails || {})?.length ===
+          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length ===
             0 && (
             <div className="text-destructive">
               Please add bank account details to withdray

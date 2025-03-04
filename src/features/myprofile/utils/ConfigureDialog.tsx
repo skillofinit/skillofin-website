@@ -19,6 +19,10 @@ import { IoMdCheckmark } from "react-icons/io";
 import { useGetMe, useUpdateProfile } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 import { X } from "lucide-react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import AccountElement from "./AccoutnElements";
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY as string);
 
 interface ConfigureDialoginterface {
   method: "add" | "edit";
@@ -45,7 +49,6 @@ function ConfigureDialog({
     setValue,
     watch,
     setError,
-    reset,
   } = useForm();
   const { errors } = formState;
   const [skills, setSkills] = useState<{ name: string }[]>([]);
@@ -69,41 +72,47 @@ function ConfigureDialog({
       if (comp === "bank") {
         setValue(
           "accountType",
-          userData?.userData?.bakAccountDetails?.accountType
+          userData?.userData?.bankAccountDetails?.accountType
         );
 
         setValue(
           "accountHolderName",
-          userData?.userData?.bakAccountDetails?.accountHolderName
+          userData?.userData?.bankAccountDetails?.accountHolderName
         );
         setValue(
           "bankAccountType",
-          userData?.userData?.bakAccountDetails?.bankAccountType
+          userData?.userData?.bankAccountDetails?.bankAccountType
         );
         setValue(
           "routingNumber",
-          userData?.userData?.bakAccountDetails?.routingNumber
+          userData?.userData?.bankAccountDetails?.routingNumber
         );
         setValue(
           "accountNumber",
-          userData?.userData?.bakAccountDetails?.accountNumber
+          userData?.userData?.bankAccountDetails?.accountNumber
         );
 
         setValue(
           "accountHolderName",
-          userData?.userData?.bakAccountDetails?.accountHolderName
+          userData?.userData?.bankAccountDetails?.accountHolderName
         );
-        setValue("ifscCode", userData?.userData?.bakAccountDetails?.ifscCode);
+        setValue("ifscCode", userData?.userData?.bankAccountDetails?.ifscCode);
         setValue(
           "cardHolderName",
-          userData?.userData?.bakAccountDetails?.cardHolderName
-        );
-        setValue(
-          "expirationDate",
-          userData?.userData?.bakAccountDetails?.cardExpiry
+          userData?.userData?.bankAccountDetails?.cardHolderName
         );
 
-        setValue("cvc", userData?.userData?.bakAccountDetails?.cvc);
+        setValue(
+          "cardNumber",
+          userData?.userData?.bankAccountDetails?.cardNumber
+        );
+
+        setValue(
+          "expirationDate",
+          userData?.userData?.bankAccountDetails?.cardExpiry
+        );
+
+        setValue("cvc", userData?.userData?.bankAccountDetails?.cvc);
       }
 
       if (index !== undefined) {
@@ -165,7 +174,10 @@ function ConfigureDialog({
             "language",
             userData?.userAccountData?.languages[index]?.name
           );
-          setValue("level", userData?.userAccountData?.languages[index]?.level?.toLowerCase());
+          setValue(
+            "level",
+            userData?.userAccountData?.languages[index]?.level?.toLowerCase()
+          );
         }
       }
     }
@@ -205,7 +217,8 @@ function ConfigureDialog({
     }
   }
 
-  function onSubmit(e: any) {
+  async function onSubmit(e: any) {
+    e.preventDefault();
     updateProfile(
       {
         method: comp,
@@ -513,7 +526,7 @@ function ConfigureDialog({
                   ) => {
                     return (
                       <div
-                        className="border  shadow-sm px-3 py-1 rounded-full flex items-center justify-center  text-center  text-wrap break-words justify-between"
+                        className="border  shadow-sm px-3 py-1 rounded-full flex items-center text-center  text-wrap break-words justify-between"
                         key={index}
                       >
                         <div className=""> {skill.name}</div>
@@ -658,309 +671,18 @@ function ConfigureDialog({
           {comp === "bank" && (
             <div className="flex flex-col items-center gap-4 lg:w-[20vw]">
               <div className="w-full flex flex-col">
-                {/* Account Type Selection */}
-                <div className="flex flex-col gap-2 w-full">
-                  <div className="flex items-center gap-2 w-full">
-                    <Select
-                      value={watch("accountType") ?? ""}
-                      onValueChange={(value) => {
-                        reset();
-                        setTimeout(() => {
-                          clearErrors("accountType");
-                          setValue("accountType", value);
-                        }, 50);
-                      }}
-                      {...register("accountType", {
-                        required: "Please select account type",
-                      })}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select account type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectItem value="usBank">
-                            US Bank account
-                          </SelectItem>
-                          <SelectItem value="localBank">
-                            Local Bank (IFSC Code)
-                          </SelectItem>
-                          <SelectItem value="usCard">
-                            US Credit/Debit Card
-                          </SelectItem>
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                    <div className="h-2 w-2">
-                      <FaAsterisk className="text-destructive h-2 w-2" />
-                    </div>
-                  </div>
-                  <div className="h-4 text-destructive ml-2 text-[12px]">
-                    {errors?.accountType?.message as string}
-                  </div>
-                </div>
-
-                {/* US Bank Account Details */}
-                {watch("accountType") === "usBank" && (
-                  <div className="flex flex-col gap-3">
-                    <Input
-                      placeholder="Account Holder Name"
-                      iconName="firstName"
-                      {...register("accountHolderName", {
-                        required: "Please enter Account holder name",
-                        minLength: 3,
-                      })}
-                      mandatory
-                      errorMessage={errors?.accountHolderName?.message}
-                    />
-
-                    {/* Bank Account Type (Checking/Savings) */}
-                    <div className="flex flex-col w-full">
-                      <div className="flex items-center gap-1 w-full">
-                        <Select
-                          onValueChange={(value) => {
-                            clearErrors("bankAccountType");
-                            setValue("bankAccountType", value);
-                          }}
-                          {...register("bankAccountType", {
-                            required: "Please select bank account type",
-                          })}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Bank account type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="checking">Checking</SelectItem>
-                              <SelectItem value="savings">Savings</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        <div className="h-2 w-2">
-                          <FaAsterisk className="text-destructive h-2 w-2" />
-                        </div>
-                      </div>
-                      <div className="h-4 text-destructive ml-2 text-[12px]">
-                        {errors?.bankAccountType?.message as string}
-                      </div>
-                    </div>
-
-                    <Input
-                      type="number"
-                      placeholder="Routing Number"
-                      iconName="routing"
-                      {...register("routingNumber", {
-                        required: "Please enter Routing number",
-                        minLength: {
-                          value: 9,
-                          message: "Routing number must be exactly 9 digits",
-                        },
-                        maxLength: {
-                          value: 9,
-                          message: "Routing number must be exactly 9 digits",
-                        },
-                        pattern: {
-                          value: /^[0-9]{9}$/,
-                          message: "Routing number must be 9 numeric digits",
-                        },
-                      })}
-                      mandatory
-                      errorMessage={errors?.routingNumber?.message}
-                    />
-
-                    <Input
-                      type="number"
-                      placeholder="Bank account number"
-                      iconName="bank"
-                      {...register("accountNumber", {
-                        required: "Please enter Bank account number",
-                      })}
-                      mandatory
-                      errorMessage={errors?.accountNumber?.message}
-                    />
-
-                    {/* Account Holder Type (Individual/Business) */}
-                    <div className="flex flex-col w-full">
-                      <div className="flex items-center gap-1 w-full">
-                        <Select
-                          value={watch("accountHolderType") ?? ""}
-                          onValueChange={(value) => {
-                            clearErrors("accountHolderType");
-                            setValue("accountHolderType", value);
-                          }}
-                          {...register("accountHolderType", {
-                            required: "Please select account holder type",
-                          })}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Account Holder Type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="individual">
-                                Individual
-                              </SelectItem>
-                              <SelectItem value="business">Business</SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        <div className="h-2 w-2">
-                          <FaAsterisk className="text-destructive h-2 w-2" />
-                        </div>
-                      </div>
-                      <div className="h-4 text-destructive ml-2 text-[12px]">
-                        {errors?.accountHolderType?.message as string}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Local Bank Details */}
-                {watch("accountType") === "localBank" && (
-                  <div className="flex flex-col gap-3">
-                    <Input
-                      placeholder="Account Holder Name"
-                      iconName="firstName"
-                      {...register("accountHolderName", {
-                        required: "Please enter Account holder name",
-                        minLength: 3,
-                      })}
-                      mandatory
-                      errorMessage={errors?.accountHolderName?.message}
-                    />
-                    <Input
-                      placeholder="IFSC Code"
-                      iconName="ifsc"
-                      {...register("ifscCode", {
-                        required: "Please enter IFSC code",
-                        pattern: {
-                          value: /^[A-Za-z]{4}[0-9]{7}$/,
-                          message: "Invalid IFSC Code format",
-                        },
-                      })}
-                      mandatory
-                      errorMessage={errors?.ifscCode?.message}
-                    />
-                    <div className="flex flex-col w-full">
-                      <div className="flex items-center gap-1 w-full">
-                        <Select
-                          value={watch("bankAccountType") ?? ""}
-                          onValueChange={(value) => {
-                            clearErrors("bankAccountType");
-                            setValue("bankAccountType", value);
-                          }}
-                          {...register("bankAccountType", {
-                            required: "Please select bank account type",
-                          })}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Bank account type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectItem value="savings">Savings</SelectItem>
-                              <SelectItem value="current">Current</SelectItem>
-                              <SelectItem value="fixedDeposit">
-                                Fixed Deposit
-                              </SelectItem>
-                              <SelectItem value="recurringDeposit">
-                                Recurring Deposit
-                              </SelectItem>
-                              <SelectItem value="joint">Joint</SelectItem>
-                              <SelectItem value="nre">
-                                NRE (Non-Resident External)
-                              </SelectItem>
-                              <SelectItem value="nro">
-                                NRO (Non-Resident Ordinary)
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                        <div className="h-2 w-2">
-                          <FaAsterisk className="text-destructive h-2 w-2" />
-                        </div>
-                      </div>
-                      <div className="h-4 text-destructive ml-2 text-[12px]">
-                        {errors?.bankAccountType?.message as string}
-                      </div>
-                    </div>
-                    <Input
-                      type="number"
-                      placeholder="Bank account number"
-                      iconName="bank"
-                      {...register("accountNumber", {
-                        required: "Please enter Bank account number",
-                      })}
-                      mandatory
-                      errorMessage={errors?.accountNumber?.message}
-                    />
-                  </div>
-                )}
-
-                {/* US Card Details */}
-                {watch("accountType") === "usCard" && (
-                  <div className="flex flex-col gap-3">
-                    <Input
-                      placeholder="Card holder name"
-                      iconName="firstName"
-                      type="text"
-                      {...register("cardHolderName", {
-                        required: "Please enter Card holder name",
-                      })}
-                      mandatory
-                      errorMessage={errors?.cardHolderName?.message}
-                    />
-                    <Input
-                      placeholder="Card Number"
-                      iconName="card"
-                      type="text"
-                      {...register("cardNumber", {
-                        required: "Please enter Card number",
-                        pattern: {
-                          value: /^[0-9]{16}$/,
-                          message: "Card number must be 16 digits",
-                        },
-                      })}
-                      mandatory
-                      errorMessage={errors?.cardNumber?.message}
-                    />
-                    <Input
-                      placeholder="Expiration Date (MM/YY)"
-                      iconName="date"
-                      type="text"
-                      {...register("expirationDate", {
-                        required: "Please enter Expiration Date",
-                        pattern: {
-                          value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                          message: "Invalid Expiration Date format",
-                        },
-                      })}
-                      mandatory
-                      errorMessage={errors?.expirationDate?.message}
-                    />
-                    <Input
-                      placeholder="CVC"
-                      iconName="cvc"
-                      type="text"
-                      {...register("cvc", {
-                        required: "Please enter CVC",
-                        pattern: {
-                          value: /^[0-9]{3}$/,
-                          message: "CVC must be 3 digits",
-                        },
-                      })}
-                      mandatory
-                      errorMessage={errors?.cvc?.message}
-                    />
-                  </div>
-                )}
+                <Elements stripe={stripePromise}>
+                  <AccountElement />
+                </Elements>
               </div>
-              <Button isPending={isPending} className="h-11 px-5">
-                <div className="flex gap-3 items-center">
-                  <h4>Save</h4>
-                  <IoCloudDoneOutline />
-                </div>
-              </Button>
+              {comp !== "bank" && (
+                <Button isPending={isPending} className="h-11 px-5">
+                  <div className="flex gap-3 items-center">
+                    <h4>Save</h4>
+                    <IoCloudDoneOutline />
+                  </div>
+                </Button>
+              )}
             </div>
           )}
         </form>

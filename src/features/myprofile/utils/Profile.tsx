@@ -48,7 +48,7 @@ function Profile() {
           }
         },
       });
-    } else  {
+    } else {
       getMe(undefined, {
         onSuccess(data) {
           if (data?.message === "SUCCESS") {
@@ -316,9 +316,9 @@ function Profile() {
                 {
                   <div className="text-lg mt-4 flex flex-col gap-3">
                     {Object.keys(
-                      userData?.userData?.bakAccountDetails || {}
+                      userData?.userData?.bankAccountDetails || {}
                     ).map((key) => {
-                      const value = userData?.userData?.bakAccountDetails[key];
+                      const value = userData?.userData?.bankAccountDetails[key];
                       if (value) {
                         return (
                           <div key={key} className="flex items-center gap-4">
@@ -629,3 +629,6 @@ function Profile() {
 }
 
 export default Profile;
+
+
+
