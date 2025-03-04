@@ -8,12 +8,14 @@ import { useBlogs } from "@/hooks/userHooks";
 import { timeAgo } from "@/utiles/appUtils";
 import { Button } from "@/components/ui/button";
 import { MdDelete } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 function Blog() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { blog, isPending } = useBlogs();
   const [refresh, setRefresh] = useState<any>(undefined);
   const [allBlogs, setAllBlogs] = useState<any>(undefined);
+  const [editBlog, setEditBlog] = useState<any>();
 
   useEffect(() => {
     blog(undefined, {
@@ -41,12 +43,12 @@ function Blog() {
   if (isPending) return <AppSpiner />;
 
   return (
-    <div className="w-full h-[92vh] justify-between">
+    <div className="w-full justify-between overflow-auto h-full">
       <div className="flex h-full flex-col gap-2">
         <div>
           <HomeNavBar />
         </div>
-        <div className="flex flex-col gap-2 w-full p-4 overflow-auto">
+        <div className="flex flex-grow flex-col gap-2 w-full p-4 ">
           <div className="w-full flex justify-end">
             {localStorage.getItem("emailId") ===
               (import.meta.env.VITE_ADMIN_EMAILID as string) && (
@@ -70,14 +72,14 @@ function Blog() {
             </div>
           )}
 
-          <div className="grid grid-cols-3   gap-5 ">
+          <div className="grid lg:grid-cols-2   gap-5 ">
             {allBlogs?.map(
               (
                 post: {
                   profile: string;
                   title: string;
                   content: string;
-                  createdAt: string;
+                  updatedAt: string;
                   emailId: string;
                   name: string;
                   image: string;
@@ -87,7 +89,7 @@ function Blog() {
               ) => (
                 <div
                   key={index}
-                  className=" border shadow-md p-4  lg:w-[30vw] rounded-lg bg-background flex flex-col gap-2 "
+                  className=" p-4 border shadow-md   rounded-lg bg-background flex flex-col gap-2 "
                 >
                   <div className="w-full flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -100,12 +102,20 @@ function Blog() {
                       </div>
                       <div className="font-semibold">@{"Skillofin"}</div>
                       <div className="text-xs lg:text-sm  text-foreground/60">
-                        • {timeAgo(post?.createdAt)}
+                        • {timeAgo(post?.updatedAt)}
                       </div>
                     </div>
                     {localStorage.getItem("emailId") ===
                       (import.meta.env.VITE_ADMIN_EMAILID as string) && (
-                      <div>
+                      <div className="flex items-center gap-3">
+                        <FaRegEdit 
+                          className="h-7 w-7 p-1 rounded-md bg-foreground/5  cursor-pointer"
+                          onClick={() => {
+                  setOpenDialog(true);
+
+                            setEditBlog(post);
+                          }}
+                        />
                         <MdDelete
                           className="h-8 w-8 p-1 rounded-md bg-foreground/5 text-destructive cursor-pointer"
                           onClick={() => {
@@ -137,11 +147,11 @@ function Blog() {
             )}
           </div>
         </div>
+        <div className="h-fit">
+          <HomeFooter />
+        </div>
       </div>
 
-      <div className="h-fit">
-        <HomeFooter />
-      </div>
       {openDialog && (
         <PostBlog
           refresh={() => {
@@ -149,7 +159,9 @@ function Blog() {
           }}
           onClose={() => {
             setOpenDialog(false);
+            setEditBlog(undefined)
           }}
+          editBlog={editBlog}
         />
       )}
     </div>
