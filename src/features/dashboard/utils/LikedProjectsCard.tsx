@@ -74,7 +74,7 @@ function LikedProjectsCard({ seeAllClick }: LikedProjectsCardInterface) {
       </div>
       {(getProjects()?.length === 0 || !getProjects()) && (
         <div className="text-foreground flex flex-col items-center  mt-4 text-lg justify-between">
-          <div className=" items-center flex flex-col  gap-2 h-[30vh] justify-center">
+          <div className=" items-center flex flex-col  gap-2 h-[25vh] justify-center">
             <BsEmojiSmile className="text-primary  w-10 h-10" />
             No projects found
           </div>

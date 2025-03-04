@@ -10,7 +10,7 @@ function Loans() {
         <CiBank className="text-2xl" />
         {userRole === "FREELANCER" ? "Loans for you" : "Recent loans"}
       </div>
-      <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg  h-[30vh] ">
+      <div className="text-foreground flex flex-col items-center justify-center mt-4 text-lg  h-[25vh] ">
         <BsEmojiSmile className="text-primary  w-10 h-10" />
         Loans are coming soon...
       </div>

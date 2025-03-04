@@ -34,7 +34,7 @@ function DashBoardMain() {
   return (
     <div className="w-full flex lg:px-10 flex-col h-full">
       {isPending && <AppSpiner />}
-      <div className="flex">
+      <div className="flex gap-3">
         <div className="hidden w-full lg:flex flex-col gap-3 sticky top-0 h-[87vh]">
           <LikedJobsCard seeAllClick={() => setStep(1)} />
           <LikedProjectsCard
