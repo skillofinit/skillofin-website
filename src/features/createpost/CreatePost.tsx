@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from "react-hook-form";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,7 +16,7 @@ interface PostFormValues {
   title: string;
   content: string;
   image: string;
-  id:string
+  id: string;
 }
 
 function CreatePost() {
@@ -31,7 +31,7 @@ function CreatePost() {
   const { createPost, isPending } = useCreatePost();
   const { isPending: uplaodingImage, uploadImage } = useUplaodImage();
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
-  const { getMe, } = useGetMe();
+  const { getMe } = useGetMe();
   const { state } = useLocation();
   const [edit, setEdit] = useState<boolean>(false);
 
@@ -51,7 +51,12 @@ function CreatePost() {
         onSuccess(url) {
           if (url) {
             createPost(
-              { ...data, image: url, edit: edit ? true : undefined },
+              {
+                ...data,
+                image: url,
+                edit: edit ? true : undefined,
+                create: !edit,
+              },
               {
                 onSuccess(data) {
                   if (data?.message === "SUCCESS") {
@@ -70,22 +75,26 @@ function CreatePost() {
         },
       });
     } else {
-      createPost({
-        ...data,
-
-      }, {
-        onSuccess(data) {
-          if (data?.message === "SUCCESS") {
-            getMe(undefined, {
-              onSuccess(data) {
-                if (data?.message === "SUCCESS") {
-                  navigate("/myposts");
-                }
-              },
-            });
-          }
+      createPost(
+        {
+          ...data,
+          create: !edit,
+          edit: edit ? true : undefined,
         },
-      });
+        {
+          onSuccess(data) {
+            if (data?.message === "SUCCESS") {
+              getMe(undefined, {
+                onSuccess(data) {
+                  if (data?.message === "SUCCESS") {
+                    navigate("/myposts");
+                  }
+                },
+              });
+            }
+          },
+        }
+      );
     }
   };
 
@@ -168,7 +177,7 @@ function CreatePost() {
 
         {/* Submit Button */}
         <Button
-          isPending={uplaodingImage || isPending }
+          isPending={uplaodingImage || isPending}
           type="submit"
           className="w-full"
         >
