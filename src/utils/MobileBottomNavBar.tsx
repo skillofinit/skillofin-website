@@ -1,15 +1,15 @@
 import { GrHomeOption } from "react-icons/gr";
-import { TbTie } from "react-icons/tb";
-import { LuMessagesSquare } from "react-icons/lu";
-import { FaRegUser } from "react-icons/fa";
 import { useAppContext } from "@/utiles/AppContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdWorkOutline } from "react-icons/md";
+import { GiReceiveMoney } from "react-icons/gi";
+import { LuBookMarked } from "react-icons/lu";
 
 function MobileBottomNavBar() {
-  const { mobileBottomMenu, dispatch ,userRole} = useAppContext();
+  const { mobileBottomMenu, dispatch, userRole } = useAppContext();
   const [menuIndex, setMenuIndex] = useState<number>(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMenuIndex(mobileBottomMenu);
@@ -21,36 +21,35 @@ function MobileBottomNavBar() {
       payload: index,
     });
 
-    switch(index){
-        case 0:
-            navigate("/feed")
-            break;
-        
-        case 1:
-            navigate(userRole === "CLIENT"?"/myjobs":"/jobs")
-            break;
-        
-        case 2:
-            navigate("/messages")
-            break;
-        
-        case 3:
-            navigate("/myprofile")
-            break;
-        
+    switch (index) {
+      case 0:
+        navigate("/feed");
+        break;
+
+      case 1:
+        navigate(userRole === "CLIENT" ? "/myjobs" : "/jobs");
+        break;
+
+      case 2:
+        navigate("/courses");
+        break;
+
+      case 3:
+        navigate("/loans");
+        break;
     }
-
-
-
   }
 
   return (
     <div className="px-2 flex items-center justify-between border-t p-2 w-full bg-background">
       {[
-        { icon: <GrHomeOption className="h-5 w-5" />, label: "Home" },
-        { icon: <TbTie className="h-5 w-5" />, label: userRole === "CLIENT"?"My Jobs":"Jobs" },
-        { icon: <LuMessagesSquare className="h-5 w-5" />, label: "Message" },
-        { icon: <FaRegUser className="h-5 w-5" />, label: "Profile" },
+        { icon: <GrHomeOption className="h-5 w-5" />, label: "feed" },
+        {
+          icon: <MdWorkOutline className="h-5 w-5" />,
+          label: userRole === "CLIENT" ? "My Jobs" : "Jobs",
+        },
+        { icon: <LuBookMarked  className="h-5 w-5" />, label: "Courses" },
+        { icon: <GiReceiveMoney className="h-5 w-5" />, label: "Loans" },
       ].map((item, index) => (
         <div
           key={index}
