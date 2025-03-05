@@ -15,6 +15,8 @@ export function useSendEmail() {
       body: string;
       title: string;
       subject: string;
+      fromEmail:string
+      passkey:string
     }) => {
       return sendEmailAPI(values);
     },

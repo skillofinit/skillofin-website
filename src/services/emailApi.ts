@@ -6,6 +6,7 @@ export async function sendEmailAPI(body: {
   body: string;
   title: string;
   subject: string;
+  fromEmail:string; passkey:string
 }) {
   const response = await fetch("https://freeemailapi.vercel.app/sendEmail/", {
     headers: {
