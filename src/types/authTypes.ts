@@ -8,4 +8,5 @@ export type userSignUpPayloadType = {
   countryCode: string;
   currency: string;
   countryName: string;
+  mobileNumber: string;
 };

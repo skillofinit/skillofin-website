@@ -664,7 +664,7 @@ function ConfigureDialog({
             </div>
           )}
           {comp === "bank" && (
-            <div className="flex flex-col items-center gap-4 lg:w-[20vw]">
+            <div className="flex flex-col items-center gap-4 lg:w-[30vw]">
               <div className="w-full flex flex-col">
                 <Elements stripe={stripePromise}>
                   <AccountElement />

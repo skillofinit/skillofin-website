@@ -7,13 +7,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSignup } from "@/hooks/authHooks";
 import { useNavigate } from "react-router-dom";
+import { PhoneInput } from "@/components/ui/phone-Input";
 
 interface CreateAccountInterface {
   handleGoBackClick: () => void;
 }
 
 function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState, clearErrors, setError, setValue } =
+    useForm();
   const { errors } = formState;
   const [step, setStep] = useState(0);
   const [country, setCountry] = useState({
@@ -40,7 +42,8 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
             : "freelancer",
         lastName: e.lastName,
         otp: e?.otp ?? null,
-        countryCode: country?.alpha2 ??"US",
+        mobileNumber: e?.mobileNumber ?? null,
+        countryCode: country?.alpha2 ?? "US",
         currency: country?.currencies[0],
         countryName: country?.name,
       },
@@ -102,6 +105,29 @@ function CreateAccount({ handleGoBackClick }: CreateAccountInterface) {
                   required: "Please enter Email ID",
                 })}
               />
+              <div
+                {...register("mobileNumber", {
+                  required: "Please enter Mobile Number",
+                })}
+              >
+                <div>
+                  <PhoneInput
+                    defaultCountry="IN"
+                    onChange={(value) => {
+                      if (value) {
+                        setValue("mobileNumber", value);
+                        clearErrors("mobileNumber");
+                      } else {
+                        setError("mobileNumber", {
+                          type: "manual",
+                          message: "Please enter Mobile Number",
+                        });
+                      }
+                    }}
+                  />
+                  <p className="text-destructive pl-2 -mt-4">{errors?.mobileNumber?.message as string}</p>
+                </div>
+              </div>
               <Input
                 placeholder="Password (8 or more characters)"
                 className="w-full "
