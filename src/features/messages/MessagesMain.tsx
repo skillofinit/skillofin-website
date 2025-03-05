@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import AppSpiner from "@/utiles/AppSpiner";
 
 function MessagesMain() {
-  const {getMe,isPending} = useGetMe()
-  useEffect(()=>{
-    getMe(undefined)
-  },[])
+  const { getMe, isPending } = useGetMe();
+  useEffect(() => {
+    getMe(undefined);
+  }, []);
   return (
-    <div className="w-full flex flex-col " >
-      {isPending && <AppSpiner bgColor="bg-foreground/50" />}
+    <div className="w-full flex flex-col ">
+      {isPending && <AppSpiner />}
       <div className="flex items-center mx-20 justify-center">
         <Messaging />
       </div>

@@ -22,9 +22,10 @@ import VerifyPayment from "./features/verifypayment/VerifyPayemnt";
 import Blog from "./features/blog/Blog";
 import Withdraw from "./features/withdraw/Withdraw";
 import Pricing from "./features/pricing/Pricing";
+import CoursesPage from "./features/courses/Courses";
+import LoansPage from "./features/loans/LoansPage";
 const queryClient = new QueryClient();
 function App() {
-
   return (
     <div className="w-[100vw] h-[100vh] flex bg-background ">
       <QueryClientProvider client={queryClient}>
@@ -56,6 +57,8 @@ function App() {
               <Route path="/payment" element={<CreatePaymentPage />} />
               <Route path="/verify" element={<VerifyPayment />} />
               <Route path="/withdraw" element={<Withdraw />} />
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/loans" element={<LoansPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
