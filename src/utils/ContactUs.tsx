@@ -223,7 +223,7 @@ function ContactUs() {
             </div>
 
             <Button
-              disabled={!(captha === watch("captha"))}
+              disabled={!(captha === watch("captha")) || isPending}
               type="submit"
               className="py-6"
               isPending={isPending}
