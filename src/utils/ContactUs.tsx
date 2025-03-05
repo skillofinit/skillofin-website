@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { contactUsAPI } from "@/services/emailApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSendEmail } from "@/hooks/emailHooks";
 import { useForm } from "react-hook-form";
 
 import { IoMdMail } from "react-icons/io";
@@ -22,33 +20,45 @@ import {
 } from "@/utiles/appUtils";
 
 import { FaFacebook } from "react-icons/fa";
+import { Textarea } from "@/components/ui/textarea";
+import { MdRefresh } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { useContactUs } from "@/hooks/appHooks";
 
 function ContactUs() {
-  const { register, formState, handleSubmit, reset } = useForm();
+  const { register, formState, handleSubmit, watch, reset } = useForm();
   const { errors } = formState;
-  const { isPending, sendEmail } = useSendEmail();
+  const [captha, setCaptha] = useState<string>("F7naP#");
+  const { contactUs, isPending } = useContactUs();
+
+  useEffect(() => {
+    generateCaptha();
+  }, []);
+  function generateCaptha() {
+    const string =
+      "123456789abcdefgh123456789ijklmnop!@#$%&qrstuvwx123456789yzABCDEFGHIJK!@#$%&LMN123456789OPQRSTU!@#$%&VWXYZ123456789!@#$%&";
+    let captha = "";
+    for (let index = 0; index < 6; index++) {
+      captha =
+        captha + string.charAt(Math.floor(Math.random() * string?.length));
+    }
+    setCaptha(captha);
+  }
 
   async function onSubmit(e: any) {
-    sendEmail(
+    contactUs(
       {
-        body: `New message recived from  ${e.fullNameFotter} with email - ${e.emailIdFotter} and phone - ${e.phoneFotter} `,
-        subject: "New Message from SkilloFin chat",
-        title: "New Message from SkilloFin",
-        toEmail: COMPANY_EMAIL,
+        emailId: e.emailIdFotter,
+        fullName: e.fullNameFotter,
+        phone: e.phoneFotter,
+        message: e.message,
       },
       {
-        onSuccess(data) {
-          if (data === "SUCCESS") {
-            reset();
-          }
+        onSuccess() {
+          reset();
         },
       }
     );
-    await contactUsAPI({
-      emailId: e.emailIdFotter,
-      fullName: e.fullNameFotter,
-      phone: e.phoneFotter,
-    });
   }
 
   function handleOpenLinks(type: string) {
@@ -76,8 +86,11 @@ function ContactUs() {
 
   return (
     <div className="bg-background pt-5 w-full ">
-      <div className="flex flex-col items-center mt-[10vh]">
-        <h6 className=" text-2xl lg:text-4xl font-bold font-serif"> CONTACT US</h6>
+      <div className="flex flex-col items-center mt-[5vh]">
+        <h6 className=" text-2xl lg:text-4xl font-bold font-serif">
+          {" "}
+          CONTACT US
+        </h6>
         <div className="h-1 w-[20vw] lg:w-[6vw] bg-primary mt-[2vh]"></div>
       </div>
       <div className="items-center flex w-full justify-center mt-10 lg:mt-[10vh]">
@@ -92,7 +105,8 @@ function ContactUs() {
               Just push a text to us and we will get back to you immediately.
             </p>
             <div className="flex items-center  justify-between mt-8 gap-2 lg:px-8">
-              <IoMdMail title="Email"
+              <IoMdMail
+                title="Email"
                 onClick={() => {
                   handleOpenLinks("mail");
                 }}
@@ -100,28 +114,32 @@ function ContactUs() {
               lg:hover:scale-110 lg:hover:bg-gray-100"
               />
 
-              <FaFacebook title="Facebook"
+              <FaFacebook
+                title="Facebook"
                 onClick={() => {
                   handleOpenLinks("facebook");
                 }}
                 className="w-12 h-12 bg-gray-50 p-2 rounded-sm cursor-pointer 
               lg:hover:scale-110 lg:hover:bg-gray-100"
               />
-              <FaInstagram title="Instagram"
+              <FaInstagram
+                title="Instagram"
                 onClick={() => {
                   handleOpenLinks("instagram");
                 }}
                 className="w-12 h-12 bg-gray-50 p-2 rounded-sm cursor-pointer 
               lg:hover:scale-110 lg:hover:bg-gray-100"
               />
-              <FaXTwitter title="X"
+              <FaXTwitter
+                title="X"
                 onClick={() => {
                   handleOpenLinks("x");
                 }}
                 className="w-12 h-12 bg-gray-50 p-2 rounded-sm cursor-pointer 
               lg:hover:scale-110 lg:hover:bg-gray-100"
               />
-              <FaLinkedin title="LinkedIn"
+              <FaLinkedin
+                title="LinkedIn"
                 onClick={() => {
                   handleOpenLinks("linkedin");
                 }}
@@ -129,7 +147,8 @@ function ContactUs() {
               lg:hover:scale-110 lg:hover:bg-gray-100"
               />
 
-              <FaPinterest title="Pinterest"
+              <FaPinterest
+                title="Pinterest"
                 onClick={() => {
                   handleOpenLinks("pinterest");
                 }}
@@ -178,7 +197,37 @@ function ContactUs() {
               errorMessage={errors?.emailIdFotter?.message}
             />
 
-            <Button type="submit" className="py-6" isPending={isPending}>
+            <Textarea
+              placeholder="Message"
+              className="resize-none w-[97%] border-foreground/60"
+              {...register("message", {
+                required: false,
+              })}
+            />
+            <div className="flex items-center gap-3">
+              <div className=" -mt-4 text-xl border px-3 flex items-center justify-center h-10 rounded tracking-[0.4vw] border-foreground">
+                <h3 className="w-[25vw] lg:w-[7vw]">{captha}</h3>
+                <MdRefresh
+                  onClick={generateCaptha}
+                  className="ml-1 cursor-pointer hover:scale-110"
+                />
+              </div>
+              <Input
+                mandatory
+                placeholder="Captha"
+                {...register("captha", {
+                  required: "Please complete captha",
+                })}
+                errorMessage={errors?.captha?.message}
+              />
+            </div>
+
+            <Button
+              disabled={!(captha === watch("captha")) || isPending}
+              type="submit"
+              className="py-6"
+              isPending={isPending}
+            >
               Contact Us
             </Button>
           </form>
