@@ -4,13 +4,13 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "@/components/ui/accordion"; // Adjus
+} from "@/components/ui/accordion";
 import { useAppContext } from "@/utiles/AppContext";
 
 function CoursesPage() {
   const { userRole } = useAppContext();
   return (
-    <div>
+    <div className="relative">
       <div className="w-full bg-gradient-to-r from-orange-100 to-yellow-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
         <BicepsFlexed className="text-2xl" />
         {userRole === "FREELANCER" ? "Courses for you" : "Recent courses"}
@@ -49,6 +49,11 @@ function CoursesPage() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </div>
+
+      {/* Watermark */}
+      <div className="absolute -bottom-10 right-4 text-gray-400 text-sm font-semibold opacity-60">
+        Coming Soon...
       </div>
     </div>
   );

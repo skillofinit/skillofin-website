@@ -11,7 +11,7 @@ function Courses() {
   const { userRole } = useAppContext();
 
   return (
-    <div className="w-full h-[43vh] text-white border rounded-xl overflow-hidden shadow-md transition-all hover:shadow-purple-600/50 overflow-auto">
+    <div className="w-full h-[43vh] text-white border rounded-xl overflow-hidden shadow-md transition-all hover:shadow-purple-600/50 overflow-auto relative">
       {/* Header */}
       <div className="w-full bg-gradient-to-r from-orange-100 to-yellow-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
         <BicepsFlexed className="text-2xl" />
@@ -51,6 +51,11 @@ function Courses() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+      </div>
+
+      {/* Watermark */}
+      <div className="absolute bottom-2 right-4 text-gray-400 text-sm font-semibold opacity-80">
+        Coming Soon...
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ function Loans() {
   const { userRole } = useAppContext();
 
   return (
-    <div className="w-full h-[43vh] text-white border rounded-xl overflow-hidden shadow-md transition-all hover:shadow-purple-600/50">
+    <div className="w-full h-[43vh] text-white border rounded-xl overflow-hidden shadow-md transition-all hover:shadow-purple-600/50 relative">
       {/* Header */}
       <div className="w-full bg-gradient-to-r from-blue-100 to-cyan-100 flex items-center gap-3 text-black rounded-t-xl text-xl font-semibold px-6 py-3">
         <CiBank className="text-2xl" />
@@ -22,17 +22,11 @@ function Loans() {
           <li>Home Loan – Flexible repayment plans</li>
           <li>Education Loan – Empower your future</li>
         </ul>
+      </div>
 
-        {/* <div className="mt-6 flex justify-center">
-          <Button
-            onClick={() => {
-              // e.g., router.push("/loans");
-            }}
-            variant="default"
-          >
-            View All Loans
-          </Button>
-        </div> */}
+      {/* Watermark */}
+      <div className="absolute bottom-2 right-4 text-gray-400 text-sm font-semibold opacity-60">
+        Coming Soon...
       </div>
     </div>
   );
