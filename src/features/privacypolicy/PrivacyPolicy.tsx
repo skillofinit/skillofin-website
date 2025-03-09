@@ -1,6 +1,5 @@
 import { FaRegCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import HomeNavBar from "@/utils/HomeNavBar";
 import HomeFooter from "@/utils/HomeFooter";
 
 export default function PrivacyPolicy() {
@@ -54,7 +53,7 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="flex flex-col h-[100vh] w-[100vw] overflow-hidden">
-      <HomeNavBar />
+ 
       <div className="flex-grow flex justify-center w-full overflow-y-auto">
         <div className="w-full lg:w-[30vw] p-3">
           <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>

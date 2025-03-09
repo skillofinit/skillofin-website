@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import ContactUs from "@/utils/ContactUs";
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import { LucideUserRoundCheck } from "lucide-react";
 import { useRef } from "react";
 import { FaStar } from "react-icons/fa";
@@ -87,9 +86,7 @@ function Home() {
       </div>
 
       <div className="z-[400]  absolute h-full inset-0 items-center w-full flex flex-col ">
-        <div className=" w-full text-foreground">
-          <HomeNavBar />
-        </div>
+
 
         <div className="text-foreground items-center flex flex-col w-full px-4 md:flex-row   lg:w-[90vw]    justify-between  pt-[10vw]">
           <div className="flex flex-col gap-10">

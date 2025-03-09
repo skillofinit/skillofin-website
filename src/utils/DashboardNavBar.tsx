@@ -55,8 +55,7 @@ function DashboardNavBar() {
       {open && <PostJobDialog onClose={onClose} />}
       {isLoading && <AppSpiner bgColor="bg-foreground/40" />}
 
-      {/* Desktop Navbar – visible on md and larger screens */}
-      <div className="hidden md:flex justify-between items-center px-4 py-2">
+      <div className="hidden md:flex justify-between items-center px-4 ">
         <div className="flex items-center gap-8">
           <div onClick={() => navigate("/feed")} className="cursor-pointer">
             <Logo />
@@ -300,7 +299,6 @@ function DashboardNavBar() {
               </PopoverContent>
             </Popover>
           </div>
-          
         </div>
       </div>
 
@@ -308,7 +306,7 @@ function DashboardNavBar() {
       <div className="flex md:hidden flex-col">
         {/* Top bar */}
         <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
-        <div onClick={() => navigate("/feed")} className="cursor-pointer">
+          <div onClick={() => navigate("/feed")} className="cursor-pointer">
             <Logo />
           </div>
 

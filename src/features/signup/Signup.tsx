@@ -1,4 +1,4 @@
-import HomeNavBar from "@/utils/HomeNavBar";
+
 import { useEffect, useState } from "react";
 import HomeFooter from "@/utils/HomeFooter";
 import SelectAccountType from "./SelectAccountType";
@@ -43,7 +43,6 @@ function SignUp() {
   return (
     <div className="w-[100vw]  h-[100vh] text-foreground flex flex-col justify-between">
       <div className="flex flex-col gap-3">
-        <HomeNavBar  />
         {step === 0 ? (
           <SelectAccountType
             handleChangeJoinType={handleChangeJoinType}

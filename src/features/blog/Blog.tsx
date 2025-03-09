@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import { useEffect, useState } from "react";
 import PostBlog from "./utils/PostBlog";
 import AppSpiner from "@/utiles/AppSpiner";
@@ -53,9 +52,6 @@ function Blog() {
   return (
     <div className="w-full justify-between overflow-auto h-full">
       <div className="flex h-full flex-col gap-2">
-        <div>
-          <HomeNavBar />
-        </div>
         <div className="flex flex-grow flex-col gap-2 w-full p-4">
           <div className="w-full flex justify-end">
             {localStorage.getItem("emailId") ===

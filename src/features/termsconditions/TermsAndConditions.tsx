@@ -1,6 +1,5 @@
 import { FaCheckCircle } from "react-icons/fa";
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import { useNavigate } from "react-router-dom";
 
 export default function TermsAndConditions() {
@@ -48,7 +47,6 @@ export default function TermsAndConditions() {
 
   return (
     <div className="flex flex-col h-[100vh] w-[100vw] overflow-hidden">
-      <HomeNavBar />
       <div className="flex-grow flex justify-center w-full overflow-y-auto">
         <div className="w-full lg:w-[50vw] p-6">
           <h1 className="text-3xl font-bold mb-6">Terms and Conditions</h1>

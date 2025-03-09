@@ -24,6 +24,7 @@ import Withdraw from "./features/withdraw/Withdraw";
 import Pricing from "./features/pricing/Pricing";
 import CoursesPage from "./features/courses/Courses";
 import LoansPage from "./features/loans/LoansPage";
+import HomeLayout from "./utils/HomeLayout";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -31,19 +32,21 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/contactus" element={<ContactUsPage />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/faqs" element={<Faq />} />
-            <Route
-              path="/terms-and-conditions"
-              element={<TermsAndConditions />}
-            />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/pricing" element={<Pricing />} />
+            <Route element={<HomeLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/contactus" element={<ContactUsPage />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="/faqs" element={<Faq />} />
+              <Route
+                path="/terms-and-conditions"
+                element={<TermsAndConditions />}
+              />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/pricing" element={<Pricing />} />
+            </Route>
 
             <Route element={<ProtectedLayout />}>
               <Route path="/feed" element={<DashBoardMain />} />

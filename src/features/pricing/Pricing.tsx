@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import { Button } from "@/components/ui/button"; // shadcn button component
 import { MdCheck, MdClose } from "react-icons/md";
 
@@ -211,7 +210,6 @@ function SkilloFinPricing() {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gradient-to-br overflow-x-hidden">
-      <HomeNavBar />
       <main className="flex-grow px-4 py-5 md:px-12 ">
         <div className="text-center mb-12 flex  flex-col items-center">
           <h1 className="text-2xl lg:text-4xl sm:text-3xl font-semibold text-foreground drop-shadow-xl animate-fadeIn">

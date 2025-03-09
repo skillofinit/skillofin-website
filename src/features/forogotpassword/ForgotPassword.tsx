@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useResetPassword } from "@/hooks/userHooks";
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import {  useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -102,9 +101,6 @@ reset()
   return (
     <div className="w-full h-full flex justify-between   flex-col">
       <div className="flex flex-col gap-4 h-full">
-        <div>
-          <HomeNavBar />
-        </div>
         <div className="flex items-center  h-full   lg:w-[80vw]   lg:justify-between lg:flex-row flex-col">
           <div className="lg:w-[40vw] lg:h-[60vh] w-[90vw] h-[30vh]">
             <img
