@@ -55,7 +55,7 @@ function DashboardNavBar() {
       {open && <PostJobDialog onClose={onClose} />}
       {isLoading && <AppSpiner bgColor="bg-foreground/40" />}
 
-      <div className="hidden md:flex justify-between items-center px-4 ">
+      <div className="hidden md:flex justify-between items-center px-4  py-2">
         <div className="flex items-center gap-8">
           <div onClick={() => navigate("/feed")} className="cursor-pointer">
             <Logo />
