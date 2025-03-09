@@ -227,8 +227,13 @@ function HomeNavBar() {
               {/* Footer */}
               <div className="text-center text-gray-600 text-sm items-center flex flex-col w-full ">
                 <p>© 2025 SkilloFin. All Rights Reserved.</p>
-                <p className="text-primary cursor-pointer border-b border-primary mt-2 w-fit">
-                  support@skillofin.com
+                <p
+                  className="text-primary cursor-pointer border-b border-primary mt-2 w-fit"
+                  onClick={() => {
+                    window.open(`mailto:contact@skillofin.com`);
+                  }}
+                >
+                  contact@skillofin.com
                 </p>
               </div>
             </div>
