@@ -300,6 +300,7 @@ function DashboardNavBar() {
               </PopoverContent>
             </Popover>
           </div>
+          
         </div>
       </div>
 

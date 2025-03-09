@@ -47,11 +47,11 @@ function Profile() {
         },
       });
     } else {
-      handleGetMeCallBack()
+      handleGetMeCallBack();
     }
   }, [stateEmailId]);
 
-  function handleGetMeCallBack(){
+  function handleGetMeCallBack() {
     getMe(undefined, {
       onSuccess(data) {
         if (data?.message === "SUCCESS") {
@@ -60,7 +60,6 @@ function Profile() {
         }
       },
     });
-
   }
 
   function handleConfigureClick(method: "add" | "edit", comp: string) {
@@ -406,17 +405,15 @@ function Profile() {
                     )}
                 </div>
               </div>
-              <div className="grid grid-cols-1  lg:grid-cols-4 gap-2 mt-3">
-                {userData?.userAccountData?.skills?.map(
-                  (skill: { name: string }, index: number) => (
-                    <div
-                      key={index}
-                      className="px-5 py-1 rounded-full  border bg-background shadow text-lg h-fit max-h-20 lg:w-fit lg:max-w-[12vw] text-wrap break-words"
-                    >
-                      {skill?.name}
-                    </div>
-                  )
-                )}
+              <div className="flex flex-wrap gap-2 mt-3">
+                {userData?.userAccountData?.skills?.map((skill:{name:string}, index:number) => (
+                  <div
+                    key={index}
+                    className="px-5 py-1 rounded-full border bg-background shadow text-lg whitespace-nowrap"
+                  >
+                    {skill?.name}
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -633,6 +630,3 @@ function Profile() {
 }
 
 export default Profile;
-
-
-

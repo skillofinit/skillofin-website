@@ -9,6 +9,7 @@ import {
   FaXTwitter,
   FaInstagram,
   FaPinterest,
+  FaAsterisk,
 } from "react-icons/fa6";
 import {
   COMPANY_FACEBOOK,
@@ -196,14 +197,28 @@ function ContactUs() {
               })}
               errorMessage={errors?.emailIdFotter?.message}
             />
+            <div className="flex flex-col gap-1">
+              <div>
+                <div className="relative flex items-center gap-1">
+                  <Textarea
+                    placeholder="Message"
+                    className="resize-none w-full border-foreground/60"
+                    {...register("message", {
+                      required: "Please enter message",
+                    })}
+                  />
+                  <div>
+                    <FaAsterisk className="text-destructive h-2 w-2" />
+                  </div>
+                </div>
+                {errors.content && (
+                  <div className=" ml-3 text-red-500">
+                    {errors?.message?.message as string}
+                  </div>
+                )}
+              </div>
+            </div>
 
-            <Textarea
-              placeholder="Message"
-              className="resize-none w-[97%] border-foreground/60"
-              {...register("message", {
-                required: false,
-              })}
-            />
             <div className="flex items-center gap-3">
               <div className=" -mt-4 text-xl border px-3 flex items-center justify-center h-10 rounded tracking-[0.4vw] border-foreground">
                 <h3 className="w-[25vw] lg:w-[7vw]">{captha}</h3>

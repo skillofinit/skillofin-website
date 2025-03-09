@@ -24,6 +24,7 @@ import { FaHome, FaQuestionCircle } from "react-icons/fa";
 import { LuListEnd } from "react-icons/lu";
 import { BsCardList } from "react-icons/bs";
 import { IoPricetagsOutline } from "react-icons/io5";
+import { Button } from "@/components/ui/button";
 
 function HomeNavBar() {
   const navigate = useNavigate();
@@ -87,6 +88,12 @@ function HomeNavBar() {
           <div className="flex items-center gap-10">
             {/* LG Navbar - remains unchanged */}
             <div className="items-center gap-5 lg:flex hidden">
+              {localStorage?.getItem("emailId") && (
+                <Button onClick={()=>{navigate("/feed")}} className="h-8" variant={"default"}>
+                  Feed
+                </Button>
+              )}
+
               <IoMdMail
                 title="Email"
                 onClick={() => handleOpenLinks("mail")}
