@@ -3,6 +3,7 @@ import {
   blogsAPI,
   getMeAPI,
   logoutAPI,
+  reAuth,
   resetPasswordAPI,
   updateProfileAPI,
   uplaodProfieImageAPI,
@@ -165,9 +166,16 @@ export function useResetPassword() {
   });
   return { isPending, resetPassword };
 }
+
 export function useBlogs() {
   const { mutate: blog, isPending } = useMutation({
     mutationFn: (data?: any) => blogsAPI(data),
   });
   return { isPending, blog };
+}
+export function useReAuth() {
+  const { mutate: reauth, isPending } = useMutation({
+    mutationFn: () => reAuth(),
+  });
+  return { isPending, reauth };
 }

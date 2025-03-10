@@ -76,3 +76,13 @@ export async function blogsAPI(data:any) {
   const serverData = await response.json();
   return serverData;
 }
+export async function reAuth() {
+  const response = await fetch(BASE_URL + "/reauth", {
+    method: "POST",
+    body: JSON.stringify({
+      emailId:localStorage.getItem("emailId"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}

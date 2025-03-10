@@ -8,8 +8,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { useGetMe, useUplaodProfileImage } from "@/hooks/userHooks";
 import AppSpiner from "@/utiles/AppSpiner";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
+import { Button } from "@/components/ui/button";
+import { IoAlertCircleOutline } from "react-icons/io5";
+import { MdVerified } from "react-icons/md";
 
 function Profile() {
   const [openDialog, setOpendilog] = useState<boolean>(false);
@@ -26,6 +29,7 @@ function Profile() {
   const { getMe, isPending: gettingUserDetails } = useGetMe();
   const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
   const [stateEmailId, setStateEmailId] = useState<string>("null");
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (state?.emailId) {
@@ -314,32 +318,66 @@ function Profile() {
                   )}
                 </div>
               </div>
-              <div className="text-lg mt-4 flex flex-col gap-3">
-                {
-                  <div className="text-lg mt-4 flex flex-col gap-3">
-                    {Object.keys(
-                      userData?.userData?.bankAccountDetails || {}
-                    ).map((key) => {
-                      const value = userData?.userData?.bankAccountDetails[key];
-                      if (value) {
-                        return (
-                          <div key={key} className="flex items-center gap-4">
-                            <h5 className="text-xs w-36 justify-between flex items-center gap-3">
-                              {key
-                                ?.replace(/([a-z])([A-Z])/g, "$1 $2")
-                                .replace(/^./, (str) => str.toUpperCase())}{" "}
-                              <span>:</span>
-                            </h5>
-                            <p className="text-foreground/60 text-xs">
-                              {value}
-                            </p>
-                          </div>
-                        );
+              <div className="text-lg mt-4 flex flex-col gap-6">
+                <div className="w-full flex items-center justify-between">
+                  <div>KYC Sattus </div>
+
+                  <div className="flex items-center gap-1">
+                    <div
+                      className={
+                        userData?.userData?.onBoardStatus === "STARTED"
+                          ? `text-orange-500`
+                          : ""
                       }
-                      return null;
-                    })}
+                    >
+                      Pending
+                    </div>
+                    {userData?.userData?.onBoardStatus === "STARTED" && (
+                      <div>
+                        <IoAlertCircleOutline className="text-orange-500 mt-1" />
+                      </div>
+                    )}
                   </div>
-                }
+                </div>
+                <Button
+                  variant={"constructive"}
+                  className="py-6"
+                  onClick={() => {navigate("/kyc")
+                  }}
+                >
+                  Complete KYC
+                </Button>
+
+                {/* <div>
+                  {
+                    <div className="text-lg mt-4 flex flex-col gap-3">
+                      {Object.keys(
+                        userData?.userData?.bankAccountDetails || {}
+                      ).map((key) => {
+                        const value =
+                          userData?.userData?.bankAccountDetails[key];
+                        if (value) {
+                          return (
+                            <div key={key} className="flex items-center gap-4">
+                              <h5 className="text-xs w-36 justify-between flex items-center gap-3">
+                                {key
+                                  ?.replace(/([a-z])([A-Z])/g, "$1 $2")
+                                  .replace(/^./, (str) =>
+                                    str.toUpperCase()
+                                  )}{" "}
+                                <span>:</span>
+                              </h5>
+                              <p className="text-foreground/60 text-xs">
+                                {value}
+                              </p>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  }
+                </div> */}
               </div>
             </div>
           )}
@@ -406,14 +444,16 @@ function Profile() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 mt-3">
-                {userData?.userAccountData?.skills?.map((skill:{name:string}, index:number) => (
-                  <div
-                    key={index}
-                    className="px-5 py-1 rounded-full border bg-background shadow text-lg whitespace-nowrap"
-                  >
-                    {skill?.name}
-                  </div>
-                ))}
+                {userData?.userAccountData?.skills?.map(
+                  (skill: { name: string }, index: number) => (
+                    <div
+                      key={index}
+                      className="px-5 py-1 rounded-full border bg-background shadow text-lg whitespace-nowrap"
+                    >
+                      {skill?.name}
+                    </div>
+                  )
+                )}
               </div>
             </div>
           )}
