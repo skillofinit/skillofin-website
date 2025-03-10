@@ -29,7 +29,7 @@ function Profile() {
   const { getMe, isPending: gettingUserDetails } = useGetMe();
   const [editIndex, setEditIndex] = useState<number | undefined>(undefined);
   const [stateEmailId, setStateEmailId] = useState<string>("null");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (state?.emailId) {
@@ -325,14 +325,16 @@ function Profile() {
                   <div className="flex items-center gap-1">
                     <div
                       className={
-                        userData?.userData?.onBoardStatus === "STARTED"
+                        userData?.userData?.onBoardStatus === "STARTED" ||
+                        !userData?.userData?.onBoardStatus
                           ? `text-orange-500`
                           : ""
                       }
                     >
                       Pending
                     </div>
-                    {userData?.userData?.onBoardStatus === "STARTED" && (
+                    {(userData?.userData?.onBoardStatus === "STARTED" ||
+                      !userData?.userData?.onBoardStatus) && (
                       <div>
                         <IoAlertCircleOutline className="text-orange-500 mt-1" />
                       </div>
@@ -342,7 +344,8 @@ function Profile() {
                 <Button
                   variant={"constructive"}
                   className="py-6"
-                  onClick={() => {navigate("/kyc")
+                  onClick={() => {
+                    navigate("/kyc");
                   }}
                 >
                   Complete KYC
