@@ -1,5 +1,5 @@
-export const BASE_URL = "http://127.0.0.1:3000/api";
-// export const BASE_URL = "https://skillofinapis.vercel.app/api";
+// export const BASE_URL = "http://127.0.0.1:3000/api";
+export const BASE_URL = "https://skillofinapis.vercel.app/api";
 
 //company urls
 export const COMPANY_EMAIL = "contact@Skillofin.com";
