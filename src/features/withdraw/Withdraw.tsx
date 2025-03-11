@@ -2,16 +2,26 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAppContext } from "@/utiles/AppContext";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegBuilding } from "react-icons/fa"; // Import icons
+import { IoAlertCircleOutline } from "react-icons/io5";
+import { MdVerified } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function Withdraw() {
   const { userData } = useAppContext();
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm();
+  const [amount, setAmount] = useState<number>(0);
+
+  useEffect(() => {
+    setAmount(userData?.userData?.amount ?? 0);
+  }, [userData]);
 
   function handleWithdrawSubmit(e: any) {
     console.log(e);
@@ -33,7 +43,9 @@ function Withdraw() {
             <label htmlFor="balance" className="font-medium text-lg">
               Available Balance
             </label>
-            <div className="text-lg text-gray-600">${0}</div>
+            <div className="text-lg text-constructive font-mono font-semibold ">
+              ${amount / 100} USD
+            </div>
           </div>
 
           <div className="flex flex-col">
@@ -44,6 +56,7 @@ function Withdraw() {
               onSubmit={handleSubmit(handleWithdrawSubmit)}
               className="lg:w-[30vw] flex lg:flex-row  lg:gap-4 flex-col items-center"
             >
+              
               <Input
                 type="number"
                 iconName="dlr"
@@ -58,61 +71,144 @@ function Withdraw() {
                 })}
               />
               <div className="flex lg:-mt-4 justify-center ">
-                <Button type="submit" disabled className="py-6 px-6">
+                <Button
+                  type="submit"
+                  disabled={
+                    !(userData?.userData?.onBoardStatus === "VERIFIED") ||
+                    watch("amount") * 100 > amount || amount === 0
+                  }
+                  className="py-6 px-6"
+                >
                   Withdraw
                 </Button>
               </div>
             </form>
-          </div>
-
-          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length >
-            0 && (
-            <div className="flex flex-col mt-6">
-              <label className="font-medium text-lg ">
-                Transfer to Account Details
-              </label>
-              <div className="flex gap-6 mt-2">
-                <div
-                  className={`flex items-center gap-2 cursor-pointer p-2 border rounded-md 
-                    bg-primary/5 border-primary
-            `}
-                >
-                  <FaRegBuilding className="w-5 h-5 text-primary" />
-                  <span className="">Bank Account</span>
-                </div>
-              </div>
-            </div>
-          )}
-          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length >
-            0 && (
-            <div className="text-lg flex flex-col gap-3">
-              {Object.keys(userData?.userData?.bankAccountDetails || {}).map(
-                (key) => {
-                  const value = userData?.userData?.bankAccountDetails[key];
-                  if (value) {
-                    return (
-                      <div key={key} className="flex items-center gap-4">
-                        <h5 className="text-xs w-36 justify-between flex items-center gap-3">
-                          {key
-                            ?.replace(/([a-z])([A-Z])/g, "$1 $2")
-                            .replace(/^./, (str) => str.toUpperCase())}{" "}
-                          <span>:</span>
-                        </h5>
-                        <p className="text-foreground/60 text-xs">{value}</p>
-                      </div>
-                    );
-                  }
-                  return null;
-                }
+            <div>
+              {(userData?.userData?.onBoardStatus === "STARTED" ||
+                userData?.userData?.onBoardStatus === "PENDING" ||
+                !userData?.userData?.onBoardStatus) && (
+                <label className="text-destructive">
+                  Complete the KYC in profile to withdraw amount
+                </label>
               )}
             </div>
-          )}
-          {Object.keys(userData?.userData?.bankAccountDetails || {})?.length ===
-            0 && (
-            <div className="text-destructive">
-              Please add bank account details to withdray
+          </div>
+
+          <div className="flex flex-col mt-6">
+            <div className="flex flex-col ml-2 gap-4 ">
+              <div className="w-full flex items-center justify-between">
+                <div className="font-semibold ">Bank account details </div>
+
+                {userData?.userData?.onBoardStatus !== "VERIFIED" && (
+                  <div className="flex items-center gap-1">
+                    <div
+                      className={
+                        userData?.userData?.onBoardStatus === "STARTED" ||
+                        userData?.userData?.onBoardStatus === "PENDING" ||
+                        !userData?.userData?.onBoardStatus
+                          ? `text-orange-500`
+                          : ""
+                      }
+                    >
+                      Pending
+                    </div>
+                    {(userData?.userData?.onBoardStatus === "STARTED" ||
+                      userData?.userData?.onBoardStatus === "PENDING" ||
+                      !userData?.userData?.onBoardStatus) && (
+                      <div>
+                        <IoAlertCircleOutline className="text-orange-500 w-6 h-6" />
+                      </div>
+                    )}
+                  </div>
+                )}
+                {userData?.userData?.onBoardStatus === "VERIFIED" && (
+                  <div className="flex items-center gap-1 text-constructive">
+                    <div className={""}>Verified</div>
+                    {
+                      <div>
+                        <MdVerified className="text-constructive w-6 h-6" />
+                      </div>
+                    }
+                  </div>
+                )}
+              </div>
+              {userData?.userData?.onBoardStatus === "PENDING" && (
+                <label className="text-xs text-destructive">
+                  Need more information to complete KYC, Click on Complete KYC
+                  to continue.
+                </label>
+              )}
+              {(userData?.userData?.onBoardStatus === "STARTED" ||
+                !userData?.userData?.onBoardStatus) && (
+                <label className="text-xs text-destructive">
+                  Complete kyc to withdraw funds to your account.
+                </label>
+              )}
+              {userData?.userData?.onBoardStatus === "VERIFIED" && (
+                <div className="w-full flex flex-col gap-3">
+                  <div className="flex items-center gap-0 w-full justify-between  text-center text-xs lg:text-md">
+                    <div className=" w-[40vw] lg:w-[10vw] py-1 font-semibold bg-foreground/5 px-2 justify-between flex itemcs-center rounded">
+                      Account holder name
+                    </div>
+                    <div>
+                      {userData?.userData?.bankAccountDetails
+                        ?.accountHolderName ??
+                        userData?.userData?.firstName +
+                          " " +
+                          (userData?.userData?.lastName ?? "")}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-0 w-full justify-between  text-center text-xs lg:text-md">
+                    <div className=" w-[40vw] lg:w-[10vw] py-1 font-semibold bg-foreground/5 px-2 justify-between flex itemcs-center rounded">
+                      Bank name
+                    </div>
+                    <div>
+                      {userData?.userData?.bankAccountDetails?.bankName ??
+                        "Unknown"}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-0 w-full justify-between  text-center text-xs lg:text-md">
+                    <div className=" w-[40vw] lg:w-[10vw] py-1 font-semibold bg-foreground/5 px-2 justify-between flex itemcs-center rounded">
+                      bank account number
+                    </div>
+                    <div>
+                      {"**** **** **** " +
+                        userData?.userData?.bankAccountDetails?.bankNumber}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-0 w-full justify-between  text-center text-xs lg:text-md">
+                    <div className=" w-[40vw] lg:w-[10vw] py-1 font-semibold bg-foreground/5 px-2 justify-between flex itemcs-center rounded">
+                      Routing number
+                    </div>
+                    <div>
+                      {userData?.userData?.bankAccountDetails
+                        ?.bankRoutingNumber ?? "Unknown"}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-0 w-full justify-between  text-center text-xs lg:text-md">
+                    <div className=" w-[40vw] lg:w-[10vw] py-1 font-semibold bg-foreground/5 px-2 justify-between flex itemcs-center rounded">
+                      Account currency
+                    </div>
+                    <div>
+                      {userData?.userData?.bankAccountDetails
+                        ?.accountCurrency ?? "Unknown"}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <Button
+                className="py-3 mt-2"
+                onClick={() => {
+                  navigate("/kyc");
+                }}
+              >
+                {userData?.userData?.onBoardStatus !== "VERIFIED"
+                  ? "Complete KYC"
+                  : "Edit Details"}
+              </Button>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
