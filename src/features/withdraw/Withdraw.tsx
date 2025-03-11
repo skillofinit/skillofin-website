@@ -26,6 +26,7 @@ function Withdraw() {
   function handleWithdrawSubmit(e: any) {
     console.log(e);
   }
+  
 
   return (
     <div className="  p-8 flex flex-row lg:gap-10 items-center w-full">
