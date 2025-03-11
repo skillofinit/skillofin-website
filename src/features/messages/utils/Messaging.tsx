@@ -5,7 +5,7 @@ import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoSend } from "react-icons/io5";
+import { IoAlertCircleOutline, IoSend } from "react-icons/io5";
 import { IoIosRefresh } from "react-icons/io";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import AnimatedImage from "@/utils/AnimatedImage";
@@ -31,9 +31,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import AppSpiner from "@/utiles/AppSpiner";
+import { MdVerified } from "react-icons/md";
 
 function Messaging() {
-  const { userData, userRole } = useAppContext();
+  const { userData, userRole, dispatch } = useAppContext();
   const [selectedMessageUser, setSelectedMessageUser] =
     useState<any>(undefined);
   const [selectedMessageKey, setSelectedMessageKey] = useState("");
@@ -320,18 +321,20 @@ function Messaging() {
                     userData?.userData?.emailId
                       ? `${
                           msg.content.includes("New Milestone Created") ||
-                          msg.content.includes("Job Application Approved")
-                            ? "bg-constructive"
+                          msg.content.includes("Job Application Approved") ||
+                          msg.content.includes("Payment Released")
+                            ? ""
                             : msg.content.includes("Milestone Removed")
-                            ? "bg-destructive"
+                            ? ""
                             : "bg-primary"
                         }  text-white ml-auto`
                       : ` ${
                           msg.content.includes("New Milestone Created") ||
-                          msg.content.includes("Job Application Approved")
-                            ? "bg-constructive"
+                          msg.content.includes("Job Application Approved") ||
+                          msg.content.includes("Payment Released")
+                            ? ""
                             : msg.content.includes("Milestone Removed")
-                            ? "bg-destructive"
+                            ? ""
                             : "bg-foreground/5"
                         }  text-gray-800`
                   }    `}
@@ -407,7 +410,7 @@ function Messaging() {
             openProjectDetails
               ? "absolute bg-background lg:relative"
               : "hidden lg:relative"
-          } lg:w-[30vw] w-full  lg:flex h-full overflow-auto`}
+          } lg:w-[30vw] w-full  lg:flex h-full `}
         >
           <div className="flex flex-col w-full">
             <div className="border h-16 py-4 text-lg px-6 w-full shadow-md flex items-center gap-4">
@@ -420,7 +423,7 @@ function Messaging() {
               Assiged project Details
             </div>
 
-            <div className="p-3 flex flex-col">
+            <div className="p-3 flex flex-col overflow-auto">
               <div className="flex flex-col  gap-1 border-b pb-4">
                 <div className="text-lg font-semibold">
                   {selectedMessageUser?.project?.title}
@@ -493,18 +496,26 @@ function Messaging() {
                   {selectedMessageUser?.project?.milestones?.length === 0 && (
                     <div>No milestones yet</div>
                   )}
-                  <Accordion type="single" collapsible>
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className="gap-2 flex flex-col"
+                  >
                     {selectedMessageUser?.project?.milestones?.map(
                       (milestone: any, index: number) => {
                         return (
                           <AccordionItem
                             value={index?.toString()}
                             key={index}
-                            className="border px-3 rounded-md bg-gray-200"
+                            className={`border px-3 rounded-md ${
+                              milestone?.status?.toLowerCase() === "released"
+                                ? ""
+                                : ""
+                            } `}
                           >
                             <AccordionTrigger>
                               <div>
-                                <p className="text-xs">
+                                <p className="text-xs flex items-center">
                                   {`${milestone?.description} - $${
                                     milestone?.amount
                                   } - ${new Date(
@@ -514,6 +525,16 @@ function Messaging() {
                                     month: "short",
                                     year: "numeric",
                                   })}`}
+                                  {milestone?.status?.toLowerCase() ===
+                                  "released" ? (
+                                    <div>
+                                      <MdVerified className="text-constructive w-4 h-4 ml-3" />
+                                    </div>
+                                  ) : (
+                                    <div>
+                                      <IoAlertCircleOutline className="text-destructive w-4 h-4 ml-3 mt-1" />
+                                    </div>
+                                  )}
                                 </p>
                               </div>
                             </AccordionTrigger>
@@ -543,41 +564,71 @@ function Messaging() {
                                     })}
                                   </span>
                                 </div>
-                                <div className=" font-semibold">
+                                <div className=" font-semibold flex gap-2 ">
                                   Status :{" "}
-                                  <span className="font-thin">
+                                  <span
+                                    className={`font-semibold flex items-center ${
+                                      milestone?.status?.toLowerCase() ===
+                                      "released"
+                                        ? "text-constructive"
+                                        : "text-destructive"
+                                    }`}
+                                  >
                                     {milestone?.status?.toLowerCase()}
+
+                                    {milestone?.status?.toLowerCase() ===
+                                    "released" ? (
+                                      <div>
+                                        <MdVerified className="text-constructive w-4 h-4 ml-3 mt-1" />
+                                      </div>
+                                    ) : (
+                                      <div>
+                                        <IoAlertCircleOutline className="text-destructive w-4 h-4 ml-3 mt-1" />
+                                      </div>
+                                    )}
                                   </span>
                                 </div>
-                                {userRole === "CLIENT" && (
-                                  <div className="mt-5 w-full flex items-center justify-between gap-3">
-                                    <Button
-                                      className="   px-5"
-                                      variant={"constructive"}
-                                      onClick={() => {
-                                        navigate("/payment", {
-                                          state: {
-                                            amount: milestone?.amount,
-                                            emailId:selectedMessageUser?.project?.assignedFreelancerEmail
-                                          },
-                                        });
-                                      }}
-                                    >
-                                      Relese
-                                    </Button>
+                                {userRole === "CLIENT" &&
+                                  milestone?.status?.toLowerCase() !==
+                                    "released" && (
+                                    <div className="mt-5 w-full flex items-center justify-between gap-3">
+                                      <Button
+                                        className="   px-5"
+                                        variant={"constructive"}
+                                        onClick={() => {
+                                          dispatch({
+                                            type: "setProjectDetails",
+                                            payload: {
+                                              milestoneId: milestone?._id,
+                                              id: selectedMessageUser?.project
+                                                ?._id,
+                                            },
+                                          });
+                                          navigate("/payment", {
+                                            state: {
+                                              amount: milestone?.amount,
+                                              emailId:
+                                                selectedMessageUser?.project
+                                                  ?.assignedFreelancerEmail,
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        Relese
+                                      </Button>
 
-                                    <Button
-                                      isPending={creatingMilestone}
-                                      className="  px-5"
-                                      variant={"destructive"}
-                                      onClick={() => {
-                                        deleteMileStore(milestone?._id);
-                                      }}
-                                    >
-                                      Delete
-                                    </Button>
-                                  </div>
-                                )}
+                                      <Button
+                                        isPending={creatingMilestone}
+                                        className="  px-5"
+                                        variant={"destructive"}
+                                        onClick={() => {
+                                          deleteMileStore(milestone?._id);
+                                        }}
+                                      >
+                                        Delete
+                                      </Button>
+                                    </div>
+                                  )}
                               </div>
                             </AccordionContent>
                           </AccordionItem>
