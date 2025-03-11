@@ -33,6 +33,7 @@ function DashboardNavBar() {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [popOverOpen, setPopOverOpen] = useState<boolean>(false);
+  const [popOverOpen1, setPopOverOpen1] = useState<boolean>(false);
 
   function handleLogoutClick() {
     logout();
@@ -65,8 +66,17 @@ function DashboardNavBar() {
               <div className="flex items-center gap-5">
                 {userRole !== "CLIENT" && (
                   <div>
-                    <Popover>
-                      <PopoverTrigger>
+                    <Popover
+                      open={popOverOpen1}
+                      onOpenChange={(value) => {
+                        setPopOverOpen1(value);
+                      }}
+                    >
+                      <PopoverTrigger
+                        onClick={() => {
+                          setPopOverOpen1(true);
+                        }}
+                      >
                         <div className="flex items-center gap-1">
                           <div className="text-[15px]">Manage finances</div>
                           <FaAngleDown className="w-3 h-3 mt-1" />
@@ -76,6 +86,7 @@ function DashboardNavBar() {
                         <div className="">
                           <div
                             onClick={() => {
+                              setPopOverOpen1(false)
                               navigate("/withdraw");
                             }}
                             className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
