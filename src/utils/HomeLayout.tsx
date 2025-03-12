@@ -12,7 +12,6 @@ function HomeLayout() {
 
   useEffect(() => {
     if (emailId) {
-      console.log(pathname)
       getMe(undefined);
       if (pathname === "/login") {
         navigate("/feed");

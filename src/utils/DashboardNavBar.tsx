@@ -20,7 +20,7 @@ import PostJobDialog from "../features/jobs/utils/PostJobDialog";
 import { BsCardList, BsPersonWorkspace, BsPostcardHeart } from "react-icons/bs";
 import { FaSignsPost } from "react-icons/fa6";
 import Logo from "./Logo";
-import { TbHeartHandshake } from "react-icons/tb";
+import { TbHeartHandshake, TbReportMoney } from "react-icons/tb";
 import { FaQuestionCircle } from "react-icons/fa";
 
 function DashboardNavBar() {
@@ -83,7 +83,7 @@ function DashboardNavBar() {
                         </div>
                       </PopoverTrigger>
                       <PopoverContent className="p-0 mt-3">
-                        <div className="">
+                        <div className="flex flex-col">
                           <div
                             onClick={() => {
                               setPopOverOpen1(false)
@@ -92,7 +92,17 @@ function DashboardNavBar() {
                             className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
                           >
                             <GiReceiveMoney className="w-5 h-5 ml-1" />
-                            <p>Withdraw earnings</p>
+                            <p>Withdraw</p>
+                          </div>
+                          <div
+                            onClick={() => {
+                              setPopOverOpen1(false)
+                              navigate("/reports");
+                            }}
+                            className="px-3 cursor-pointer flex gap-3 py-2 lg:hover:bg-foreground/5 items-center"
+                          >
+                            <TbReportMoney  className="w-5 h-5 ml-1" />
+                            <p>Withdraw Reports</p>
                           </div>
                         </div>
                       </PopoverContent>
@@ -393,7 +403,17 @@ function DashboardNavBar() {
                           className="flex items-center gap-2 text-[15px] cursor-pointer"
                         >
                           <GiReceiveMoney className="w-5 h-5" />
-                          <span>Withdraw Earnings</span>
+                          <span>Withdraw</span>
+                        </div>
+                        <div
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            navigate("/reports");
+                          }}
+                          className="flex items-center gap-2 text-[15px] cursor-pointer"
+                        >
+                          <TbReportMoney className="w-5 h-5" />
+                          <span>Withdraw reports</span>
                         </div>
                       </div>
                     )}
