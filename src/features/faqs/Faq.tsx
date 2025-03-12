@@ -5,7 +5,6 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import HomeFooter from "@/utils/HomeFooter";
-import HomeNavBar from "@/utils/HomeNavBar";
 import { useNavigate } from "react-router-dom";
 
 function Faq() {
@@ -133,7 +132,6 @@ function Faq() {
       
   return (
     <div className="flex flex-col h-[100vh] w-[100vw] overflow-hidden">
-      <HomeNavBar />
       <div className="flex-grow flex justify-center w-full overflow-y-auto">
         <div className="w-full lg:w-[30vw]  p-3">
           <div className=" ">

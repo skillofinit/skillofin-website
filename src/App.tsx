@@ -26,6 +26,7 @@ import CoursesPage from "./features/courses/Courses";
 import LoansPage from "./features/loans/LoansPage";
 import HomeLayout from "./utils/HomeLayout";
 import ResubmitKYC from "./features/resubmitkyc/ResubmitKYC";
+import WithdrawReports from "./features/withdrawreports/WithdrawReports";
 const queryClient = new QueryClient();
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
               <Route path="/courses" element={<CoursesPage />} />
               <Route path="/loans" element={<LoansPage />} />
               <Route path="/kyc" element={<ResubmitKYC />} />
+              <Route path="/reports" element={<WithdrawReports />} />
             </Route>
           </Routes>
         </BrowserRouter>
