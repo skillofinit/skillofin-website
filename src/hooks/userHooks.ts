@@ -7,6 +7,7 @@ import {
   resetPasswordAPI,
   updateProfileAPI,
   uplaodProfieImageAPI,
+  withdrawAmountAPI,
 } from "@/services/userApi";
 import { useToast } from "@/components/ui/use-toast";
 import { useAppContext } from "@/utiles/AppContext";
@@ -178,4 +179,22 @@ export function useReAuth() {
     mutationFn: () => reAuth(),
   });
   return { isPending, reauth };
+}
+
+export function useWithdrawAmount() {
+  const { toast } = useToast();
+
+  const { mutate: withdrawAmount, isPending } = useMutation({
+    mutationFn: (data: any) => withdrawAmountAPI(data),
+
+    onError() {
+      toast({
+        duration: 3000,
+        variant: "destructive",
+        title: "Please try again",
+        description: "Something went wrong, Please try again after some time!",
+      });
+    },
+  });
+  return { isPending, withdrawAmount };
 }

@@ -65,7 +65,7 @@ export async function resetPasswordAPI(data: any) {
   return serverData;
 }
 
-export async function blogsAPI(data:any) {
+export async function blogsAPI(data: any) {
   const response = await fetch(BASE_URL + "/blogs", {
     method: "POST",
     body: JSON.stringify({
@@ -80,7 +80,18 @@ export async function reAuth() {
   const response = await fetch(BASE_URL + "/reauth", {
     method: "POST",
     body: JSON.stringify({
-      emailId:localStorage.getItem("emailId"),
+      emailId: localStorage.getItem("emailId"),
+    }),
+  });
+  const serverData = await response.json();
+  return serverData;
+}
+export async function withdrawAmountAPI(data: any) {
+  const response = await fetch(BASE_URL + "/withdraw", {
+    method: "POST",
+    body: JSON.stringify({
+      ...data,
+      emailId: localStorage.getItem("emailId"),
     }),
   });
   const serverData = await response.json();

@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 const VerifyPayment = () => {
   const [status, setStatus] = useState("processing");
   const { isPending, verifyPayment } = useVerifyPayment();
-  const { paymetEmailId } = useAppContext();
+  const { paymetEmailId, projectDetails } = useAppContext();
   const { state } = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -35,6 +35,8 @@ const VerifyPayment = () => {
         // paymentIntent:"pi_3QynX7FeVzoi0Hhn13Y5qpQo",
         paymentIntent,
         freelancerEmailId: paymetEmailId,
+        milestoneId: projectDetails?.milestoneId,
+        projectId: projectDetails?.id,
         // freelancerEmailId: "afridayan01@gmail.com",
         pricing,
         plan,

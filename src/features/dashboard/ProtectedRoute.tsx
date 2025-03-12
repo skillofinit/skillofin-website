@@ -1,3 +1,4 @@
+import { useGetMe } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
 import DashboardNavBar from "@/utils/DashboardNavBar";
 import HomeFooter from "@/utils/HomeFooter";
@@ -10,6 +11,11 @@ function ProtectedLayout() {
   const navigate = useNavigate();
   const { dispatch } = useAppContext();
   const { pathname } = useLocation();
+  const { getMe } = useGetMe();
+
+  useEffect(() => {
+    if (localStorage?.getItem("emailId")) getMe(undefined);
+  }, [pathname]);
 
   useEffect(() => {
     if (pathname) {

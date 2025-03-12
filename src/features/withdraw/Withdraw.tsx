@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { useWithdrawAmount } from "@/hooks/userHooks";
 import { useAppContext } from "@/utiles/AppContext";
+import AppSpiner from "@/utiles/AppSpiner";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoAlertCircleOutline } from "react-icons/io5";
@@ -11,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 function Withdraw() {
   const { userData } = useAppContext();
   const navigate = useNavigate();
+  const { toast } = useToast();
+
   const {
     register,
     formState: { errors },
@@ -18,18 +23,37 @@ function Withdraw() {
     watch,
   } = useForm();
   const [amount, setAmount] = useState<number>(0);
+  const { isPending, withdrawAmount } = useWithdrawAmount();
 
   useEffect(() => {
     setAmount(userData?.userData?.amount ?? 0);
   }, [userData]);
 
   function handleWithdrawSubmit(e: any) {
-    console.log(e);
+    withdrawAmount(
+      {
+        amount: parseInt(e?.amount) ,
+      },
+      {
+        onSuccess(data) {
+          if (data?.message === "SUCCESS") {
+            toast({
+              duration: 3000,
+              variant: "constructive",
+              title: "Success",
+              description:
+                "Withdraw success",
+            });
+            setAmount(amount - (parseInt(watch("amount")) * 100));
+          }
+        },
+      }
+    );
   }
-  
 
   return (
     <div className="  p-8 flex flex-row lg:gap-10 items-center w-full">
+      {isPending && <AppSpiner />}
       <div className="bg-red-400">
         <img src="payment.jpg" className="hidden lg:flex w-[50vw] " />
       </div>
@@ -57,7 +81,6 @@ function Withdraw() {
               onSubmit={handleSubmit(handleWithdrawSubmit)}
               className="lg:w-[30vw] flex lg:flex-row  lg:gap-4 flex-col items-center"
             >
-              
               <Input
                 type="number"
                 iconName="dlr"
@@ -76,7 +99,8 @@ function Withdraw() {
                   type="submit"
                   disabled={
                     !(userData?.userData?.onBoardStatus === "VERIFIED") ||
-                    watch("amount") * 100 > amount || amount === 0
+                    watch("amount") * 100 > amount ||
+                    amount === 0
                   }
                   className="py-6 px-6"
                 >
