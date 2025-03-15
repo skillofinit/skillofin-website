@@ -284,14 +284,14 @@ function SkilloFinPricing() {
                         state: {
                           navigateTo: "/payment",
                           pricing: true,
-                          amount: parseFloat(plan.monthlyFee),
+                          amount: parseFloat(plan.monthlyFee) * 100,
                           plan: plan?.plan,
                         },
                       });
                     } else {
                       navigate("/payment", {
                         state: {
-                          amount: parseFloat(plan.monthlyFee),
+                          amount: parseFloat(plan.monthlyFee) * 100,
                           pricing: true,
                           plan: plan?.plan,
                         },
